@@ -15,7 +15,7 @@ public class Login
 	@PostMapping("/loginUser")
 	public ModelAndView loginUser(@RequestParam("nickname") String nickname, @RequestParam("password") String password)
 	{
-		ModelAndView model = new ModelAndView();
+		ModelAndView model =  new ModelAndView();
 		try
 		{
 			String MD5Password = PasswordManager.getMD5(password);
