@@ -1,8 +1,11 @@
 package it.ingsw.revedia.controller;
 
 import java.sql.SQLException;
+
+import it.ingsw.revedia.utilities.EmailManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.ingsw.revedia.database.DatabaseManager;
@@ -55,7 +58,7 @@ public class Login
 			DatabaseManager.getIstance().getDaoFactory().getUserJDBC().insertUser(user, MD5Password);
 			model.setViewName("second.jsp");
 			model.addObject("nickname", nickname);
-			System.out.println("utente registrato");
+			EmailManager.registrationConfirm(mail, nickname);
 			
 		} 
 		catch (SQLException e)
