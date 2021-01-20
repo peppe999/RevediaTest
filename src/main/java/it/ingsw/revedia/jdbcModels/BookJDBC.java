@@ -143,7 +143,7 @@ public class BookJDBC implements BookDao
 	{
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "insert into book(title, numberofpages,description,link,publishingHouse,users, artist) values(?,?,?,?,?,?)";
+		String query = "insert into book(title, numberofpages,description,link,publishingHouse,users, artist) values(?,?,?,?,?,?,?)";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, book.getTitle());
 		statment.setShort(2, book.getNumberOfPages());

@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class RevediaApplication {
+public class RevediaApplication
+{
 
     public static void main(String[] args) {
         SpringApplication.run(RevediaApplication.class, args);

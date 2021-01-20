@@ -134,12 +134,11 @@ public class SongJDBC implements SongDao
 
 		String query = "update song set link = ?, decription = ?, length = ? where name = ? and album = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setInt(1, song.getAlbumID());
-		statment.setString(2, song.getLink());
-		statment.setString(3, song.getDescription());
-		statment.setFloat(4, song.getLength());
-		statment.setString(5, song.getName());
-		statment.setInt(6, song.getAlbumID());
+		statment.setString(1, song.getLink());
+		statment.setString(2, song.getDescription());
+		statment.setFloat(3, song.getLength());
+		statment.setString(4, song.getName());
+		statment.setInt(5, song.getAlbumID());
 
 		statment.executeUpdate();
 		statment.close();
