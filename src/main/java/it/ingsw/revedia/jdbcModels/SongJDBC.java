@@ -33,8 +33,10 @@ public class SongJDBC implements SongDao
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate" + " from song"
-				+ " inner join album" + " on song.album = album.albumid" + " where song.name = ?";
+				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate"
+				+ " from song"
+				+ " inner join album" + " on song.album = album.albumid"
+				+ " where song.name = ?";
 
 		ArrayList<Song> songs = new ArrayList<Song>();
 
