@@ -97,20 +97,27 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void insertAlbum(Album album, String userNickname) throws SQLException
+	public int insertAlbum(Album album, String userNickname) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "insert into album(name,releaseDate, label, users, artist) values (?,?,?,?,?)";
+		String query = "insert into album(name,releaseDate, label, users, artist) values (?,?,?,?,?) returning albumid";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, album.getName());
 		statment.setDate(2, album.getReleaseDate());
 		statment.setString(3, album.getLabel());
 		statment.setString(4, userNickname);
 		statment.setString(5, album.getArtist());
-		statment.execute();
+		ResultSet result = statment.executeQuery();
+		result.next();
+		int id = result.getInt(1);
+		//statment.execute();
 		statment.close();
 		connection.close();
+
+		insertAlbumGenres(id, album.getGenre());
+
+		return id;
 	}
 
 	@Override
@@ -210,6 +217,56 @@ public class AlbumJDBC implements AlbumDao
 		connection.close();
 
 		return albums;
+	}
+
+	@Override
+	public void insertAlbumGenres(int albumId, List<String> genres) throws SQLException{
+		for(String genre : genres) {
+			Connection connection = this.dataSource.getConnection();
+
+			String query = "insert into musical_genre_album(album, musical_genre) values (?,?)";
+			PreparedStatement statment = connection.prepareStatement(query);
+			statment.setInt(1, albumId);
+			statment.setString(2, genre);
+			statment.execute();
+			statment.close();
+			connection.close();
+		}
+	}
+
+	@Override
+	public void addGenre(String g) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "insert into musical_genre(name) values (?)";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, g);
+		statment.execute();
+		statment.close();
+		connection.close();
+	}
+
+	@Override
+	public List<String> getGenres() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select name from musical_genre";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+
+		ResultSet result = statment.executeQuery();
+		List<String> genres = new ArrayList<>();
+
+		while (result.next())
+		{
+			genres.add(result.getString("name"));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return genres;
 	}
 
 	@Override
