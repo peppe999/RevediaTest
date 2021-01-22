@@ -2,6 +2,7 @@ package it.ingsw.revedia.model;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Album 
 {
@@ -12,12 +13,12 @@ public class Album
 	private String label;
 	private String user;
 	private String artist;
-	private ArrayList<String> genres;
+	private List<String> genre;
 	private float rating;
 	private Date postDate;
 	
 
-	public Album() { super(); }
+	//public Album() { super(); }
 
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
@@ -40,8 +41,8 @@ public class Album
 	public String getArtist() { return artist; }
 	public void setArtist(String artist) { this.artist = artist; }
 	
-	public ArrayList<String> getGenre() { return genres; }
-	public void setGenre(ArrayList<String> genres) { this.genres = genres; }
+	public List<String> getGenre() { return genre; }
+	public void setGenre(List<String> genres) { this.genre = genres; }
 	
 	public float getRating() { return rating; }
 	public void setRating(float rating) { this.rating = rating; }
