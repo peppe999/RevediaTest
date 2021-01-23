@@ -47,7 +47,7 @@ public class ReturnBooks {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().println(arrayJ.toString());
-		response.getWriter().println();
+		response.getWriter().flush();
 
 	}
 
