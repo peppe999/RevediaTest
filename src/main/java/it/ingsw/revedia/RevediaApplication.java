@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RevediaApplication
 {
-
     public static void main(String[] args) {
         SpringApplication.run(RevediaApplication.class, args);
     }
-
 }
