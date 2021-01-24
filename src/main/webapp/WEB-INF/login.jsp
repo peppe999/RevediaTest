@@ -48,10 +48,11 @@
             <div class="row">
                 <div class="col-8 col-sm-4 col-xl-3 login-col">
                     <h2 class="section-title login-page-title"><i class="fa fa-sign-in section-title-icon"></i>Login</h2>
+                    <p class="section-title" style="color: red">${invalidparameters}</p>
                     <form action="/loginUser" method="post">
                         <div class="form-group">
                             <input class="form-control form-input-field" type="text" name="username" required="required">
-                            <label class="form-input-label">Username</label>
+                            <label class="form-input-label">Username/Mail</label>
                         </div>
                         <div class="form-group">
                             <input class="form-control form-input-field" type="password" name="password" required="required">
