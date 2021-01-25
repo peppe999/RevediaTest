@@ -22,7 +22,7 @@ public class GetAlbum {
 		ModelAndView model = new ModelAndView();
 
 		AlbumJDBC albumJDBC = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
-		Album album = albumJDBC.getAlbum(id);
+		Album album = albumJDBC.findByPrimaryKey(id);
 
 		model.setViewName("index");
 		model.addObject("albumjbadoadiba", album);

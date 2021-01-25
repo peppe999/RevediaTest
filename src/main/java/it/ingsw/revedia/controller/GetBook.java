@@ -22,7 +22,7 @@ public class GetBook {
 		ModelAndView model = new ModelAndView();
 
 		BookJDBC bookJDBC = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
-		Book book = bookJDBC.getBook(title);
+		Book book = bookJDBC.findByPrimaryKey(title);
 
 		model.setViewName("index");
 		model.addObject("albumjbadoadiba", book);

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.SongDao;
+import it.ingsw.revedia.database.DatabaseManager;
+import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -28,13 +30,15 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public ArrayList<Song> getSong(String name) throws SQLException
+	public ArrayList<Song> findByTitle(String name) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate" + " from song"
-				+ " inner join album" + " on song.album = album.albumid" + " where song.name = ?";
+				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate"
+				+ " from song"
+				+ " inner join album" + " on song.album = album.albumid"
+				+ " where song.name = ?";
 
 		ArrayList<Song> songs = new ArrayList<Song>();
 
@@ -71,9 +75,12 @@ public class SongJDBC implements SongDao
 			song = buildSong(result);
 		}
 
+		result.close();
+		statment.close();
+		connection.close();
+
 		if (song != null)
 		{
-			connection.close();
 			return song;
 		} else
 		{
@@ -81,28 +88,39 @@ public class SongJDBC implements SongDao
 		}
 	}
 
-	private static Song buildSong(ResultSet result) throws SQLException
+	private Song buildSong(ResultSet result) throws SQLException
+	{
+		Song song = buildSimplifiedSong(result);
+
+		String link = result.getString("link");
+		String description = result.getString("decription");
+		float length = result.getFloat("length");
+		Date postDate = result.getDate("postdate");
+
+		song.setLink(link);
+		song.setDescription(description);
+		song.setLength(length);
+		song.setPostDate(postDate);
+
+		song.setGenres(getGenres(song.getAlbumID()));
+
+		return song;
+	}
+
+	private Song buildSimplifiedSong(ResultSet result) throws SQLException
 	{
 		String songName = result.getString("songname");
 		String albumName = result.getString("albumname");
 		int albumID = result.getInt("albumid");
-		String link = result.getString("link");
-		String description = result.getString("decription");
 		String user = result.getString("users");
-		float length = result.getFloat("length");
 		float rating = result.getFloat("rating");
-		Date postDate = result.getDate("postdate");
 
 		Song song = new Song();
 		song.setName(songName);
 		song.setAlbumID(albumID);
 		song.setAlbumName(albumName);
-		song.setLink(link);
-		song.setDescription(description);
 		song.setUser(user);
-		song.setLength(length);
 		song.setRating(rating);
-		song.setPostDate(postDate);
 
 		return song;
 	}
@@ -157,13 +175,6 @@ public class SongJDBC implements SongDao
 		statment.execute();
 		statment.close();
 		connection.close();
-	}
-
-	@Override
-	public Song getSongByArtist(String name, String artist)
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -233,20 +244,7 @@ public class SongJDBC implements SongDao
 		ArrayList<Song> songs = new ArrayList<Song>();
 		while (result.next())
 		{
-			String songName = result.getString("songname");
-			String albumName = result.getString("albumname");
-			int albumid = result.getInt("albumid");
-			String user = result.getString("users");
-			float rating = result.getFloat("rating");
-
-			Song song = new Song();
-			song.setName(songName);
-			song.setAlbumID(albumid);
-			song.setAlbumName(albumName);
-			song.setUser(user);
-			song.setRating(rating);
-
-			songs.add(song);
+			songs.add(buildSimplifiedSong(result));
 		}
 
 		result.close();
@@ -254,6 +252,43 @@ public class SongJDBC implements SongDao
 		connection.close();
 
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> findByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating " +
+				"from song inner join album on song.album = album.albumid " +
+				"where exists " +
+				"(select * from musical_genre_album " +
+				"where album = albumid and musical_genre = ?)";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<Song> songs = new ArrayList<>();
+		while (result.next())
+		{
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (songs.size() > 0)
+		{
+			return songs;
+		} else
+		{
+			throw new RuntimeException("No songs found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<String> getGenres(int albumId) throws SQLException {
+		return DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC().getGenres(albumId);
 	}
 
 	@Override
@@ -316,13 +351,14 @@ public class SongJDBC implements SongDao
 
 		Song song = null;
 
-		String query = "select * from song";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
+				+ " from song" + " inner join album" + " on song.album = album.albumid";
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
 
 		while (result.next())
 		{
-			song = findByPrimaryKey(result.getString("name"), result.getInt("id"));
+			song = buildSimplifiedSong(result);
 			songs.add(song);
 		}
 

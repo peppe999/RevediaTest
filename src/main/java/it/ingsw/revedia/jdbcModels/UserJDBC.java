@@ -46,6 +46,32 @@ public class UserJDBC implements UserDao
 		return user;
 	}
 
+	@Override
+	public User getUserByNicknameOrMail(String nickname, String mail) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select nickname, firstname, lastname, mail, permissions from users where nickname = ? " +
+				       "or mail = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setString(2,mail);
+
+		ResultSet result = statment.executeQuery();
+
+		User user = null;
+		if(result.next())
+		{
+			user = buildUser(result);
+			statment.close();
+			result.close();
+			connection.close();
+			return user;
+		}
+		else
+			throw new TupleNotFoundException("No result set avaible with this condition");
+	}
+
 	private static User buildUser(ResultSet result) throws SQLException
 	{
 		String nick = result.getString("nickname");
@@ -171,5 +197,36 @@ public class UserJDBC implements UserDao
 		result.close();
 		connection.close();
 		return false;
+	}
+
+	@Override
+	public boolean validateLoginByNicknameOrMail(String nickname, String mail, String password) throws SQLException, TupleNotFoundException
+	{
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select passwd from users where nickname = ? or mail = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setString(2,mail);
+		ResultSet result = statment.executeQuery();
+		if(result.next())
+		{
+			if (password.equals(result.getString("passwd")))
+			{
+				statment.close();
+				result.close();
+				connection.close();
+				return true;
+			}
+			else
+			{
+				statment.close();
+				result.close();
+				connection.close();
+				return false;
+			}
+		}
+		else
+			throw new TupleNotFoundException("No users found with this mail or username");
 	}
 }

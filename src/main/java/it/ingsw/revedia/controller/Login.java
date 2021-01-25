@@ -1,8 +1,14 @@
 package it.ingsw.revedia.controller;
 
 import java.sql.SQLException;
+
+import it.ingsw.revedia.jdbcModels.TupleNotFoundException;
+import it.ingsw.revedia.jdbcModels.UserJDBC;
+import it.ingsw.revedia.utilities.EmailManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.ingsw.revedia.database.DatabaseManager;
@@ -11,58 +17,31 @@ import it.ingsw.revedia.utilities.PasswordManager;
 
 @Controller
 public class Login
-{	
+{
+	@GetMapping("/Login")
+	public String login()
+	{
+		return "login";
+	}
+
 	@PostMapping("/loginUser")
-	public ModelAndView loginUser(@RequestParam("nickname") String nickname, @RequestParam("password") String password)
+	public ModelAndView loginUser(@RequestParam("username") String nickname, @RequestParam("password") String password)
 	{
 		ModelAndView model = new ModelAndView();
 		try
 		{
 			String MD5Password = PasswordManager.getMD5(password);
-			if(DatabaseManager.getIstance().getDaoFactory().getUserJDBC().validateLogin(MD5Password, nickname))
+			UserJDBC userJDBC = DatabaseManager.getIstance().getDaoFactory().getUserJDBC();
+			if(userJDBC.validateLoginByNicknameOrMail(nickname, nickname, MD5Password))
 			{
-				model.setViewName("second.jsp");
-				model.addObject("nickname", nickname);
-			}
-			else
-			{
-				model.setViewName("register.jsp");
+				model.setViewName("loggato");
 			}
 		} 
-		catch (SQLException e)
+		catch (SQLException | TupleNotFoundException e)
 		{
 			e.printStackTrace();
-		}
-		
-		return model;
-	}
-	
-	@PostMapping("/register")
-	public ModelAndView register(@RequestParam("nickname") String nickname, @RequestParam("nome") String firstName,
-								 @RequestParam("cognome") String lastName, @RequestParam("mail") String mail,
-								 @RequestParam("password") String password)
-	{
-		ModelAndView model = new ModelAndView();
-		
-		User user = new User();
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setNickname(nickname);
-		user.setMail(mail);
-		String MD5Password = PasswordManager.getMD5(password);
-		try
-		{
-			DatabaseManager.getIstance().getDaoFactory().getUserJDBC().insertUser(user, MD5Password);
-			model.setViewName("second.jsp");
-			model.addObject("nickname", nickname);
-			System.out.println("utente registrato");
-			
-		} 
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-			model.setViewName("register.jsp");
-			model.addObject("nonRegistrato", "Utente già registrato");
+			model.setViewName("login");
+			model.addObject("invalidparameters", "Nome utente, mail o password errati");
 		}
 		
 		return model;
