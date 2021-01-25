@@ -3,14 +3,11 @@ package it.ingsw.revedia.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.google.gson.JsonObject;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.jdbcModels.AlbumJDBC;
@@ -19,28 +16,18 @@ import it.ingsw.revedia.model.Album;
 @Controller
 public class GetAlbum {
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public void returnAlbum(HttpServletResponse response, HttpServletRequest request) throws IOException, SQLException {
+	@RequestMapping(value = "/music", method = RequestMethod.GET)
+	public ModelAndView returnAlbum(@RequestParam("id") Integer id) throws IOException, SQLException {
 
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		System.out.println(id);
+		ModelAndView model = new ModelAndView();
 
 		AlbumJDBC albumJDBC = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 		Album album = albumJDBC.getAlbum(id);
 
-		JsonObject gson = new JsonObject();
+		model.setViewName("index");
+		model.addObject("albumjbadoadiba", album);
 
-		gson.addProperty("name", album.getName());
-		// gson.addProperty("image", song.getImage_source());
-		gson.addProperty("numberOfSong", album.getNumberOfSongs());
-		gson.addProperty("autor", album.getArtist());
-		gson.addProperty("label", album.getLabel());
-		// gson.addProperty("genres", movie.getGenres());
-
-		response.setContentType("application/json");
-		response.getWriter().println(gson.toString());
-		response.getWriter().flush();
-
+		return model;
 	}
 
 }
