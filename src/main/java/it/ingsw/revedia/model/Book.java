@@ -2,6 +2,7 @@ package it.ingsw.revedia.model;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Book 
 {
@@ -12,9 +13,10 @@ public class Book
 	private String user;
 	private String link;
 	private String artist;
-	private ArrayList<String> genres;
+	private List<String> genres;
 	private float rating;
 	private Date postDate;
+	private int imageId = 0;
 	
 	public Book() 
 	{
@@ -22,7 +24,7 @@ public class Book
 	}
 	
 	public Book(String title, short numberOfPages, String description, String publishingHouse, String user, 
-			String link, String artist, ArrayList<String> genres)
+			String link, String artist, List<String> genres, int imageId)
 	{
 		super();
 		this.title = title;
@@ -33,6 +35,7 @@ public class Book
 		this.link = link;
 		this.artist = artist;
 		this.genres = genres;
+		this.imageId = imageId;
 	}
 
 	
@@ -57,12 +60,19 @@ public class Book
 	public String getArtist() { return artist; }
 	public void setArtist(String artist) { this.artist = artist; }
 
-	public ArrayList<String> getGenres() { return genres; }
-	public void setGenres(ArrayList<String> genres) { this.genres = genres; }
+	public List<String> getGenres() { return genres; }
+	public void setGenres(List<String> genres) { this.genres = genres; }
 	
 	public float getRating() { return rating; }
 	public void setRating(float rating) { this.rating = rating; }
 
 	public Date getPostDate() { return postDate; }
 	public void setPostDate(Date postDate) { this.postDate = postDate; }
+
+	public int getImageId() {
+		return imageId;
+	}
+	public void setImageId(int imageId) {
+		this.imageId = imageId;
+	}
 }

@@ -9,9 +9,9 @@ import it.ingsw.revedia.model.MovieReview;
 public interface MovieDao
 {
 	public Movie findByPrimaryKey(String title) throws SQLException;
-	public ArrayList<Movie> getMoviesByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> findByGenre(String genre) throws SQLException;
 	
-	public void insertMovie(Movie movie) throws SQLException;
+	public int insertMovie(Movie movie) throws SQLException;
 	public void deleteMovie(String title) throws SQLException;
 	public void updateMovie(Movie movie) throws SQLException;
 	
@@ -22,4 +22,10 @@ public interface MovieDao
 	
 	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 	public List<Movie> findAll() throws SQLException;
+
+	public void insertMovieGenres(String movieTitle, List<String> genres) throws SQLException;
+	public ArrayList<String> getGenres(String title) throws SQLException;
+
+	public void addGenre(String g) throws SQLException;
+	public List<String> getAllGenres() throws SQLException;
 }

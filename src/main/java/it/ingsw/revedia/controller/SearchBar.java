@@ -56,7 +56,7 @@ public class SearchBar
 //	{
 //
 //		BookJDBC bookJDBC = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
-//		Book book = bookJDBC.getBook(title);
+//		Book book = bookJDBC.findByPrimaryKey(title);
 //
 //		return book;
 //	}*/
