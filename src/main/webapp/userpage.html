@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Revedia - peppe</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
+    <link rel="stylesheet" href="fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
+        <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                id="navcol-1">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="#">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                </ul>
+                <form class="form-inline mr-auto" target="_self">
+                    <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
+                </form>
+                <div class="dropdown ml-auto dropdown-user-controls" style="/*display: none;*/"><a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fa fa-user-circle"></i>peppe</a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
+                        <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
+                            <h5 class="dropdown-info-header">peppe</h5>
+                            <h6 class="dropdown-info-subheader">Utente editor</h6>
+                        </div>
+                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a><a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a><a class="dropdown-item" href="#"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
+                </div><button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="display: none;">Accedi</button></div>
+        </div>
+    </nav>
+    <div class="user-area-main-container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div>
+                                <h1 class="user-area-username-h">peppe</h1>
+                                <h3 class="user-area-name-h">Giuseppe Agresta</h3>
+                                <h4 class="user-area-level-h">Utente editor</h4><a class="card-link user-area-edit-link" href="#" data-toggle="modal" data-target="#editModal">Modifica i tuoi dati</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col align-self-center">
+                    <div class="card user-main-stat-card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col align-self-center">
+                                    <h4 class="stat-card-main-value"><i class="fa fa-star card-icon"></i>68.54%</h4>
+                                    <h6 class="text-muted mb-2 stat-card-main-title">Qualità media</h6>
+                                </div>
+                                <div class="col align-self-center">
+                                    <h4 class="stat-card-main-value"><i class="fa fa-trophy card-icon"></i>60%</h4>
+                                    <h6 class="text-muted mb-2 stat-card-main-title">Contenuti recensiti</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col align-self-center">
+                    <h2 class="section-title"><i class="fa fa-area-chart section-title-icon"></i>Statistiche attività</h2>
+                </div>
+                <div class="col-auto align-self-center">
+                    <ul class="list-inline text-left chartjs-time-mode-controls">
+                        <li class="list-inline-item"><button class="btn" type="button">Settimana</button></li>
+                        <li class="list-inline-item"><button class="btn chartjs-time-mode-active-control" type="button">Mese</button></li>
+                        <li class="list-inline-item"><button class="btn" type="button">Anno</button></li>
+                        <li class="list-inline-item"><button class="btn" type="button">Totale</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col user-chart-container"><canvas id="myChart" class="user-chart"></canvas>
+</div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card user-main-stat-card">
+                        <div class="card-body">
+                            <div class="row card-body-row">
+                                <div class="col align-self-center">
+                                    <h4 class="stat-card-main-value"><i class="fa fa-music card-icon"></i>Musica</h4>
+                                    <h6 class="text-muted mb-2 stat-card-main-title">Categoria preferita</h6>
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="stat-card-value">Rock</h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Genere musica preferito</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="stat-card-value">Fantascienza</h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Genere film preferito</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="stat-card-value">Giallo</h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Genere libri preferito</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col align-self-center">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card user-alt-stat-card">
+                                <div class="card-body">
+                                    <div class="row card-body-row">
+                                        <div class="col align-self-center">
+                                            <h4 class="stat-card-value"><i class="fa fa-pencil-square card-icon"></i>12000<span class="text-nowrap positive-grow-value">+2%</span></h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Recensioni pubblicate</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card user-alt-stat-card">
+                                <div class="card-body">
+                                    <div class="row card-body-row">
+                                        <div class="col align-self-center">
+                                            <h4 class="stat-card-value"><i class="fa fa-check-circle card-icon"></i>4242<span class="text-nowrap negative-grow-value">-5%</span></h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Recensioni valutate</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card user-alt-stat-card">
+                                <div class="card-body">
+                                    <div class="row card-body-row">
+                                        <div class="col align-self-center">
+                                            <h4 class="stat-card-value"><i class="fa fa-heart card-icon"></i>Don't talk to strangers</h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Recensione migliore</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card user-alt-stat-card">
+                                <div class="card-body">
+                                    <div class="row card-body-row">
+                                        <div class="col align-self-center">
+                                            <h4 class="stat-card-value"><i class="fa fa-thumbs-up card-icon"></i>67.54%<span class="text-nowrap positive-grow-value">+5.32%</span></h4>
+                                            <h6 class="text-muted mb-2 stat-card-title">Apprezzamento contenuti valutati</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="editModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modifica i tuoi dati</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group"><input class="form-control form-input-field" type="text" required="" value="peppe"><label class="form-input-label">Username</label></div>
+                            <div class="form-group"><input class="form-control form-input-field" type="text" required="" value="Giuseppe"><label class="form-input-label">Nome</label></div>
+                            <div class="form-group"><input class="form-control form-input-field" type="text" required="" value="Agresta"><label class="form-input-label">Cognome</label></div>
+                            <div class="form-group"><input class="form-control form-input-field" type="text" required="" value="peppe@revedia.com"><label class="form-input-label">Email</label></div>
+                            <div class="form-group"><input class="form-control form-input-field form-input-error" type="password" required="" value="test123"><label class="form-input-label">Password</label><span class="form-input-error-msg">La password deve avere almeno 8 caratteri</span></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-sm cancel-btn" type="button" data-dismiss="modal">Annulla</button><button class="btn btn-primary btn-sm" type="button" style="/*box-shadow: inset 0px 0px 20px 20px rgba(255,255,255,0.1);*/">Conferma</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h6 class="footer-logo">REVEDIA</h6>
+                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/loadChart.js"></script>
+</body>
+
+</html>
