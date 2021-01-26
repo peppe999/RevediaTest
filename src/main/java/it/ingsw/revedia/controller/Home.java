@@ -26,8 +26,12 @@ public class Home
         {
             AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
             Album albumCarousel = albumDao.getRandomAlbumsByConditions(1,true).get(0);
+            model.addObject("albumCarousel",albumCarousel);
+            /*
             model.addObject("albumName", albumCarousel.getName());
             model.addObject("albumUser",albumCarousel.getUser());
+            model.addObject("albumimage",albumCarousel.getId());
+            */
 
             SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
             Song song = songDao.getRandomSongsByConditions(1,true).get(0);
