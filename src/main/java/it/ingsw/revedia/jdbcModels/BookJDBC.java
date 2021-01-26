@@ -11,6 +11,7 @@ import java.util.List;
 import it.ingsw.revedia.daoInterfaces.BookDao;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
+import it.ingsw.revedia.model.MovieReview;
 
 public class BookJDBC implements BookDao {
 	private DataSource dataSource;
@@ -310,6 +311,22 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
+	public void upsertBookReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "INSERT INTO user_rates_book_review(users, book, userthatrates, rated) VALUES(?, ?, ?, ?) " +
+				"ON CONFLICT ON CONSTRAINT user_rates_book_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, ownerNickname);
+		statment.setString(2, title);
+		statment.setString(3, raterNickname);
+		statment.setBoolean(4, rating);
+		statment.execute();
+		statment.close();
+		connection.close();
+	}
+
+	@Override
 	public ArrayList<BookReview> getReviews(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
@@ -321,7 +338,7 @@ public class BookJDBC implements BookDao {
 
 		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
 		while (result.next()) {
-			reviews.add(buildReview(result));
+			reviews.add(buildReview(result, false));
 		}
 
 		statment.close();
@@ -331,7 +348,35 @@ public class BookJDBC implements BookDao {
 		return reviews;
 	}
 
-	private BookReview buildReview(ResultSet result) throws SQLException {
+	
+	@Override
+	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT book_review.users, book_review.book, numberofstars, description, book_review.postdate, rat.rated " +
+				"FROM book_review LEFT JOIN (SELECT users, book, rated FROM user_rates_book_review WHERE userthatrates = ?) as rat " +
+				"ON book_review.users = rat.users and book_review.book = rat.book " +
+				"WHERE book_review.book = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setString(2, title);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
+		while (result.next())
+		{
+			reviews.add(buildReview(result, true));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return reviews;
+	}
+
+	private BookReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
+	{
 		String user = result.getString("users");
 		String book = result.getString("book");
 		short numberOfStars = result.getShort("numberofstars");
@@ -344,6 +389,14 @@ public class BookJDBC implements BookDao {
 		review.setDescription(description);
 		review.setNumberOfStars(numberOfStars);
 		review.setPostDate(postDate);
+
+		if(withRateMode) {
+			Boolean rating = result.getBoolean("rated");
+			if(result.wasNull())
+				rating = null;
+
+			review.setActualUserRate(rating);
+		}
 
 		return review;
 	}
@@ -468,4 +521,50 @@ public class BookJDBC implements BookDao {
 		}
 	}
 
+
+	@Override
+	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, rating " +
+					   "from book ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from book) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Book> books = new ArrayList<>();
+		while (result.next())
+			books.add(buildShortBook(result));
+
+		try
+		{
+			return books;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
+	}
+
+	private Book buildShortBook(ResultSet result) throws SQLException
+	{
+		String title = result.getString("title");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Book book = new Book();
+		book.setTitle(title);
+		book.setUser(user);
+		book.setRating(rating);
+
+		return book;
+	}
 }

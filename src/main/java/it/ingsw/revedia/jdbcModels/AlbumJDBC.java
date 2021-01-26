@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.AlbumDao;
-import it.ingsw.revedia.model.Album;
-import it.ingsw.revedia.model.AlbumReview;
-import it.ingsw.revedia.model.Movie;
-import it.ingsw.revedia.model.Song;
+import it.ingsw.revedia.model.*;
 
 public class AlbumJDBC implements AlbumDao
 {
@@ -162,7 +159,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<AlbumReview> getReviews(Album album) throws SQLException
+	public ArrayList<AlbumReview> getReviews(int albumId) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
 
@@ -171,13 +168,13 @@ public class AlbumJDBC implements AlbumDao
 					 + "where album = ?";
 		
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setInt(1, album.getId());
+		statment.setInt(1, albumId);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<AlbumReview> reviews = new ArrayList<AlbumReview>();
 		while (result.next())
 		{
-			reviews.add(buildReview(result));
+			reviews.add(buildReview(result, false));
 		}
 
 		result.close();
@@ -186,7 +183,33 @@ public class AlbumJDBC implements AlbumDao
 		return reviews;
 	}
 
-	private AlbumReview buildReview(ResultSet result) throws SQLException
+	@Override
+	public ArrayList<AlbumReview> getReviewsByUserRater(int albumId, String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT album_review.users, album_review.album, numberofstars, description, album_review.postdate, rat.rated " +
+				"FROM album_review LEFT JOIN (SELECT users, album, rated FROM user_rates_album_review WHERE userthatrates = ?) as rat " +
+				"ON album_review.users = rat.users and album_review.album = rat.album " +
+				"WHERE album_review.album = ?;";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setInt(2, albumId);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<AlbumReview> reviews = new ArrayList<AlbumReview>();
+		while (result.next())
+		{
+			reviews.add(buildReview(result, true));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return reviews;
+	}
+
+	private AlbumReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
 	{
 		String user = result.getString("users");
 		int albumId = result.getInt("album");
@@ -200,6 +223,14 @@ public class AlbumJDBC implements AlbumDao
 		review.setNumberOfStars(numberOfStars);
 		review.setDescription(description);
 		review.setPostDate(postDate);
+
+		if(withRateMode) {
+			Boolean rating = result.getBoolean("rated");
+			if(result.wasNull())
+				rating = null;
+
+			review.setActualUserRate(rating);
+		}
 
 		return review;
 	}
@@ -338,6 +369,22 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
+	public void upsertAlbumReview(String ownerNickname, int albumId, String raterNickname, boolean rating) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "INSERT INTO user_rates_album_review(users, album, userthatrates, rated) VALUES(?, ?, ?, ?) " +
+				"ON CONFLICT ON CONSTRAINT user_rates_album_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, ownerNickname);
+		statment.setInt(2, albumId);
+		statment.setString(3, raterNickname);
+		statment.setBoolean(4, rating);
+		statment.execute();
+		statment.close();
+		connection.close();
+	}
+
+	@Override
 	public void addReview(AlbumReview review) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
@@ -453,5 +500,54 @@ public class AlbumJDBC implements AlbumDao
 		statement.close();
 		connection.close();
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select album.albumid, album.name, album.users, album.rating " +
+					   "from album ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from album) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Album> albums = new ArrayList<>();
+		while (result.next())
+			albums.add(buildShortAlbum(result));
+
+
+		try
+		{
+			return albums;
+		}
+		finally
+		{
+			connection.close();
+			statement.close();
+			result.close();
+		}
+	}
+
+	private Album buildShortAlbum(ResultSet result) throws SQLException
+	{
+		int albumId = result.getInt("albumid");
+		String name = result.getString("name");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Album album = new Album();
+		album.setId(albumId);
+		album.setName(name);
+		album.setUser(user);
+		album.setRating(rating);
+
+		return album;
 	}
 }

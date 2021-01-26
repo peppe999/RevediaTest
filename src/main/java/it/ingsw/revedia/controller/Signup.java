@@ -4,9 +4,7 @@ import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.PasswordManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,13 +36,16 @@ public class Signup
         try
         {
             DatabaseManager.getIstance().getDaoFactory().getUserJDBC().insertUser(user, MD5Password);
-            HttpSession session = request.getSession();
-            session.setAttribute("nickname", user.getNickname());
-            session.setAttribute("mail",user.getMail());
-            session.setAttribute("firstname",user.getFirstName());
-            session.setAttribute("lastname",user.getLastName());
-
-            model.setViewName("loggato");
+            HttpSession session = request.getSession(false);
+            if(session == null)
+            {
+                session = request.getSession(true);
+                session.setAttribute("nickname", user.getNickname());
+                session.setAttribute("mail",user.getMail());
+                session.setAttribute("firstname",user.getFirstName());
+                session.setAttribute("lastname",user.getLastName());
+                model.setViewName("loggato");
+            }
         }
         catch (SQLException throwables)
         {
@@ -55,4 +56,22 @@ public class Signup
 
         return model;
     }
+
+    public boolean isLogged(HttpSession session)
+    {
+        return session.getAttribute("nickname") == null;
+    }
+
+    /*@PostMapping("/qualcosa")
+    @ResponseBody
+    public String qualcosa()
+    {
+        return "ciao";
+    }
+
+    @PostMapping("/altracosa")
+    public void altraCosa(@RequestBody Album album)
+    {
+
+    }*/
 }
