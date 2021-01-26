@@ -3,6 +3,7 @@ package it.ingsw.revedia.controller;
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.PasswordManager;
+import it.ingsw.revedia.utilities.Permissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,7 @@ public class Signup
         user.setFirstName(firstname);
         user.setLastName(lastname);
         user.setMail(mail);
+        user.setPermissions(Permissions.STANDARD);
 
 
         String MD5Password = PasswordManager.getMD5(password);
@@ -36,16 +38,15 @@ public class Signup
         try
         {
             DatabaseManager.getIstance().getDaoFactory().getUserJDBC().insertUser(user, MD5Password);
-            HttpSession session = request.getSession(false);
-            if(session == null)
-            {
-                session = request.getSession(true);
-                session.setAttribute("nickname", user.getNickname());
-                session.setAttribute("mail",user.getMail());
-                session.setAttribute("firstname",user.getFirstName());
-                session.setAttribute("lastname",user.getLastName());
-                model.setViewName("loggato");
-            }
+            HttpSession session = request.getSession();
+            session = request.getSession(true);
+            session.setAttribute("nickname", user.getNickname());
+            session.setAttribute("mail",user.getMail());
+            session.setAttribute("firstname",user.getFirstName());
+            session.setAttribute("lastname",user.getLastName());
+            session.setAttribute("permissions",user.getPermissions().toString());
+
+            model.setViewName("redirect:/");
         }
         catch (SQLException throwables)
         {
@@ -55,11 +56,6 @@ public class Signup
         }
 
         return model;
-    }
-
-    public boolean isLogged(HttpSession session)
-    {
-        return session.getAttribute("nickname") == null;
     }
 
     /*@PostMapping("/qualcosa")

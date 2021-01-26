@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -15,7 +15,11 @@
 
 <body>
 <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
-    <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav">
@@ -29,16 +33,6 @@
                     <input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off">
                 </div>
             </form>
-            <div class="dropdown ml-auto dropdown-user-controls" style="/*display: none;*/">
-                <a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fa fa-user-circle"></i>peppe</a>
-                <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
-                    <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
-                        <h5 class="dropdown-info-header">peppe</h5>
-                        <h6 class="dropdown-info-subheader">Utente editor</h6>
-                    </div>
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a><a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a><a class="dropdown-item" href="#"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
-            </div>
-            <button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="display: none;">Accedi</button>
         </div>
     </div>
 </nav>
@@ -73,7 +67,7 @@
                         <input class="form-control form-input-field" id="password2" type="password" required="">
                         <label class="form-input-label">Ripeti Password</label>
                     </div>
-                    <button class="btn btn-primary btn-sm d-block login-btn" type="submit">Registrati</button>
+                    <button class="btn btn-primary btn-sm d-block login-btn" id="signinButton" type="submit">Registrati</button>
                 </form>
             </div>
         </div>
@@ -91,6 +85,6 @@
 <script src="../js/jquery.min.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
 <script src="../js/bs-init.js"></script>
+<script src="../js/passwordCheck.js"></script>
 </body>
-
 </html>
