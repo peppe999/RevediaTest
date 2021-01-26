@@ -12,25 +12,21 @@ import it.ingsw.revedia.daoInterfaces.MovieDao;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
 
-public class MovieJDBC implements MovieDao
-{
+public class MovieJDBC implements MovieDao {
 
 	private DataSource dataSource;
 
-	public MovieJDBC()
-	{
+	public MovieJDBC() {
 		super();
 	}
 
-	public MovieJDBC(DataSource dataSource)
-	{
+	public MovieJDBC(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}
 
 	@Override
-	public Movie findByPrimaryKey(String title) throws SQLException
-	{
+	public Movie findByPrimaryKey(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select * from movie where title = ?";
@@ -39,8 +35,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 
 		Movie movie = null;
-		while (result.next())
-		{
+		while (result.next()) {
 			movie = buildMovie(result);
 		}
 
@@ -48,29 +43,25 @@ public class MovieJDBC implements MovieDao
 		statment.close();
 		connection.close();
 
-		if (movie != null)
-		{
+		if (movie != null) {
 			return movie;
-		} else
-		{
+		} else {
 			throw new RuntimeException("Movie not found with this title");
 		}
 	}
 
 	@Override
-	public ArrayList<Movie> findByGenre(String genre) throws SQLException
-	{
+	public ArrayList<Movie> findByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct title, users, imageid, rating " + "from movie "
-				+ "inner join genre_movie " + "on movie.title = genre_movie.movie " + "where genre_movie.genre = ?";
+		String query = "select distinct title, users, imageid, rating " + "from movie " + "inner join genre_movie "
+				+ "on movie.title = genre_movie.movie " + "where genre_movie.genre = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			movies.add(buildSimplifiedMovie(result));
 		}
 
@@ -78,18 +69,66 @@ public class MovieJDBC implements MovieDao
 		statment.close();
 		connection.close();
 
-		if (movies.size() > 0)
-		{
+		if (movies.size() > 0) {
 			return movies;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No movies found in this genre");
 		}
 	}
 
+	/*
+	 * @Override public ArrayList<Movie> getHighRateMovies() throws SQLException {
+	 *
+	 * Connection connection = this.dataSource.getConnection();
+	 *
+	 * String query = "select * from movie Order by rating DESC limit 4";
+	 * PreparedStatement statment = connection.prepareStatement(query); ResultSet
+	 * result = statment.executeQuery(); ArrayList<Movie> movies = new
+	 * ArrayList<Movie>();
+	 *
+	 * while (result.next()) {
+	 *
+	 * movies.add(buildSimplifiedMovie(result)); }
+	 *
+	 * result.close(); statment.close(); connection.close();
+	 *
+	 * if (movies.size() > 0) { return movies; } else { throw new
+	 * RuntimeException("No movies found in this genre"); }
+	 *
+	 * }
+	 */
+
 	@Override
-	public int insertMovie(Movie movie) throws SQLException
-	{
+	public ArrayList<Movie> getHighRateMovies(int limit, boolean mostRated) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, rating, imageid " + "from movie ";
+
+		if (mostRated) {
+			query += "where rating = (select max(rating) from movie) ";
+		}
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1, limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<>();
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		try {
+			return movies;
+		} finally {
+			connection.close();
+			result.close();
+			statement.close();
+		}
+	}
+
+	@Override
+	public int insertMovie(Movie movie) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into movie(title, length, description, link, users) values(?,?,?,?,?) returning imageid";
@@ -102,7 +141,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 		result.next();
 		int id = result.getInt(1);
-		//statment.execute();
+		// statment.execute();
 		statment.close();
 		connection.close();
 
@@ -112,8 +151,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public void deleteMovie(String title) throws SQLException
-	{
+	public void deleteMovie(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from movie where title = ?";
@@ -125,8 +163,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public void updateMovie(Movie movie) throws SQLException
-	{
+	public void updateMovie(Movie movie) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update movie set length = ?, description = ?, link = ? " + "where title = ?";
@@ -141,8 +178,7 @@ public class MovieJDBC implements MovieDao
 		connection.close();
 	}
 
-	private Movie buildMovie(ResultSet result) throws SQLException
-	{
+	private Movie buildMovie(ResultSet result) throws SQLException {
 		Movie movie = buildSimplifiedMovie(result);
 
 		float length = result.getFloat("length");
@@ -160,8 +196,7 @@ public class MovieJDBC implements MovieDao
 		return movie;
 	}
 
-	private Movie buildSimplifiedMovie(ResultSet result) throws SQLException
-	{
+	private Movie buildSimplifiedMovie(ResultSet result) throws SQLException {
 		String title = result.getString("title");
 		String user = result.getString("users");
 		float rating = result.getFloat("rating");
@@ -176,8 +211,8 @@ public class MovieJDBC implements MovieDao
 		return movie;
 	}
 
-	public ArrayList<String> getGenres(String title) throws SQLException
-	{
+	@Override
+	public ArrayList<String> getGenres(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select genre from genre_movie where movie = ?";
@@ -186,8 +221,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<String> genres = new ArrayList<String>();
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("genre"));
 		}
 
@@ -209,8 +243,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 		List<String> genres = new ArrayList<>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("genre"));
 		}
 
@@ -222,8 +255,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public ArrayList<MovieReview> getReviews(String title) throws SQLException
-	{
+	public ArrayList<MovieReview> getReviews(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select users, movie, numberofstars, description, postdate " + "from movie_review "
@@ -233,8 +265,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result));
 		}
 
@@ -245,8 +276,7 @@ public class MovieJDBC implements MovieDao
 		return reviews;
 	}
 
-	private MovieReview buildReview(ResultSet result) throws SQLException
-	{
+	private MovieReview buildReview(ResultSet result) throws SQLException {
 		String user = result.getString("users");
 		String movie = result.getString("movie");
 		short numberOfStars = result.getShort("numberofstars");
@@ -264,12 +294,11 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException
-	{
+	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating " + "from movie "
-				+ "where title similar to ? " + "limit ? offset ?";
+		String query = "select title, users, imageid, rating " + "from movie " + "where title similar to ? "
+				+ "limit ? offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, keyWords);
@@ -279,8 +308,7 @@ public class MovieJDBC implements MovieDao
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			movies.add(buildSimplifiedMovie(result));
 		}
 
@@ -292,8 +320,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public void addReview(MovieReview review) throws SQLException
-	{
+	public void addReview(MovieReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into movie_review(users, movie, numberofstars, description) values(?,?,?,?)";
@@ -308,8 +335,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public void deleteReview(String nickname, String title) throws SQLException
-	{
+	public void deleteReview(String nickname, String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from movie_review where users = ? and movie = ?";
@@ -322,8 +348,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public void updateReview(MovieReview review) throws SQLException
-	{
+	public void updateReview(MovieReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update movie_review set numberofstars = ?, description = ? " + "where users = ? and title = ?";
@@ -339,8 +364,7 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
-	public List<Movie> findAll() throws SQLException
-	{
+	public List<Movie> findAll() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		List<Movie> movies = new ArrayList<>();
@@ -349,8 +373,7 @@ public class MovieJDBC implements MovieDao
 		String query = "select title, users, imageid, rating from movie";
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
-		while (result.next())
-		{
+		while (result.next()) {
 			movie = buildSimplifiedMovie(result);
 			movies.add(movie);
 		}
@@ -364,7 +387,7 @@ public class MovieJDBC implements MovieDao
 
 	@Override
 	public void insertMovieGenres(String movieTitle, List<String> genres) throws SQLException {
-		for(String genre : genres) {
+		for (String genre : genres) {
 			Connection connection = this.dataSource.getConnection();
 
 			String query = "insert into genre_movie(movie, genre) values (?,?)";

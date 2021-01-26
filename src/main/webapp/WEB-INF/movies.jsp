@@ -115,8 +115,8 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
-                                        <h4 class="card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${movieTitle}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movieUser}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -132,8 +132,8 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
-                                        <h4 class="card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${movieTitle}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movieUser}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -151,8 +151,8 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
-                                        <h4 class="card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${movieTitle}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movieUser}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -168,8 +168,8 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
-                                        <h4 class="card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${movieTitle}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movieUser}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
