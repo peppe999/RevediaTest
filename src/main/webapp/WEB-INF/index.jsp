@@ -93,6 +93,7 @@
         <li data-target="#carousel-1" data-slide-to="3"></li>
     </ol>
 </div>
+
 <div class="home-main-container">
     <div class="container-fluid pulse animated content-section-area">
         <h2><i class="fa fa-music section-title-icon"></i>Brani più recensiti</h2>
