@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.BookReview;
@@ -24,4 +25,6 @@ public interface BookDao
 	
 	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 	public List<Book> findAll() throws SQLException;
+
+	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException;
 }

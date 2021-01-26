@@ -22,4 +22,6 @@ public interface MovieDao
 	
 	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 	public List<Movie> findAll() throws SQLException;
+
+	public ArrayList<Movie> getRandomMoviesByConditions(int limit, boolean mostRated) throws SQLException;
 }

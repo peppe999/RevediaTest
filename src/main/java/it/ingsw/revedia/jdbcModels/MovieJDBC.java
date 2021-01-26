@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import it.ingsw.revedia.daoInterfaces.MovieDao;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
@@ -332,4 +331,51 @@ public class MovieJDBC implements MovieDao
 
 		return movies;
 	}
+
+	@Override
+	public ArrayList<Movie> getRandomMoviesByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, rating " +
+			           "from movie ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from movie) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<>();
+		while(result.next())
+			movies.add(buildShortMovie(result));
+
+		try
+		{
+			return movies;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
+	}
+
+	private Movie buildShortMovie(ResultSet result) throws SQLException
+	{
+		String title = result.getString("title");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Movie movie = new Movie();
+		movie.setTitle(title);
+		movie.setUser(user);
+		movie.setRating(rating);
+
+		return movie;
+	}
+
 }

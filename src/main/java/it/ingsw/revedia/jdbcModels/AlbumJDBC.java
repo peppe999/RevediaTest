@@ -392,7 +392,7 @@ public class AlbumJDBC implements AlbumDao
 	{
 		Connection connection = this.dataSource.getConnection();
 		String query = "select album.albumid, album.name, album.users, album.rating " +
-				"from album ";
+					   "from album ";
 
 		if(mostRated)
 			query += "where rating = (select max(rating) from album) ";

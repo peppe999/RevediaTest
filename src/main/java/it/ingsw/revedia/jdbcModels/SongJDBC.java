@@ -196,7 +196,6 @@ public class SongJDBC implements SongDao
 
 	private SongReview buildSongReview(ResultSet result) throws SQLException
 	{
-
 		String user = result.getString("users");
 		String songTitle = result.getString("song");
 		int album = result.getInt("album");
@@ -234,28 +233,76 @@ public class SongJDBC implements SongDao
 
 		ArrayList<Song> songs = new ArrayList<Song>();
 		while (result.next())
-		{
-			String songName = result.getString("songname");
-			String albumName = result.getString("albumname");
-			int albumid = result.getInt("albumid");
-			String user = result.getString("users");
-			float rating = result.getFloat("rating");
-
-			Song song = new Song();
-			song.setName(songName);
-			song.setAlbumID(albumid);
-			song.setAlbumName(albumName);
-			song.setUser(user);
-			song.setRating(rating);
-
-			songs.add(song);
-		}
+			songs.add(buildShortSong(result));
 
 		result.close();
 		statment.close();
 		connection.close();
 
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select song.name, album, users, rating " +
+				       "from song ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from song) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Song> songs = new ArrayList<>();
+		while (result.next())
+		{
+			String name = result.getString("name");
+			int albumId = result.getInt("album");
+			String user = result.getString("users");
+			float rating = result.getFloat("rating");
+
+			Song song = new Song();
+			song.setName(name);
+			song.setAlbumID(albumId);
+			song.setUser(user);
+			song.setRating(rating);
+
+			songs.add(song);
+		}
+
+		try
+		{
+			return songs;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
+	}
+
+	private Song buildShortSong(ResultSet result) throws SQLException
+	{
+		String songName = result.getString("songname");
+		String albumName = result.getString("albumname");
+		int albumid = result.getInt("albumid");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Song song = new Song();
+		song.setName(songName);
+		song.setAlbumID(albumid);
+		song.setAlbumName(albumName);
+		song.setUser(user);
+		song.setRating(rating);
+
+		return song;
 	}
 
 	@Override

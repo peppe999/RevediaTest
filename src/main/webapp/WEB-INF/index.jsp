@@ -43,32 +43,44 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">ALBUM</h6>
-                    <h4 class="card-title">Contenuto di prova</h4>
-                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>user1</h6><a class="card-link" href="#">Scopri di più</a></div>
+                    <h4 class="card-title">${albumName}</h4>
+                    <h6 class="text-muted card-subtitle mb-2">
+                        <i class="fa fa-user card-icon"></i>${albumUser}</h6>
+                    <a class="card-link" href="#">Scopri di più</a>
+                </div>
             </div>
         </div>
         <div class="carousel-item" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">BRANO</h6>
-                    <h4 class="card-title">Don't talk to strangers</h4>
-                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                    <h4 class="card-title">${songName}</h4>
+                    <h6 class="text-muted card-subtitle mb-2">
+                        <i class="fa fa-user card-icon"></i>${songUser}</h6>
+                    <a class="card-link" href="#">Scopri di più</a>
+                </div>
             </div>
         </div>
         <div class="carousel-item" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">FILM</h6>
-                    <h4 class="card-title">Interstellar</h4>
-                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>nolanFan</h6><a class="card-link" href="#">Scopri di più</a></div>
+                    <h4 class="card-title">${movieTitle}</h4>
+                    <h6 class="text-muted card-subtitle mb-2">
+                        <i class="fa fa-user card-icon"></i>${movieUser}</h6>
+                    <a class="card-link" href="#">Scopri di più</a>
+                </div>
             </div>
         </div>
         <div class="carousel-item" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">LIBRO</h6>
-                    <h4 class="card-title">Io, robot</h4>
-                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>asimovFan</h6><a class="card-link" href="#">Scopri di più</a></div>
+                    <h4 class="card-title">${bookTitle}</h4>
+                    <h6 class="text-muted card-subtitle mb-2">
+                        <i class="fa fa-user card-icon"></i>${bookUser}</h6>
+                    <a class="card-link" href="#">Scopri di più</a>
+                </div>
             </div>
         </div>
     </div>
