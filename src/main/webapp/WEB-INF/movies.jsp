@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -111,11 +112,16 @@
                                     <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list.get(0).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${list.get(0).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -128,11 +134,16 @@
                                     <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list.get(1).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${list.get(1).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -147,11 +158,16 @@
                                     <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list.get(2).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${list.get(2).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -164,11 +180,16 @@
                                     <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(3).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list.get(3).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${list.get(3).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(3).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -189,14 +210,19 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < latestList.get(0).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(0).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -206,14 +232,19 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < latestList.get(1).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(1).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
@@ -225,14 +256,19 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < latestList.get(2).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(2).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
