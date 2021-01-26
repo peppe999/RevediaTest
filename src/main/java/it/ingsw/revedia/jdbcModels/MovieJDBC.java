@@ -442,7 +442,7 @@ public class MovieJDBC implements MovieDao
 	public ArrayList<Movie> getRandomMoviesByConditions(int limit, boolean mostRated) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
-		String query = "select title, users, rating " +
+		String query = "select title, users, rating, imageId " +
 			           "from movie ";
 
 		if(mostRated)

@@ -424,10 +424,10 @@ public class SongJDBC implements SongDao
 	{
 		Connection connection = this.dataSource.getConnection();
 		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
-				+ " from song" + " inner join album" + " on song.album = album.albumid";
+				+ " from song" + " inner join album" + " on song.album = album.albumid ";
 
 		if(mostRated)
-			query += "where rating = (select max(rating) from song) ";
+			query += "where song.rating = (select max(song.rating) from song) ";
 
 		query += "order by random() limit ?";
 

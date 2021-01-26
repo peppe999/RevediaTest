@@ -39,13 +39,13 @@
 <!-- carousel -->
 <div class="carousel slide" data-ride="carousel" data-pause="false" id="carousel-1">
     <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url(&quot;images/37.jpg&quot;);">
+        <div class="carousel-item active" style="background-image: url(&quot;images/music/${albumCarousel.id}.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">ALBUM</h6>
-                    <h4 class="card-title">${albumName}</h4>
+                    <h4 class="card-title">${albumCarousel.name}</h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${albumUser}</h6>
+                        <i class="fa fa-user card-icon"></i>${albumCarousel.user}</h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -97,7 +97,7 @@
 <div class="home-main-container">
     <div class="container-fluid pulse animated content-section-area">
         <h2><i class="fa fa-music section-title-icon"></i>Brani più recensiti</h2>
-        <div class="row">
+        <div class="row"> <!-- for -->
             <div class="col">
                 <div class="card home-card">
                     <div class="card-body">
