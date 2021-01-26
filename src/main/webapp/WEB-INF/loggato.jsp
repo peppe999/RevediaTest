@@ -5,6 +5,6 @@
     <title>Sei loggato</title>
 </head>
 <body>
-    <h1>HAI EFFETTUATO IL LOGIN!</h1>
+    <h1>HAI EFFETTUATO IL LOGIN! ${user}</h1>
 </body>
 </html>
