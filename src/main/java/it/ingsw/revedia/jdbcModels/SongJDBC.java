@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import it.ingsw.revedia.daoInterfaces.SongDao;
+import it.ingsw.revedia.database.DatabaseManager;
+import it.ingsw.revedia.model.Album;
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -28,12 +30,11 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public ArrayList<Song> getSong(String name) throws SQLException
+	public ArrayList<Song> findByTitle(String name) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate"
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
 				+ " from song"
 				+ " inner join album" + " on song.album = album.albumid"
 				+ " where song.name = ?";
@@ -45,7 +46,7 @@ public class SongJDBC implements SongDao
 		ResultSet result = statment.executeQuery();
 		while (result.next())
 		{
-			songs.add(buildSong(result));
+			songs.add(buildSimplifiedSong(result));
 		}
 
 		statment.close();
@@ -73,9 +74,12 @@ public class SongJDBC implements SongDao
 			song = buildSong(result);
 		}
 
+		result.close();
+		statment.close();
+		connection.close();
+
 		if (song != null)
 		{
-			connection.close();
 			return song;
 		} else
 		{
@@ -83,28 +87,39 @@ public class SongJDBC implements SongDao
 		}
 	}
 
-	private static Song buildSong(ResultSet result) throws SQLException
+	private Song buildSong(ResultSet result) throws SQLException
+	{
+		Song song = buildSimplifiedSong(result);
+
+		String link = result.getString("link");
+		String description = result.getString("decription");
+		float length = result.getFloat("length");
+		Date postDate = result.getDate("postdate");
+
+		song.setLink(link);
+		song.setDescription(description);
+		song.setLength(length);
+		song.setPostDate(postDate);
+
+		song.setGenres(getGenres(song.getAlbumID()));
+
+		return song;
+	}
+
+	private Song buildSimplifiedSong(ResultSet result) throws SQLException
 	{
 		String songName = result.getString("songname");
 		String albumName = result.getString("albumname");
 		int albumID = result.getInt("albumid");
-		String link = result.getString("link");
-		String description = result.getString("decription");
 		String user = result.getString("users");
-		float length = result.getFloat("length");
 		float rating = result.getFloat("rating");
-		Date postDate = result.getDate("postdate");
 
 		Song song = new Song();
 		song.setName(songName);
 		song.setAlbumID(albumID);
 		song.setAlbumName(albumName);
-		song.setLink(link);
-		song.setDescription(description);
 		song.setUser(user);
-		song.setLength(length);
 		song.setRating(rating);
-		song.setPostDate(postDate);
 
 		return song;
 	}
@@ -162,13 +177,6 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public Song getSongByArtist(String name, String artist)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public ArrayList<SongReview> getReviews(Song song) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
@@ -184,7 +192,7 @@ public class SongJDBC implements SongDao
 		ArrayList<SongReview> reviews = new ArrayList<SongReview>();
 		while (result.next())
 		{
-			reviews.add(buildSongReview(result));
+			reviews.add(buildReview(result, false));
 		}
 
 		result.close();
@@ -194,8 +202,36 @@ public class SongJDBC implements SongDao
 		return reviews;
 	}
 
-	private SongReview buildSongReview(ResultSet result) throws SQLException
+	@Override
+	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT song_review.users, song_review.song, song_review.album, numberofstars, description, song_review.postdate, rat.rated " +
+				"FROM song_review LEFT JOIN (SELECT users, song, album, rated FROM user_rates_song_review WHERE userthatrates = ?) as rat " +
+				"ON song_review.users = rat.users and song_review.song = rat.song and song_review.album = rat.album " +
+				"WHERE song_review.song = ? and song_review.album = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setString(2, name);
+		statment.setInt(3, albumId);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<SongReview> reviews = new ArrayList<SongReview>();
+		while (result.next())
+		{
+			reviews.add(buildReview(result, true));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return reviews;
+	}
+
+	private SongReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
 	{
+
 		String user = result.getString("users");
 		String songTitle = result.getString("song");
 		int album = result.getInt("album");
@@ -210,6 +246,14 @@ public class SongJDBC implements SongDao
 		review.setNumberOfStars(numberOfStars);
 		review.setDescription(description);
 		review.setPostDate(postDate);
+
+		if(withRateMode) {
+			Boolean rating = result.getBoolean("rated");
+			if(result.wasNull())
+				rating = null;
+
+			review.setActualUserRate(rating);
+		}
 
 		return review;
 	}
@@ -233,7 +277,9 @@ public class SongJDBC implements SongDao
 
 		ArrayList<Song> songs = new ArrayList<Song>();
 		while (result.next())
-			songs.add(buildShortSong(result));
+		{
+			songs.add(buildSimplifiedSong(result));
+		}
 
 		result.close();
 		statment.close();
@@ -243,66 +289,57 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException
-	{
+	public ArrayList<Song> findByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select song.name, album, users, rating " +
-				       "from song ";
 
-		if(mostRated)
-			query += "where rating = (select max(rating) from song) ";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating " +
+				"from song inner join album on song.album = album.albumid " +
+				"where exists " +
+				"(select * from musical_genre_album " +
+				"where album = albumid and musical_genre = ?)";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
 
-		query += "order by random() limit ?";
-
-		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setInt(1,limit);
-
-		ResultSet result = statement.executeQuery();
 		ArrayList<Song> songs = new ArrayList<>();
 		while (result.next())
 		{
-			String name = result.getString("name");
-			int albumId = result.getInt("album");
-			String user = result.getString("users");
-			float rating = result.getFloat("rating");
-
-			Song song = new Song();
-			song.setName(name);
-			song.setAlbumID(albumId);
-			song.setUser(user);
-			song.setRating(rating);
-
-			songs.add(song);
+			songs.add(buildSimplifiedSong(result));
 		}
 
-		try
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (songs.size() > 0)
 		{
 			return songs;
-		}
-		finally
+		} else
 		{
-			connection.close();
-			result.close();
-			statement.close();
+			throw new RuntimeException("No songs found in this genre");
 		}
 	}
 
-	private Song buildShortSong(ResultSet result) throws SQLException
-	{
-		String songName = result.getString("songname");
-		String albumName = result.getString("albumname");
-		int albumid = result.getInt("albumid");
-		String user = result.getString("users");
-		float rating = result.getFloat("rating");
+	@Override
+	public ArrayList<String> getGenres(int albumId) throws SQLException {
+		return DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC().getGenres(albumId);
+	}
 
-		Song song = new Song();
-		song.setName(songName);
-		song.setAlbumID(albumid);
-		song.setAlbumName(albumName);
-		song.setUser(user);
-		song.setRating(rating);
+	@Override
+	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
 
-		return song;
+		String query = "INSERT INTO user_rates_song_review(users, song, album, userthatrates, rated) VALUES(?, ?, ?, ?, ?) " +
+				"ON CONFLICT ON CONSTRAINT user_rates_song_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, ownerNickname);
+		statment.setString(2, name);
+		statment.setInt(3, albumId);
+		statment.setString(4, raterNickname);
+		statment.setBoolean(5, rating);
+		statment.execute();
+		statment.close();
+		connection.close();
 	}
 
 	@Override
@@ -365,13 +402,14 @@ public class SongJDBC implements SongDao
 
 		Song song = null;
 
-		String query = "select * from song";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
+				+ " from song" + " inner join album" + " on song.album = album.albumid";
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
 
 		while (result.next())
 		{
-			song = findByPrimaryKey(result.getString("name"), result.getInt("id"));
+			song = buildSimplifiedSong(result);
 			songs.add(song);
 		}
 
@@ -379,5 +417,37 @@ public class SongJDBC implements SongDao
 		connection.close();
 
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
+				+ " from song" + " inner join album" + " on song.album = album.albumid";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from song) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Song> songs = new ArrayList<>();
+		while (result.next())
+			songs.add(buildSimplifiedSong(result));
+
+		try
+		{
+			return songs;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
 	}
 }
