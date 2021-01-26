@@ -29,4 +29,6 @@ public interface AlbumDao
 
 	public void addGenre(String g) throws SQLException;
 	public List<String> getGenres() throws SQLException;
+
+	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException;
 }
