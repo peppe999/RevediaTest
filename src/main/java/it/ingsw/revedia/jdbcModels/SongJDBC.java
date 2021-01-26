@@ -10,43 +10,35 @@ import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.SongDao;
 import it.ingsw.revedia.database.DatabaseManager;
-import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
-public class SongJDBC implements SongDao
-{
+public class SongJDBC implements SongDao {
 	private DataSource dataSource;
 
-	public SongJDBC()
-	{
+	public SongJDBC() {
 		super();
 	}
 
-	public SongJDBC(DataSource dataSource)
-	{
+	public SongJDBC(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}
 
 	@Override
-	public ArrayList<Song> findByTitle(String name) throws SQLException
-	{
+	public ArrayList<Song> findByTitle(String name) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate"
-				+ " from song"
-				+ " inner join album" + " on song.album = album.albumid"
-				+ " where song.name = ?";
+				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate" + " from song"
+				+ " inner join album" + " on song.album = album.albumid" + " where song.name = ?";
 
 		ArrayList<Song> songs = new ArrayList<Song>();
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, name);
 		ResultSet result = statment.executeQuery();
-		while (result.next())
-		{
+		while (result.next()) {
 			songs.add(buildSong(result));
 		}
 
@@ -57,8 +49,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public Song findByPrimaryKey(String name, int albumKey) throws SQLException
-	{
+	public Song findByPrimaryKey(String name, int albumKey) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
@@ -70,8 +61,7 @@ public class SongJDBC implements SongDao
 		ResultSet result = statment.executeQuery();
 
 		Song song = null;
-		while (result.next())
-		{
+		while (result.next()) {
 			song = buildSong(result);
 		}
 
@@ -79,17 +69,14 @@ public class SongJDBC implements SongDao
 		statment.close();
 		connection.close();
 
-		if (song != null)
-		{
+		if (song != null) {
 			return song;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No song in this album with this name");
 		}
 	}
 
-	private Song buildSong(ResultSet result) throws SQLException
-	{
+	private Song buildSong(ResultSet result) throws SQLException {
 		Song song = buildSimplifiedSong(result);
 
 		String link = result.getString("link");
@@ -107,8 +94,7 @@ public class SongJDBC implements SongDao
 		return song;
 	}
 
-	private Song buildSimplifiedSong(ResultSet result) throws SQLException
-	{
+	private Song buildSimplifiedSong(ResultSet result) throws SQLException {
 		String songName = result.getString("songname");
 		String albumName = result.getString("albumname");
 		int albumID = result.getInt("albumid");
@@ -126,8 +112,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void insertSong(Song song, String userNickname) throws SQLException
-	{
+	public void insertSong(Song song, String userNickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into song(name, album, link, decription, users, length) values (?,?,?,?,?,?) ";
@@ -146,8 +131,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void updateSong(Song song) throws SQLException
-	{
+	public void updateSong(Song song) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update song set link = ?, decription = ?, length = ? where name = ? and album = ?";
@@ -164,8 +148,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void deleteSong(Song song) throws SQLException
-	{
+	public void deleteSong(Song song) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from song where name = ? and album = ?";
@@ -178,8 +161,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public ArrayList<SongReview> getReviews(Song song) throws SQLException
-	{
+	public ArrayList<SongReview> getReviews(Song song) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select users, song, album, numberofstars, description, postdate " + "from song_review "
@@ -191,8 +173,7 @@ public class SongJDBC implements SongDao
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<SongReview> reviews = new ArrayList<SongReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildSongReview(result));
 		}
 
@@ -203,8 +184,7 @@ public class SongJDBC implements SongDao
 		return reviews;
 	}
 
-	private SongReview buildSongReview(ResultSet result) throws SQLException
-	{
+	private SongReview buildSongReview(ResultSet result) throws SQLException {
 
 		String user = result.getString("users");
 		String songTitle = result.getString("song");
@@ -225,8 +205,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public ArrayList<Song> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException
-	{
+	public ArrayList<Song> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
@@ -242,8 +221,7 @@ public class SongJDBC implements SongDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<Song> songs = new ArrayList<Song>();
-		while (result.next())
-		{
+		while (result.next()) {
 			songs.add(buildSimplifiedSong(result));
 		}
 
@@ -258,18 +236,15 @@ public class SongJDBC implements SongDao
 	public ArrayList<Song> findByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating " +
-				"from song inner join album on song.album = album.albumid " +
-				"where exists " +
-				"(select * from musical_genre_album " +
-				"where album = albumid and musical_genre = ?)";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating "
+				+ "from song inner join album on song.album = album.albumid " + "where exists "
+				+ "(select * from musical_genre_album " + "where album = albumid and musical_genre = ?)";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<Song> songs = new ArrayList<>();
-		while (result.next())
-		{
+		while (result.next()) {
 			songs.add(buildSimplifiedSong(result));
 		}
 
@@ -277,11 +252,9 @@ public class SongJDBC implements SongDao
 		statment.close();
 		connection.close();
 
-		if (songs.size() > 0)
-		{
+		if (songs.size() > 0) {
 			return songs;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No songs found in this genre");
 		}
 	}
@@ -292,8 +265,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void addReview(SongReview review) throws SQLException
-	{
+	public void addReview(SongReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into song_review(users,song,album,numberofstars,description) values(?,?,?,?,?)";
@@ -309,8 +281,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void deleteReview(String nickname, String song, int albumId) throws SQLException
-	{
+	public void deleteReview(String nickname, String song, int albumId) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from song_review where users = ? and song = ? and album = ?";
@@ -324,8 +295,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public void updateReview(SongReview review) throws SQLException
-	{
+	public void updateReview(SongReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update song_review set numberofstars = ?, description = ? "
@@ -343,8 +313,7 @@ public class SongJDBC implements SongDao
 	}
 
 	@Override
-	public List<Song> findAll() throws SQLException
-	{
+	public List<Song> findAll() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		List<Song> songs = new ArrayList<>();
@@ -356,8 +325,7 @@ public class SongJDBC implements SongDao
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			song = buildSimplifiedSong(result);
 			songs.add(song);
 		}
@@ -366,5 +334,55 @@ public class SongJDBC implements SongDao
 		connection.close();
 
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> getHighRateSongs() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from song Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Song> songs = new ArrayList<Song>();
+
+		while (result.next()) {
+
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (songs.size() > 0) {
+			return songs;
+		} else {
+			throw new RuntimeException("No songs found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Song> getLatestSongs() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from song Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Song> songs = new ArrayList<Song>();
+
+		while (result.next()) {
+
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (songs.size() > 0) {
+			return songs;
+		} else {
+			throw new RuntimeException("No songs found in this genre");
+		}
 	}
 }
