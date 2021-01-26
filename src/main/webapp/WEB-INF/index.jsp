@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,7 +16,11 @@
 
 <body>
 <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
-    <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav">
@@ -24,22 +29,35 @@
                 <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
-                <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
+                <div class="form-group"><label class="searchLbl" for="search-field">
+                    <i class="fa fa-search"></i></label>
+                    <input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off">
+                </div>
             </form>
-            <div class="dropdown ml-auto dropdown-user-controls" style="/*display: none;*/"><a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fa fa-user-circle"></i>peppe</a>
+            <div class="dropdown ml-auto dropdown-user-controls" style="${hideuser}">
+                <a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#">
+                    <i class="fa fa-user-circle"></i>${user.nickname}
+                </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
                     <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
-                        <h5 class="dropdown-info-header">peppe</h5>
-                        <h6 class="dropdown-info-subheader">Utente editor</h6>
+                        <h5 class="dropdown-info-header">${user.nickname}</h5>
+                        <h6 class="dropdown-info-subheader">UTENTE ${user.permissions}</h6>
                     </div>
-                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a><a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a><a class="dropdown-item" href="#"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
-            </div><button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="display: none;">Accedi</button></div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a>
+                    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
+            </div>
+            <a href="/Login">
+                <button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="${signupbutton}">Accedi</button>
+            </a>
+        </div>
     </div>
 </nav>
 <!-- carousel -->
 <div class="carousel slide" data-ride="carousel" data-pause="false" id="carousel-1">
     <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url(&quot;images/music/${albumCarousel.id}.jpg&quot;);">
+        <div class="carousel-item active" style="background-image: url(&quot;images/37.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">ALBUM</h6>
@@ -54,9 +72,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">BRANO</h6>
-                    <h4 class="card-title">${songName}</h4>
+                    <h4 class="card-title">${songCarousel.name}</h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${songUser}</h6>
+                        <i class="fa fa-user card-icon"></i>${songCarousel.user}</h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -65,9 +83,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">FILM</h6>
-                    <h4 class="card-title">${movieTitle}</h4>
+                    <h4 class="card-title">${movieCarousel.title}</h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${movieUser}</h6>
+                        <i class="fa fa-user card-icon"></i>${movieCarousel.user}</h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -76,9 +94,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">LIBRO</h6>
-                    <h4 class="card-title">${bookTitle}</h4>
+                    <h4 class="card-title">${bookCarousel.title}</h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${bookUser}</h6>
+                        <i class="fa fa-user card-icon"></i>${bookCarousel.user}</h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -96,261 +114,131 @@
 
 <div class="home-main-container">
     <div class="container-fluid pulse animated content-section-area">
-        <h2><i class="fa fa-music section-title-icon"></i>Brani più recensiti</h2>
+        <h2><i class="fa fa-music section-title-icon"></i>Brani in evidenza</h2>
         <div class="row"> <!-- for -->
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Don't talk to strangers</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+            <c:forEach items="${songs}" var="song">
+                <div class="col">
+                    <div class="card home-card">
+                        <div class="card-body">
+                            <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);">
+                            </div>
+                            <div class="card-info">
+                                <ul class="list-inline">
+                                    <c:forEach var="counter" begin="0" end="4">
+                                        <c:choose>
+                                            <c:when test="${counter < song.rating}">
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </ul>
+                                <h4 class="card-title">${song.name}</h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${song.user}</h6>
+                                <a class="card-link" href="#">Scopri di più</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Don't talk to strangers</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Don't talk to strangers</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Don't talk to strangers</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Don't talk to strangers</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
+    <!--/////////////////////////////////////////////////////////////////////////////////-->
     <div class="container-fluid pulse animated content-section-area">
-        <h2><i class="fa fa-dot-circle-o section-title-icon"></i>Album più recensiti</h2>
+        <h2><i class="fa fa-dot-circle-o section-title-icon"></i>Album in evidenza</h2>
         <div class="row">
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/403624.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Contenuto di prova</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>user1</h6><a class="card-link" href="#">Scopri di più</a></div>
+            <c:forEach items="${albums}" var="album">
+                <div class="col">
+                    <div class="card home-card">
+                        <div class="card-body">
+                            <div class="card-img-cover" style="background-image: url(&quot;images/403624.jpg&quot;);"></div>
+                            <div class="card-info">
+                                <ul class="list-inline">
+                                    <c:forEach var="counter" begin="0" end="4">
+                                        <c:choose>
+                                            <c:when test="${counter < album.rating}">
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </ul>
+                                <h4 class="card-title">${album.name}</h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${album.user}</h6>
+                                <a class="card-link" href="#">Scopri di più</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/403624.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Contenuto di prova</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>user1</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/403624.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Contenuto di prova</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>user1</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
+    <!--/////////////////////////////////////////////////////////////////////////////////-->
     <div class="container-fluid pulse animated content-section-area">
-        <h2><i class="fa fa-film section-title-icon"></i>Film più recensiti</h2>
+        <h2><i class="fa fa-film section-title-icon"></i>Film in evidenza</h2>
         <div class="row">
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Interstellar</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>nolanFan</h6><a class="card-link" href="#">Scopri di più</a></div>
+            <c:forEach items="${movies}" var="movie">
+                <div class="col">
+                    <div class="card home-card">
+                        <div class="card-body">
+                            <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
+                            <div class="card-info">
+                                <ul class="list-inline">
+                                    <c:forEach var="counter" begin="0" end="4">
+                                        <c:choose>
+                                            <c:when test="${counter < movie.rating}">
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </ul>
+                                <h4 class="card-title">${movie.title}</h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movie.user}</h6>
+                                <a class="card-link" href="#">Scopri di più</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Interstellar</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>nolanFan</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Interstellar</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>nolanFan</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Interstellar</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>nolanFan</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
+    <!--/////////////////////////////////////////////////////////////////////////////////-->
     <div class="container-fluid pulse animated content-section-area">
-        <h2><i class="fa fa-book section-title-icon"></i>Libri più recensiti</h2>
+        <h2><i class="fa fa-book section-title-icon"></i>Libri in evidenza</h2>
         <div class="row">
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Io, robot</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>asimovFan</h6><a class="card-link" href="#">Scopri di più</a></div>
+            <c:forEach items="${books}" var="book">
+                <div class="col">
+                    <div class="card home-card">
+                        <div class="card-body">
+                            <div class="card-img-cover" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);"></div>
+                            <div class="card-info">
+                                <ul class="list-inline">
+                                    <c:forEach var="counter" begin="0" end="4">
+                                        <c:choose>
+                                            <c:when test="${counter < book.rating}">
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </ul>
+                                <h4 class="card-title">${book.title}</h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${book.user}</h6>
+                                <a class="card-link" href="#">Scopri di più</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card home-card">
-                    <div class="card-body">
-                        <div class="card-img-cover" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);"></div>
-                        <div class="card-info">
-                            <ul class="list-inline">
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            </ul>
-                            <h4 class="card-title">Io, robot</h4>
-                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>asimovFan</h6><a class="card-link" href="#">Scopri di più</a></div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
@@ -359,7 +247,10 @@
         <div class="row">
             <div class="col">
                 <h6 class="footer-logo">REVEDIA</h6>
-                <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
+                <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>
+                    Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni
+                </p>
+                <a class="card-link" href="https://www.youtube.com/watch?v=DUXapRAVux4">Chi siamo</a></div>
         </div>
     </div>
 </footer>
