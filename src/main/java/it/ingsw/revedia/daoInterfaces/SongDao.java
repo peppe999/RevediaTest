@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.model.Album;
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -18,6 +19,7 @@ public interface SongDao
 	public List<Song> findAll() throws SQLException;
 	
 	public ArrayList<SongReview> getReviews(Song song) throws SQLException;
+	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname) throws SQLException;
 	public void addReview(SongReview review) throws SQLException;
 	public void deleteReview(String nickname, String song, int albumId) throws SQLException;
 	public void updateReview(SongReview review) throws SQLException;
@@ -27,4 +29,5 @@ public interface SongDao
 
 	public ArrayList<String> getGenres(int albumId) throws SQLException;
 
+	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException;
 }

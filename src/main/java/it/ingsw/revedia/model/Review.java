@@ -7,6 +7,7 @@ public abstract class Review
 	private String description;
 	private short numberOfStars;
 	private Date postDate;
+	private Boolean actualUserRate;
 	
 	public short getNumberOfStars() { return numberOfStars; }
 	public void setNumberOfStars(short numberOfStars) { this.numberOfStars = numberOfStars; }
@@ -16,4 +17,12 @@ public abstract class Review
 	
 	public Date getPostDate() { return postDate; }
 	public void setPostDate(Date postDate) { this.postDate = postDate; }
+
+	public Boolean getActualUserRate() {
+		return actualUserRate;
+	}
+
+	public void setActualUserRate(Boolean actualUserRate) {
+		this.actualUserRate = actualUserRate;
+	}
 }

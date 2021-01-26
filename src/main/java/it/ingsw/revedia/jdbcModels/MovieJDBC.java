@@ -222,6 +222,22 @@ public class MovieJDBC implements MovieDao
 	}
 
 	@Override
+	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "INSERT INTO user_rates_movie_review(users, movie, userthatrates, rated) VALUES(?, ?, ?, ?) " +
+				"ON CONFLICT ON CONSTRAINT user_rates_movie_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, ownerNickname);
+		statment.setString(2, title);
+		statment.setString(3, raterNickname);
+		statment.setBoolean(4, rating);
+		statment.execute();
+		statment.close();
+		connection.close();
+	}
+
+	@Override
 	public ArrayList<MovieReview> getReviews(String title) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
@@ -235,7 +251,7 @@ public class MovieJDBC implements MovieDao
 		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
 		while (result.next())
 		{
-			reviews.add(buildReview(result));
+			reviews.add(buildReview(result, false));
 		}
 
 		result.close();
@@ -245,7 +261,33 @@ public class MovieJDBC implements MovieDao
 		return reviews;
 	}
 
-	private MovieReview buildReview(ResultSet result) throws SQLException
+	@Override
+	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT movie_review.users, movie_review.movie, numberofstars, description, movie_review.postdate, rat.rated " +
+				"FROM movie_review LEFT JOIN (SELECT users, movie, rated FROM user_rates_movie_review WHERE userthatrates = ?) as rat " +
+				"ON movie_review.users = rat.users and movie_review.movie = rat.movie " +
+				"WHERE movie_review.movie = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+		statment.setString(2, title);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
+		while (result.next())
+		{
+			reviews.add(buildReview(result, true));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return reviews;
+	}
+
+	private MovieReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
 	{
 		String user = result.getString("users");
 		String movie = result.getString("movie");
@@ -259,6 +301,14 @@ public class MovieJDBC implements MovieDao
 		review.setNumberOfStars(numberOfStars);
 		review.setDescription(description);
 		review.setPostDate(postDate);
+
+		if(withRateMode) {
+			Boolean rating = result.getBoolean("rated");
+			if(result.wasNull())
+				rating = null;
+
+			review.setActualUserRate(rating);
+		}
 
 		return review;
 	}
