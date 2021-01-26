@@ -76,55 +76,58 @@ public class MovieJDBC implements MovieDao {
 		}
 	}
 
-	/*
-	 * @Override public ArrayList<Movie> getHighRateMovies() throws SQLException {
-	 *
-	 * Connection connection = this.dataSource.getConnection();
-	 *
-	 * String query = "select * from movie Order by rating DESC limit 4";
-	 * PreparedStatement statment = connection.prepareStatement(query); ResultSet
-	 * result = statment.executeQuery(); ArrayList<Movie> movies = new
-	 * ArrayList<Movie>();
-	 *
-	 * while (result.next()) {
-	 *
-	 * movies.add(buildSimplifiedMovie(result)); }
-	 *
-	 * result.close(); statment.close(); connection.close();
-	 *
-	 * if (movies.size() > 0) { return movies; } else { throw new
-	 * RuntimeException("No movies found in this genre"); }
-	 *
-	 * }
-	 */
-
 	@Override
-	public ArrayList<Movie> getHighRateMovies(int limit, boolean mostRated) throws SQLException {
+	public ArrayList<Movie> getHighRateMovies() throws SQLException {
+
 		Connection connection = this.dataSource.getConnection();
-		String query = "select title, users, rating, imageid " + "from movie ";
 
-		if (mostRated) {
-			query += "where rating = (select max(rating) from movie) ";
-		}
+		String query = "select * from movie Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
 
-		query += "order by random() limit ?";
-
-		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setInt(1, limit);
-
-		ResultSet result = statement.executeQuery();
-		ArrayList<Movie> movies = new ArrayList<>();
 		while (result.next()) {
+
 			movies.add(buildSimplifiedMovie(result));
 		}
 
-		try {
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (movies.size() > 0) {
 			return movies;
-		} finally {
-			connection.close();
-			result.close();
-			statement.close();
+		} else {
+			throw new RuntimeException("No movies found in this genre");
 		}
+
+	}
+
+	@Override
+	public ArrayList<Movie> getLatestMovies() throws SQLException {
+
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from movie Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (movies.size() > 0) {
+			return movies;
+		} else {
+			throw new RuntimeException("No movies found in this genre");
+		}
+
 	}
 
 	@Override

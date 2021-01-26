@@ -33,4 +33,7 @@ public interface BookDao
 
 	public void addGenre(String g) throws SQLException;
 	public List<String> getAllGenres() throws SQLException;
+	
+	public ArrayList<Book> getHighRateBooks() throws SQLException;
+	public ArrayList<Book> getLatestBooks() throws SQLException;
 }

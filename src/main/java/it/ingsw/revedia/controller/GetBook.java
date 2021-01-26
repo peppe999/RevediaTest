@@ -1,34 +1,38 @@
 package it.ingsw.revedia.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import it.ingsw.revedia.daoInterfaces.BookDao;
 import it.ingsw.revedia.database.DatabaseManager;
-import it.ingsw.revedia.jdbcModels.BookJDBC;
 import it.ingsw.revedia.model.Book;
 
 @Controller
 public class GetBook {
 
-	@RequestMapping(value = "/books", method = RequestMethod.GET)
-	public ModelAndView returnBook(@RequestParam("title") String title) throws IOException, SQLException {
-
+	@GetMapping("/books")
+	public ModelAndView getBooks() {
 		ModelAndView model = new ModelAndView();
 
-		BookJDBC bookJDBC = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
-		Book book = bookJDBC.findByPrimaryKey(title);
+		try {
 
-		model.setViewName("index");
-		model.addObject("albumjbadoadiba", book);
+			BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
+
+			ArrayList<Book> book = bookDao.getHighRateBooks();
+			model.addObject("list", book);
+
+			ArrayList<Book> latestBooks = bookDao.getLatestBooks();
+			model.addObject("latestList", latestBooks);
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 
 		return model;
-
 	}
 
 }

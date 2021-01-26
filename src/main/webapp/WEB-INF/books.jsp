@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Revedia - Film</title>
+    <title>Revedia - Libri</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
     <link rel="stylesheet" href="fonts/font-awesome.min.css">
@@ -21,8 +21,8 @@
                 id="navcol-1">
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
@@ -97,11 +97,12 @@
             </div>
             <div class="row">
             
-            <!-- Film migliori -->
+            <!-- Libri migliori -->
+            
                 <div class="col block-col">
                     <div class="row">
                         <div class="col align-self-center">
-                            <h2 class="section-title"><i class="fa fa-star section-title-icon"></i>Film migliori</h2>
+                            <h2 class="section-title"><i class="fa fa-star section-title-icon"></i>Libri migliori</h2>
                         </div>
                     </div>
                     <div class="row">
@@ -118,7 +119,7 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${list.get(0).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +136,7 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${list.get(1).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +155,7 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${list.get(2).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -171,25 +172,25 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${list.get(3).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(3).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list.get(3).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- FILM RECENTI -->
+                <!-- LIBRI RECENTI -->
                 <div class="col block-col">
                     <div class="row">
                         <div class="col align-self-center">
-                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Film piÃ¹ recenti</h2>
+                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Libri più recenti</h2>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
@@ -199,14 +200,14 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(0).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
@@ -216,7 +217,7 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(1).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -225,7 +226,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestListist.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
@@ -235,13 +236,14 @@
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                         <h4 class="card-title">${latestList.get(2).getTitle()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di piÃ¹</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestList.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+    
         </div>
     </div>
     <footer>
@@ -249,7 +251,7 @@
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia Ã¨ un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
+                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
             </div>
         </div>
     </footer>
