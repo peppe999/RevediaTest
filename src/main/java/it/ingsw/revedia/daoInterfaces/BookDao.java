@@ -36,6 +36,7 @@ public interface BookDao
 	
 	public ArrayList<Book> getHighRateBooks() throws SQLException;
 	public ArrayList<Book> getLatestBooks() throws SQLException;
+	public ArrayList<String> getRandomGenres() throws SQLException;
 
 	public void upsertBookReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException;
 }

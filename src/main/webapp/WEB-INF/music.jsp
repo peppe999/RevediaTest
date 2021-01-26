@@ -44,7 +44,7 @@
                     <div class="card genre-card"><a class="genre-card-link" href="#"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Rock</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(0)}</h4>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                     <div class="card genre-card"><a class="genre-card-link" href="#"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">K-Pop</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(1)}</h4>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                     <div class="card genre-card"><a class="genre-card-link" href="#"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Metal</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(2)}</h4>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     <div class="card genre-card"><a class="genre-card-link" href="#"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Pop</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(3)}</h4>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="card genre-card"><a class="genre-card-link" href="#"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Rap</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(4)}</h4>
                             </div>
                         </div>
                     </div>

@@ -32,6 +32,6 @@ public interface SongDao
 	
 	public ArrayList<Song> getHighRateSongs() throws SQLException;
 	public ArrayList<Song> getLatestSongs() throws SQLException;
-
+	
 	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException;
 }

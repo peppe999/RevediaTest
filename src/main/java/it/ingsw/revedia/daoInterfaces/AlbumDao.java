@@ -40,4 +40,5 @@ public interface AlbumDao
 	
 	public ArrayList<Album> getHighRateAlbums() throws SQLException;
 	public ArrayList<Album> getLatestAlbums() throws SQLException;
+	ArrayList<String> getRandomGenres() throws SQLException;
 }

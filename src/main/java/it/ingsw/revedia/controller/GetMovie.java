@@ -28,6 +28,9 @@ public class GetMovie {
 			ArrayList<Movie> latestMovie = movieDao.getLatestMovies();
 			model.addObject("latestList", latestMovie);
 
+			ArrayList<String> genre = movieDao.getRandomGenres();
+			model.addObject("genreList", genre);
+
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

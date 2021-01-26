@@ -28,6 +28,9 @@ public class GetBook {
 			ArrayList<Book> latestBooks = bookDao.getLatestBooks();
 			model.addObject("latestList", latestBooks);
 
+			ArrayList<String> genre = bookDao.getRandomGenres();
+			model.addObject("genreList", genre);
+
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

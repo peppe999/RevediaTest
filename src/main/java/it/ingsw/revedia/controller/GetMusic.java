@@ -38,6 +38,10 @@ public class GetMusic {
 			ArrayList<Album> latestAlbum = AlbumDao.getLatestAlbums();
 			model.addObject("latestListAlbums", latestAlbum);
 
+			// GENERI
+			ArrayList<String> genre = AlbumDao.getRandomGenres();
+			model.addObject("genreList", genre);
+
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

@@ -21,6 +21,7 @@ public interface MovieDao {
 	public ArrayList<MovieReview> getReviews(String title) throws SQLException;
 
 	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname) throws SQLException;
+
 	public void addReview(MovieReview review) throws SQLException;
 
 	public void deleteReview(String nickname, String title) throws SQLException;
@@ -45,5 +46,8 @@ public interface MovieDao {
 
 	public List<String> getAllGenres() throws SQLException;
 
-	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException;
+	public ArrayList<String> getRandomGenres() throws SQLException;
+
+	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating)
+			throws SQLException;
 }

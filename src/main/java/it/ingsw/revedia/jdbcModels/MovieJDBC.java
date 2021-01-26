@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import it.ingsw.revedia.daoInterfaces.MovieDao;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
@@ -257,11 +258,12 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException {
+	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating)
+			throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "INSERT INTO user_rates_movie_review(users, movie, userthatrates, rated) VALUES(?, ?, ?, ?) " +
-				"ON CONFLICT ON CONSTRAINT user_rates_movie_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		String query = "INSERT INTO user_rates_movie_review(users, movie, userthatrates, rated) VALUES(?, ?, ?, ?) "
+				+ "ON CONFLICT ON CONSTRAINT user_rates_movie_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, ownerNickname);
 		statment.setString(2, title);
@@ -298,18 +300,17 @@ public class MovieJDBC implements MovieDao {
 	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT movie_review.users, movie_review.movie, numberofstars, description, movie_review.postdate, rat.rated " +
-				"FROM movie_review LEFT JOIN (SELECT users, movie, rated FROM user_rates_movie_review WHERE userthatrates = ?) as rat " +
-				"ON movie_review.users = rat.users and movie_review.movie = rat.movie " +
-				"WHERE movie_review.movie = ?";
+		String query = "SELECT movie_review.users, movie_review.movie, numberofstars, description, movie_review.postdate, rat.rated "
+				+ "FROM movie_review LEFT JOIN (SELECT users, movie, rated FROM user_rates_movie_review WHERE userthatrates = ?) as rat "
+				+ "ON movie_review.users = rat.users and movie_review.movie = rat.movie "
+				+ "WHERE movie_review.movie = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setString(2, title);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result, true));
 		}
 
@@ -320,8 +321,7 @@ public class MovieJDBC implements MovieDao {
 		return reviews;
 	}
 
-	private MovieReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
-	{
+	private MovieReview buildReview(ResultSet result, boolean withRateMode) throws SQLException {
 		String user = result.getString("users");
 		String movie = result.getString("movie");
 		short numberOfStars = result.getShort("numberofstars");
@@ -335,10 +335,11 @@ public class MovieJDBC implements MovieDao {
 		review.setDescription(description);
 		review.setPostDate(postDate);
 
-		if(withRateMode) {
+		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");
-			if(result.wasNull())
+			if (result.wasNull()) {
 				rating = null;
+			}
 
 			review.setActualUserRate(rating);
 		}
@@ -466,34 +467,55 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<Movie> getRandomMoviesByConditions(int limit, boolean mostRated) throws SQLException
-	{
+	public ArrayList<Movie> getRandomMoviesByConditions(int limit, boolean mostRated) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select title, users, rating, imageId " +
-			           "from movie ";
+		String query = "select title, users, rating, imageId " + "from movie ";
 
-		if(mostRated)
+		if (mostRated) {
 			query += "where rating = (select max(rating) from movie) ";
+		}
 
 		query += "order by random() limit ?";
 
 		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setInt(1,limit);
+		statement.setInt(1, limit);
 
 		ResultSet result = statement.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<>();
-		while(result.next())
+		while (result.next()) {
 			movies.add(buildSimplifiedMovie(result));
-
-		try
-		{
-			return movies;
 		}
-		finally
-		{
+
+		try {
+			return movies;
+		} finally {
 			connection.close();
 			result.close();
 			statement.close();
 		}
+	}
+
+	@Override
+	public ArrayList<String> getRandomGenres() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct * from (select genre from genre_movie Order by random()) as gen limit 6";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<String> genres = new ArrayList<>();
+
+		while (result.next()) {
+			genres.add(result.getString("genre"));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return genres;
+
 	}
 }

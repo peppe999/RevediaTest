@@ -560,4 +560,27 @@ public class AlbumJDBC implements AlbumDao {
 			throw new RuntimeException("No albums found in this genre");
 		}
 	}
+
+	@Override
+	public ArrayList<String> getRandomGenres() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct  * from (select musical_genre from musical_genre_album Order by random()) as gen limit 5";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<String> genres = new ArrayList<>();
+
+		while (result.next()) {
+			genres.add(result.getString("musical_genre"));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return genres;
+	}
 }
