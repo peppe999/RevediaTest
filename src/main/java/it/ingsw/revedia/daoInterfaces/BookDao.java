@@ -26,6 +26,8 @@ public interface BookDao
 	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 	public List<Book> findAll() throws SQLException;
 
+	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException;
+
 	public void insertBookGenres(String title, List<String> genres) throws SQLException;
 	public ArrayList<String> getGenres(String title) throws SQLException;
 

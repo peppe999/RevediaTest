@@ -227,6 +227,9 @@ public class UserJDBC implements UserDao
 			}
 		}
 		else
+		{
+			connection.close();
 			throw new TupleNotFoundException("No users found with this mail or username");
+		}
 	}
 }

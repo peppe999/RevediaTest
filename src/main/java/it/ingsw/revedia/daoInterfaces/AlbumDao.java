@@ -35,4 +35,6 @@ public interface AlbumDao
 	public List<String> getAllGenres() throws SQLException;
 
 	public void upsertAlbumReview(String ownerNickname, int albumId, String raterNickname, boolean rating) throws SQLException;
+
+	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException;
 }
