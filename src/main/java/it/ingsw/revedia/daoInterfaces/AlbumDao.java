@@ -18,7 +18,8 @@ public interface AlbumDao
 	public void deleteAlbum(int id) throws SQLException;
 	public ArrayList<Song> getSongs(int id) throws SQLException;
 	
-	public ArrayList<AlbumReview> getReviews(Album album) throws SQLException;
+	public ArrayList<AlbumReview> getReviews(int albumId) throws SQLException;
+	public ArrayList<AlbumReview> getReviewsByUserRater(int albumId, String nickname) throws SQLException;
 	public void addReview(AlbumReview review) throws SQLException;
 	public void deleteReview(String nickname, int albumId) throws SQLException;
 	public void updateReview(AlbumReview review) throws SQLException;
@@ -32,4 +33,6 @@ public interface AlbumDao
 
 	public void addGenre(String g) throws SQLException;
 	public List<String> getAllGenres() throws SQLException;
+
+	public void upsertAlbumReview(String ownerNickname, int albumId, String raterNickname, boolean rating) throws SQLException;
 }
