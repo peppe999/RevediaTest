@@ -510,4 +510,50 @@ public class BookJDBC implements BookDao
 		statment.close();
 		connection.close();
 	}
+
+	@Override
+	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, rating " +
+					   "from book ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from book) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Book> books = new ArrayList<>();
+		while (result.next())
+			books.add(buildShortBook(result));
+
+		try
+		{
+			return books;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
+	}
+
+	private Book buildShortBook(ResultSet result) throws SQLException
+	{
+		String title = result.getString("title");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Book book = new Book();
+		book.setTitle(title);
+		book.setUser(user);
+		book.setRating(rating);
+
+		return book;
+	}
 }

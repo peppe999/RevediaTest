@@ -3,10 +3,9 @@ package it.ingsw.revedia.controller;
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.PasswordManager;
+import it.ingsw.revedia.utilities.Permissions;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +30,7 @@ public class Signup
         user.setFirstName(firstname);
         user.setLastName(lastname);
         user.setMail(mail);
+        user.setPermissions(Permissions.STANDARD);
 
 
         String MD5Password = PasswordManager.getMD5(password);
@@ -39,12 +39,14 @@ public class Signup
         {
             DatabaseManager.getIstance().getDaoFactory().getUserJDBC().insertUser(user, MD5Password);
             HttpSession session = request.getSession();
+            session = request.getSession(true);
             session.setAttribute("nickname", user.getNickname());
             session.setAttribute("mail",user.getMail());
             session.setAttribute("firstname",user.getFirstName());
             session.setAttribute("lastname",user.getLastName());
+            session.setAttribute("permissions",user.getPermissions().toString());
 
-            model.setViewName("loggato");
+            model.setViewName("redirect:/");
         }
         catch (SQLException throwables)
         {
@@ -55,4 +57,17 @@ public class Signup
 
         return model;
     }
+
+    /*@PostMapping("/qualcosa")
+    @ResponseBody
+    public String qualcosa()
+    {
+        return "ciao";
+    }
+
+    @PostMapping("/altracosa")
+    public void altraCosa(@RequestBody Album album)
+    {
+
+    }*/
 }

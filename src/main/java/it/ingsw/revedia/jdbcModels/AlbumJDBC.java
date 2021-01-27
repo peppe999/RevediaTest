@@ -501,4 +501,53 @@ public class AlbumJDBC implements AlbumDao
 		connection.close();
 		return songs;
 	}
+
+	@Override
+	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select album.albumid, album.name, album.users, album.rating " +
+					   "from album ";
+
+		if(mostRated)
+			query += "where rating = (select max(rating) from album) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Album> albums = new ArrayList<>();
+		while (result.next())
+			albums.add(buildShortAlbum(result));
+
+
+		try
+		{
+			return albums;
+		}
+		finally
+		{
+			connection.close();
+			statement.close();
+			result.close();
+		}
+	}
+
+	private Album buildShortAlbum(ResultSet result) throws SQLException
+	{
+		int albumId = result.getInt("albumid");
+		String name = result.getString("name");
+		String user = result.getString("users");
+		float rating = result.getFloat("rating");
+
+		Album album = new Album();
+		album.setId(albumId);
+		album.setName(name);
+		album.setUser(user);
+		album.setRating(rating);
+
+		return album;
+	}
 }

@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import it.ingsw.revedia.daoInterfaces.SongDao;
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.Album;
@@ -418,5 +417,37 @@ public class SongJDBC implements SongDao
 		connection.close();
 
 		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException
+	{
+		Connection connection = this.dataSource.getConnection();
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
+				+ " from song" + " inner join album" + " on song.album = album.albumid ";
+
+		if(mostRated)
+			query += "where song.rating = (select max(song.rating) from song) ";
+
+		query += "order by random() limit ?";
+
+		PreparedStatement statement = connection.prepareStatement(query);
+		statement.setInt(1,limit);
+
+		ResultSet result = statement.executeQuery();
+		ArrayList<Song> songs = new ArrayList<>();
+		while (result.next())
+			songs.add(buildSimplifiedSong(result));
+
+		try
+		{
+			return songs;
+		}
+		finally
+		{
+			connection.close();
+			result.close();
+			statement.close();
+		}
 	}
 }

@@ -15,6 +15,9 @@ import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.PasswordManager;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class Login
 {
@@ -25,7 +28,8 @@ public class Login
 	}
 
 	@PostMapping("/loginUser")
-	public ModelAndView loginUser(@RequestParam("username") String nickname, @RequestParam("password") String password)
+	public ModelAndView loginUser(HttpServletRequest request, @RequestParam("username") String nickname,
+								  @RequestParam("password") String password)
 	{
 		ModelAndView model =  new ModelAndView();
 		try
@@ -34,7 +38,15 @@ public class Login
 			UserJDBC userJDBC = DatabaseManager.getIstance().getDaoFactory().getUserJDBC();
 			if(userJDBC.validateLoginByNicknameOrMail(nickname, nickname, MD5Password))
 			{
-				model.setViewName("loggato");
+				User user = userJDBC.getUserByNicknameOrMail(nickname,nickname);
+				HttpSession session = request.getSession(true);
+				session.setAttribute("nickname", user.getNickname());
+				session.setAttribute("mail",user.getMail());
+				session.setAttribute("firstname",user.getFirstName());
+				session.setAttribute("lastname",user.getLastName());
+				session.setAttribute("permissions",user.getPermissions().toString());
+
+				model.setViewName("redirect:/");
 			}
 		} 
 		catch (SQLException | TupleNotFoundException e)
