@@ -30,6 +30,21 @@ public class getMoviesGenre {
 			Integer countMovies = MovieDao.getNumerMovieByGenre(genres);
 			model.addObject("countMovies", countMovies);
 
+			ArrayList<Movie> movie1 = MovieDao.getRandomMovies(genres);
+			model.addObject("list1", movie1);
+
+			ArrayList<Movie> movie2 = MovieDao.getRandomMovies(genres);
+			model.addObject("list2", movie2);
+
+			ArrayList<Movie> movie3 = MovieDao.getRandomMovies(genres);
+			model.addObject("list3", movie3);
+
+			ArrayList<Movie> movie4 = MovieDao.getRandomMovies(genres);
+			model.addObject("list4", movie4);
+
+			ArrayList<Movie> movie5 = MovieDao.getRandomMovies(genres);
+			model.addObject("list5", movie5);
+
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

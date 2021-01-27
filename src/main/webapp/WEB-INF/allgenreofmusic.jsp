@@ -415,406 +415,156 @@
                 <div class="col align-self-center filter-col">
                     <h2 class="section-title"><i class="fa fa-th-large section-title-icon"></i>Tutti i contenuti del genere<a id="filter-btn" href="#filterarea" data-toggle="collapse" aria-expanded="true" aria-controls="filterarea" role="button"><i class="fa fa-filter"></i></a></h2>
                 </div>
-                <div class="col d-inline-flex justify-content-end align-self-center filter-col">
-                    <div class="form-group d-inline-flex align-items-center page-numbers-controls"><button class="btn page-arrow" id="page-left-arrow" type="button"><i class="fa fa-arrow-left"></i></button><input class="form-control-sm" type="number" id="page-number-input" value="1"><span id="page-number-h">200</span><span id="hidden-page-number">1</span>
-                        <button
-                            class="btn page-arrow" id="page-right-arrow" type="button"><i class="fa fa-arrow-right"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="row collapse show" id="filterarea">
-                <div class="col filter-col">
-                    <div class="filter-card">
-                        <div><a class="btn filter-collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#collapse-1" role="button">Ordinamento</a>
-                            <div class="collapse filter-collapse" id="collapse-1">
-                                <ul class="list-unstyled filter-list">
-                                    <li><button class="btn filter-btn active-filter" id="alpha-order-btn" type="button">Alfabetico</button></li>
-                                    <li><button class="btn filter-btn" id="time-order-btn" type="button">Cronologico</button></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col filter-col">
-                    <div class="filter-card">
-                        <div><a class="btn filter-collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-2" href="#collapse-2" role="button">Ordine</a>
-                            <div class="collapse filter-collapse" id="collapse-2">
-                                <ul class="list-unstyled filter-list">
-                                    <li><button class="btn filter-btn active-filter" id="asc-order-btn" type="button">Ascendente</button></li>
-                                    <li><button class="btn filter-btn" id="desc-order-btn" type="button">Discendente</button></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col filter-col">
-                    <div class="filter-card">
-                        <div><a class="btn filter-collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-3" href="#collapse-3" role="button">Tipologia</a>
-                            <div class="collapse filter-collapse" id="collapse-3">
-                                <ul class="list-unstyled filter-list">
-                                    <li><button class="btn filter-btn active-filter" id="song-filter-btn" type="button">Brani</button></li>
-                                    <li><button class="btn filter-btn" id="all-music-filter-btn" type="button">Album e singoli</button></li>
-                                    <li><button class="btn filter-btn" id="only-album-filter-btn" type="button">Solo album</button></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col d-inline-flex justify-content-end align-self-center filter-col"></div>
             </div>
         </div>
         <div class="container-fluid pulse animated">
+             <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// --> 
             <div class="row">
                 <div class="col block-col">
+                <div class="row">
+                 <c:forEach var="count" begin="0" end="3">
+                        <div class="col">
+                            <div class="card explore-card">
+                                <div class="card-body">
+                                    <div class="card-info">
+                                        <ul class="list-inline">
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list1.get(count).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
+                                        </ul>
+                                        <h4 class="card-title">${list1.get(count).getName()}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list1.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                </div>
+                            </div>
+                            </div>
+                     </c:forEach>     
+                   </div>     
+              <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->         
                     <div class="row">
+                <div class="col block-col">
+                <div class="row">
+                 <c:forEach var="count" begin="0" end="3">
                         <div class="col">
                             <div class="card explore-card">
                                 <div class="card-body">
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list2.get(count).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${list2.get(count).getName()}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list2.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                     <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                     </c:forEach>     
+                   </div>
+ <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->                    
                     <div class="row">
+                <div class="col block-col">
+                <div class="row">
+                 <c:forEach var="count" begin="0" end="3">
                         <div class="col">
                             <div class="card explore-card">
                                 <div class="card-body">
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list3.get(count).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${list3.get(count).getName()}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list3.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                     <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                     </c:forEach>     
+                   </div>
+ <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->                    
                     <div class="row">
+                <div class="col block-col">
+                <div class="row">
+                 <c:forEach var="count" begin="0" end="3">
                         <div class="col">
                             <div class="card explore-card">
                                 <div class="card-body">
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list4.get(count).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${list4.get(count).getName()}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list4.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                     <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
                                 </div>
                             </div>
-                        </div>
+                            </div>
+                     </c:forEach>     
+                   </div>
+ <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->                    
+                   <div class="row">
+                <div class="col block-col">
+                <div class="row">
+                 <c:forEach var="count" begin="0" end="3">
                         <div class="col">
                             <div class="card explore-card">
                                 <div class="card-body">
                                     <div class="card-info">
                                         <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                           <c:forEach var="i" begin="0" end="4">
+                                        		<c:choose>
+                                            		<c:when test="${i < list5.get(count).getRating()}">
+                                               			 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            		</c:when>
+                                            		<c:otherwise>
+                                                		<li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            		</c:otherwise>
+                                        		</c:choose>
+                                    		</c:forEach>
                                         </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h4 class="card-title">${list5.get(count).getName()}</h4>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list5.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
                                     <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card explore-card">
-                                <div class="card-body">
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                        </ul>
-                                        <h4 class="text-nowrap text-truncate card-title">Don't talk to strangers</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                     </c:forEach>     
+                   </div>
+                   
                 </div>
             </div>
         </div>

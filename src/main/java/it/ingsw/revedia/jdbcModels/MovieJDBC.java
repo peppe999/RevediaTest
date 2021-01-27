@@ -589,4 +589,28 @@ public class MovieJDBC implements MovieDao {
 			throw new RuntimeException("No movies found in this genre");
 		}
 	}
+
+	@Override
+	public ArrayList<Movie> getRandomMovies(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, imageid, rating from movie inner join genre_movie on movie.title = genre_movie.movie where genre_movie.genre = ? Order by random() limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (movies.size() > 0) {
+			return movies;
+		} else {
+			throw new RuntimeException("No movies found in this genre");
+		}
+	}
 }

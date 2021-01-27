@@ -51,6 +51,7 @@ public interface MovieDao {
 	public ArrayList<Movie> getHighRateMovieByGenre(String genre) throws SQLException;
 	public ArrayList<Movie> getLatestMovieByGenre(String genre) throws SQLException;
 	public Integer getNumerMovieByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> getRandomMovies(String genre) throws SQLException;
 
 	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating)
 			throws SQLException;

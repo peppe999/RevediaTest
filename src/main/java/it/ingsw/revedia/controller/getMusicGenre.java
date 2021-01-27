@@ -45,6 +45,21 @@ public class getMusicGenre {
 			Integer countAlbums = AlbumDao.getNumerAlbumByGenre(genres);
 			model.addObject("countAlbums", countAlbums);
 
+			ArrayList<Song> song1 = SongDao.getRandomSongs(genres);
+			model.addObject("list1", song1);
+
+			ArrayList<Song> song2 = SongDao.getRandomSongs(genres);
+			model.addObject("list2", song2);
+
+			ArrayList<Song> song3 = SongDao.getRandomSongs(genres);
+			model.addObject("list3", song3);
+
+			ArrayList<Song> song4 = SongDao.getRandomSongs(genres);
+			model.addObject("list4", song4);
+
+			ArrayList<Song> song5 = SongDao.getRandomSongs(genres);
+			model.addObject("list5", song5);
+
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}

@@ -517,4 +517,30 @@ public class SongJDBC implements SongDao {
 		}
 	}
 
+	@Override
+	public ArrayList<Song> getRandomSongs(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select album.albumid, song.name as songname, song.album as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by random() DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Song> songs = new ArrayList<Song>();
+
+		while (result.next()) {
+
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (songs.size() > 0) {
+			return songs;
+		} else {
+			throw new RuntimeException("No songs found in this genre");
+		}
+	}
+
 }
