@@ -583,4 +583,75 @@ public class AlbumJDBC implements AlbumDao {
 
 		return genres;
 	}
+
+	@Override
+	public ArrayList<Album> getHighRateAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select distinct albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Album> getLatestAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getNumerAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT COUNT(DISTINCT album) as count from musical_genre_album where musical_genre = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
 }

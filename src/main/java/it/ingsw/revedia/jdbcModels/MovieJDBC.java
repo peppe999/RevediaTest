@@ -518,4 +518,75 @@ public class MovieJDBC implements MovieDao {
 		return genres;
 
 	}
+
+	@Override
+	public ArrayList<Movie> getHighRateMovieByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct title, users, imageid, rating from movie inner join genre_movie on movie.title = genre_movie.movie where genre_movie.genre = ? Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (movies.size() > 0) {
+			return movies;
+		} else {
+			throw new RuntimeException("No movies found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Movie> getLatestMovieByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select title, users, imageid, rating from movie inner join genre_movie on movie.title = genre_movie.movie where genre_movie.genre = ? Order by postdate DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (movies.size() > 0) {
+			return movies;
+		} else {
+			throw new RuntimeException("No movies found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getNumerMovieByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT COUNT(DISTINCT movie) as count from genre_movie where genre = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No movies found in this genre");
+		}
+	}
 }

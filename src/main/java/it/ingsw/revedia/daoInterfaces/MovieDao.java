@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
 
@@ -47,6 +48,9 @@ public interface MovieDao {
 	public List<String> getAllGenres() throws SQLException;
 
 	public ArrayList<String> getRandomGenres() throws SQLException;
+	public ArrayList<Movie> getHighRateMovieByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> getLatestMovieByGenre(String genre) throws SQLException;
+	public Integer getNumerMovieByGenre(String genre) throws SQLException;
 
 	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating)
 			throws SQLException;

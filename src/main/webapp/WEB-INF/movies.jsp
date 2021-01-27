@@ -21,9 +21,9 @@
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="movies">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
@@ -42,7 +42,7 @@
         <div class="container-fluid pulse animated">
             <div class="row">
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(0)}</h4>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(1)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(1)}</h4>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(2)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(2)}</h4>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(3)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(3)}</h4>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(4)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(4)}</h4>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofmovies?genre=${genreList.get(5)}"></a>
                         <div class="card-body">
                             <div class="card-info">
                                 <h4 class="text-nowrap text-truncate card-title">${genreList.get(5)}</h4>
