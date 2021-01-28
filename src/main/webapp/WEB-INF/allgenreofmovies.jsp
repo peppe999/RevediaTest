@@ -21,9 +21,9 @@
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="music">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
                     <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="books">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
@@ -64,7 +64,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                              <c:forEach var="i" begin="0" end="4">
@@ -86,7 +86,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -110,7 +110,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -132,7 +132,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(3).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -163,7 +163,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -185,7 +185,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -209,7 +209,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -264,7 +264,7 @@
                                         </ul>
                                         <h4 class="card-title">${list1.get(count).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list1.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list1.get(count).getImageId()}.jpg&quot;);"></div>
                                 </div>
                             </div>
                             </div>
@@ -293,7 +293,7 @@
                                         </ul>
                                         <h4 class="card-title">${list2.get(count).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list2.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list2.get(count).getImageId()}.jpg&quot;);"></div>
                                 </div>
                             </div>
                             </div>
@@ -322,7 +322,7 @@
                                         </ul>
                                         <h4 class="card-title">${list3.get(count).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list3.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list3.get(count).getImageId()}.jpg&quot;);"></div>
                                 </div>
                             </div>
                             </div>
@@ -351,7 +351,7 @@
                                         </ul>
                                         <h4 class="card-title">${list4.get(count).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list4.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list4.get(count).getImageId()}.jpg&quot;);"></div>
                                 </div>
                             </div>
                             </div>
@@ -380,7 +380,7 @@
                                         </ul>
                                         <h4 class="card-title">${list5.get(count).getTitle()}</h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${list5.get(count).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list5.get(count).getImageId()}.jpg&quot;);"></div>
                                 </div>
                             </div>
                             </div>

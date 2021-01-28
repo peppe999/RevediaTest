@@ -109,7 +109,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -131,7 +131,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -155,7 +155,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -177,7 +177,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(3).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${list.get(3).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -210,7 +210,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -232,7 +232,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -256,7 +256,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/movies/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">

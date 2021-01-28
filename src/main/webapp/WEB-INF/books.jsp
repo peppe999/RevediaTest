@@ -42,55 +42,46 @@
         <div class="container-fluid pulse animated">
             <div class="row">
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofbooks?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(0)}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofbooks?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(1)}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofbooks?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(2)}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofbooks?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(3)}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
+                    <div class="card genre-card"><a class="genre-card-link" href="allgenreofbooks?genre=${genreList.get(0)}"></a>
                         <div class="card-body">
                             <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col genre-col">
-                    <div class="card genre-card"><a class="genre-card-link" href="#"></a>
-                        <div class="card-body">
-                            <div class="card-info">
-                                <h4 class="text-nowrap text-truncate card-title">Fantascienza</h4>
+                                <h4 class="text-nowrap text-truncate card-title">${genreList.get(4)}</h4>
                             </div>
                         </div>
                     </div>
@@ -110,7 +101,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${list.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -132,7 +123,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${list.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -156,7 +147,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${list.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -178,7 +169,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${list.get(3).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${list.get(3).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -211,7 +202,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${latestList.get(0).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                             <c:forEach var="i" begin="0" end="4">
@@ -233,7 +224,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${latestList.get(1).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">
@@ -257,7 +248,7 @@
                         <div class="col">
                             <div class="card home-card">
                                 <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url(&quot;images/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
+                                    <div class="card-img-cover" style="background-image: url(&quot;images/books/${latestList.get(2).getImageId()}.jpg&quot;);"></div>
                                     <div class="card-info">
                                         <ul class="list-inline">
                                            <c:forEach var="i" begin="0" end="4">

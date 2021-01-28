@@ -583,4 +583,99 @@ public class BookJDBC implements BookDao {
 		return genres;
 
 	}
+
+	@Override
+	public ArrayList<Book> getHighRateBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getLatestBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by postdate DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getNumerBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT COUNT(DISTINCT book) as count from genre_book where genre = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getRandomBooks(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by random() limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
 }
