@@ -1,6 +1,8 @@
 package it.ingsw.revedia.daoInterfaces;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import it.ingsw.revedia.jdbcModels.TupleNotFoundException;
 import it.ingsw.revedia.model.User;
@@ -17,4 +19,13 @@ public interface UserDao
 	public void changePermissions(Permissions permissions, String nickname) throws SQLException;
 	public boolean validateLogin(String password, String nickname) throws SQLException;
 	public boolean validateLoginByNicknameOrMail(String nickname, String mail, String password) throws SQLException, TupleNotFoundException;
+
+	public Float getAvgQuality(String nickname) throws SQLException;
+	public Float getAvgRating(String nickname) throws SQLException;
+	public Integer getNumRatedReviews(String nickname) throws SQLException;
+	public String getBestReview(String nickname) throws SQLException;
+	public String getFavouriteCat(String nickname) throws SQLException;
+	public Map<String, Object> getNumReviews(String nickname) throws SQLException;
+	public Map<String, String> getFavouriteGenreForCat(String nickname) throws SQLException;
+	public Map<String, List<Object>> getContributeForDay(String nickname) throws SQLException;
 }
