@@ -11,27 +11,21 @@ import java.util.List;
 import it.ingsw.revedia.daoInterfaces.BookDao;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
-import it.ingsw.revedia.model.Movie;
-import it.ingsw.revedia.model.MovieReview;
 
-public class BookJDBC implements BookDao
-{
+public class BookJDBC implements BookDao {
 	private DataSource dataSource;
 
-	public BookJDBC()
-	{
+	public BookJDBC() {
 		super();
 	}
 
-	public BookJDBC(DataSource dataSource)
-	{
+	public BookJDBC(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}
 
 	@Override
-	public Book findByPrimaryKey(String title) throws SQLException
-	{
+	public Book findByPrimaryKey(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select * from book where title = ?";
@@ -40,80 +34,65 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 
 		Book book = null;
-		while (result.next())
-		{
+		while (result.next()) {
 			book = buildBook(result);
 		}
 
 		result.close();
 		statment.close();
 		connection.close();
-		if (book != null)
-		{
+		if (book != null) {
 			return book;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No books avalaible with this title");
 		}
 	}
 
 	@Override
-	public ArrayList<Book> findByPublisher(String publisher) throws SQLException
-	{
+	public ArrayList<Book> findByPublisher(String publisher) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating "
-					 + "from book "
-					 + "where publishinghouse = ?";
-		
+		String query = "select title, users, imageid, rating " + "from book " + "where publishinghouse = ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, publisher);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Book> books = new ArrayList<Book>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			books.add(buildSimplifiedBook(result));
 		}
 
 		result.close();
 		statment.close();
 		connection.close();
-		if (books.size() > 0)
-		{
+		if (books.size() > 0) {
 			return books;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No books avalaible with this publisher");
 		}
 	}
 
 	@Override
-	public ArrayList<Book> findByArtist(String artist) throws SQLException
-	{
+	public ArrayList<Book> findByArtist(String artist) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating "
-					 + "from book "
-					 + "where artist = ?";
+		String query = "select title, users, imageid, rating " + "from book " + "where artist = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, artist);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Book> books = new ArrayList<Book>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			books.add(buildSimplifiedBook(result));
 		}
 
 		result.close();
 		statment.close();
 		connection.close();
-		if (books.size() > 0)
-		{
+		if (books.size() > 0) {
 			return books;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No books avalaible with this artist");
 		}
 	}
@@ -122,15 +101,14 @@ public class BookJDBC implements BookDao
 	public ArrayList<Book> findByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct title, users, imageid, rating " + "from book "
-				+ "inner join genre_book " + "on book.title = genre_book.book " + "where genre_book.genre = ?";
+		String query = "select distinct title, users, imageid, rating " + "from book " + "inner join genre_book "
+				+ "on book.title = genre_book.book " + "where genre_book.genre = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Book> books = new ArrayList<Book>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			books.add(buildSimplifiedBook(result));
 		}
 
@@ -138,23 +116,20 @@ public class BookJDBC implements BookDao
 		statment.close();
 		connection.close();
 
-		if (books.size() > 0)
-		{
+		if (books.size() > 0) {
 			return books;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No book found in this genre");
 		}
 	}
 
 	@Override
-	public void updateBook(Book book) throws SQLException
-	{
+	public void updateBook(Book book) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update book set numberofpages = ?, description = ?, link = ?, publishinghouse = ?, artist = ?"
-					 + " where title = ?";
-		
+				+ " where title = ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setShort(1, book.getNumberOfPages());
 		statment.setString(2, book.getDescription());
@@ -168,8 +143,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public int insertBook(Book book) throws SQLException
-	{
+	public int insertBook(Book book) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into book(title, numberofpages,description,link,publishingHouse,users, artist) values(?,?,?,?,?,?,?) returning imageid";
@@ -184,7 +158,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 		result.next();
 		int id = result.getInt(1);
-		//statment.execute();
+		// statment.execute();
 		statment.close();
 		connection.close();
 
@@ -194,8 +168,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public void deleteBook(String title) throws SQLException
-	{
+	public void deleteBook(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 		String query = "delete from book where title = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
@@ -206,8 +179,7 @@ public class BookJDBC implements BookDao
 
 	}
 
-	private Book buildBook(ResultSet result) throws SQLException
-	{
+	private Book buildBook(ResultSet result) throws SQLException {
 		Book book = buildSimplifiedBook(result);
 
 		short numOfPages = result.getShort("numberofpages");
@@ -229,8 +201,7 @@ public class BookJDBC implements BookDao
 		return book;
 	}
 
-	private Book buildSimplifiedBook(ResultSet result) throws SQLException
-	{
+	private Book buildSimplifiedBook(ResultSet result) throws SQLException {
 		String title = result.getString("title");
 		String user = result.getString("users");
 		float rating = result.getFloat("rating");
@@ -246,8 +217,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public List<Book> findAll() throws SQLException
-	{
+	public List<Book> findAll() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		List<Book> books = new ArrayList<>();
@@ -256,8 +226,7 @@ public class BookJDBC implements BookDao
 		String query = "select title, users, imageid, rating from book";
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
-		while (result.next())
-		{
+		while (result.next()) {
 			book = buildSimplifiedBook(result);
 			books.add(book);
 		}
@@ -271,7 +240,7 @@ public class BookJDBC implements BookDao
 
 	@Override
 	public void insertBookGenres(String title, List<String> genres) throws SQLException {
-		for(String genre : genres) {
+		for (String genre : genres) {
 			Connection connection = this.dataSource.getConnection();
 
 			String query = "insert into genre_book(book, genre) values (?,?)";
@@ -284,8 +253,8 @@ public class BookJDBC implements BookDao
 		}
 	}
 
-	public ArrayList<String> getGenres(String title) throws SQLException
-	{
+	@Override
+	public ArrayList<String> getGenres(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select genre from genre_book where book = ?";
@@ -295,8 +264,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 		ArrayList<String> genres = new ArrayList<String>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("genre"));
 		}
 
@@ -330,8 +298,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 		List<String> genres = new ArrayList<>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("genre"));
 		}
 
@@ -343,11 +310,12 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public void upsertBookReview(String ownerNickname, String title, String raterNickname, boolean rating) throws SQLException {
+	public void upsertBookReview(String ownerNickname, String title, String raterNickname, boolean rating)
+			throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "INSERT INTO user_rates_book_review(users, book, userthatrates, rated) VALUES(?, ?, ?, ?) " +
-				"ON CONFLICT ON CONSTRAINT user_rates_book_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		String query = "INSERT INTO user_rates_book_review(users, book, userthatrates, rated) VALUES(?, ?, ?, ?) "
+				+ "ON CONFLICT ON CONSTRAINT user_rates_book_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, ownerNickname);
 		statment.setString(2, title);
@@ -359,8 +327,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public ArrayList<BookReview> getReviews(String title) throws SQLException
-	{
+	public ArrayList<BookReview> getReviews(String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select users, book, numberofstars, description, postdate " + "from book_review "
@@ -370,8 +337,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result, false));
 		}
 
@@ -386,18 +352,16 @@ public class BookJDBC implements BookDao
 	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT book_review.users, book_review.book, numberofstars, description, book_review.postdate, rat.rated " +
-				"FROM book_review LEFT JOIN (SELECT users, book, rated FROM user_rates_book_review WHERE userthatrates = ?) as rat " +
-				"ON book_review.users = rat.users and book_review.book = rat.book " +
-				"WHERE book_review.book = ?";
+		String query = "SELECT book_review.users, book_review.book, numberofstars, description, book_review.postdate, rat.rated "
+				+ "FROM book_review LEFT JOIN (SELECT users, book, rated FROM user_rates_book_review WHERE userthatrates = ?) as rat "
+				+ "ON book_review.users = rat.users and book_review.book = rat.book " + "WHERE book_review.book = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setString(2, title);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result, true));
 		}
 
@@ -408,8 +372,7 @@ public class BookJDBC implements BookDao
 		return reviews;
 	}
 
-	private BookReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
-	{
+	private BookReview buildReview(ResultSet result, boolean withRateMode) throws SQLException {
 		String user = result.getString("users");
 		String book = result.getString("book");
 		short numberOfStars = result.getShort("numberofstars");
@@ -423,10 +386,11 @@ public class BookJDBC implements BookDao
 		review.setNumberOfStars(numberOfStars);
 		review.setPostDate(postDate);
 
-		if(withRateMode) {
+		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");
-			if(result.wasNull())
+			if (result.wasNull()) {
 				rating = null;
+			}
 
 			review.setActualUserRate(rating);
 		}
@@ -435,14 +399,11 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException
-	{
+	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating "
-				+ "from book " 
-				+ "where title similar to ? or artist similar to ? " 
-				+ "limit ? offset ?";
+		String query = "select title, users, imageid, rating " + "from book "
+				+ "where title similar to ? or artist similar to ? " + "limit ? offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, keyWords);
@@ -453,8 +414,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<Book> books = new ArrayList<Book>();
-		while (result.next())
-		{
+		while (result.next()) {
 			books.add(buildSimplifiedBook(result));
 		}
 
@@ -466,8 +426,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public void addReview(BookReview review) throws SQLException
-	{
+	public void addReview(BookReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into book_review(users,book,numberofstars,description) values(?,?,?,?)";
@@ -482,8 +441,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public void deleteReview(String nickname, String title) throws SQLException
-	{
+	public void deleteReview(String nickname, String title) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from book_review where users = ? and book = ?";
@@ -496,8 +454,7 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public void updateReview(BookReview review) throws SQLException
-	{
+	public void updateReview(BookReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update book_review set numberofstars = ?, description = ? " + "where users = ? and book = ?";
@@ -512,39 +469,87 @@ public class BookJDBC implements BookDao
 	}
 
 	@Override
-	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException
-	{
+	public ArrayList<Book> getHighRateBooks() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from book Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getLatestBooks() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from book Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		
 		String query = "select title, users, rating, imageid " +
 					   "from book ";
 
-		if(mostRated)
+		if (mostRated) {
 			query += "where rating = (select max(rating) from book) ";
+		}
 
 		query += "order by random() limit ?";
 
 		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setInt(1,limit);
+		statement.setInt(1, limit);
 
 		ResultSet result = statement.executeQuery();
 		ArrayList<Book> books = new ArrayList<>();
-		while (result.next())
+		while (result.next()) {
 			books.add(buildSimplifiedBook(result));
-
-		try
-		{
-			return books;
 		}
-		finally
-		{
+
+		try {
+			return books;
+		} finally {
 			connection.close();
 			result.close();
 			statement.close();
 		}
 	}
 
-	private Book buildShortBook(ResultSet result) throws SQLException
-	{
+	private Book buildShortBook(ResultSet result) throws SQLException {
 		String title = result.getString("title");
 		String user = result.getString("users");
 		float rating = result.getFloat("rating");
@@ -555,5 +560,124 @@ public class BookJDBC implements BookDao
 		book.setRating(rating);
 
 		return book;
+	}
+
+	@Override
+	public ArrayList<String> getRandomGenres() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct * from (select genre from genre_book Order by random()) as gen limit 6";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<String> genres = new ArrayList<>();
+
+		while (result.next()) {
+			genres.add(result.getString("genre"));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return genres;
+
+	}
+
+	@Override
+	public ArrayList<Book> getHighRateBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getLatestBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by postdate DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getNumerBookByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT COUNT(DISTINCT book) as count from genre_book where genre = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Book> getRandomBooks(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by random() limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (books.size() > 0) {
+			return books;
+		} else {
+			throw new RuntimeException("No books found in this genre");
+		}
 	}
 }

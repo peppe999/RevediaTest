@@ -9,31 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.AlbumDao;
-import it.ingsw.revedia.model.*;
+import it.ingsw.revedia.model.Album;
+import it.ingsw.revedia.model.AlbumReview;
+import it.ingsw.revedia.model.Song;
 
-public class AlbumJDBC implements AlbumDao
-{
+public class AlbumJDBC implements AlbumDao {
 	private DataSource dataSource;
 
-	public AlbumJDBC()
-	{
+	public AlbumJDBC() {
 		super();
 	}
 
-	public AlbumJDBC(DataSource dataSource)
-	{
+	public AlbumJDBC(DataSource dataSource) {
 		super();
 		this.dataSource = dataSource;
 	}
 
 	@Override
-	public Album findByPrimaryKey(Integer id) throws SQLException
-	{
+	public Album findByPrimaryKey(Integer id) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select * "
-					 + "from album "
-					 + "where albumid = ?";
+		String query = "select * " + "from album " + "where albumid = ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setInt(1, id);
@@ -48,8 +44,7 @@ public class AlbumJDBC implements AlbumDao
 		return album;
 	}
 
-	private Album buildAlbum(ResultSet result) throws SQLException
-	{
+	private Album buildAlbum(ResultSet result) throws SQLException {
 		Album album = buildSimplifiedAlbum(result);
 
 		short numberOfSongs = result.getShort("numberofsongs");
@@ -69,8 +64,7 @@ public class AlbumJDBC implements AlbumDao
 		return album;
 	}
 
-	private Album buildSimplifiedAlbum(ResultSet result) throws SQLException
-	{
+	private Album buildSimplifiedAlbum(ResultSet result) throws SQLException {
 		int albumId = result.getInt("albumid");
 		String name = result.getString("name");
 		String user = result.getString("users");
@@ -86,20 +80,16 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<Album> findByTitle(String name) throws SQLException
-	{
+	public ArrayList<Album> findByTitle(String name) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select albumid, name, users, rating "
-				+ "from album "
-				+ "where name = ?";
+		String query = "select albumid, name, users, rating " + "from album " + "where name = ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, name);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<Album> albums = new ArrayList<Album>();
-		while (result.next())
-		{
+		while (result.next()) {
 			albums.add(buildSimplifiedAlbum(result));
 		}
 
@@ -110,8 +100,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public int insertAlbum(Album album) throws SQLException
-	{
+	public int insertAlbum(Album album) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into album(name,releaseDate, label, users, artist) values (?,?,?,?,?) returning albumid";
@@ -124,7 +113,7 @@ public class AlbumJDBC implements AlbumDao
 		ResultSet result = statment.executeQuery();
 		result.next();
 		int id = result.getInt(1);
-		//statment.execute();
+		// statment.execute();
 		statment.close();
 		connection.close();
 
@@ -134,8 +123,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public List<Album> findAll() throws SQLException
-	{
+	public List<Album> findAll() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		List<Album> albums = new ArrayList<>();
@@ -145,8 +133,7 @@ public class AlbumJDBC implements AlbumDao
 		String query = "select albumid, name, users, rating from album";
 		PreparedStatement statement = connection.prepareStatement(query);
 		ResultSet result = statement.executeQuery();
-		while (result.next())
-		{
+		while (result.next()) {
 			album = buildSimplifiedAlbum(result);
 			albums.add(album);
 		}
@@ -159,21 +146,18 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<AlbumReview> getReviews(int albumId) throws SQLException
-	{
+	public ArrayList<AlbumReview> getReviews(int albumId) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select users, album, numberofStars, description, postdate " 
-					 + "from album_review "
-					 + "where album = ? limit 20";
-		
+		String query = "select users, album, numberofStars, description, postdate " + "from album_review "
+				+ "where album = ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setInt(1, albumId);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<AlbumReview> reviews = new ArrayList<AlbumReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result, false));
 		}
 
@@ -187,18 +171,17 @@ public class AlbumJDBC implements AlbumDao
 	public ArrayList<AlbumReview> getReviewsByUserRater(int albumId, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT album_review.users, album_review.album, numberofstars, description, album_review.postdate, rat.rated " +
-				"FROM album_review LEFT JOIN (SELECT users, album, rated FROM user_rates_album_review WHERE userthatrates = ?) as rat " +
-				"ON album_review.users = rat.users and album_review.album = rat.album " +
-				"WHERE album_review.album = ?;";
+		String query = "SELECT album_review.users, album_review.album, numberofstars, description, album_review.postdate, rat.rated "
+				+ "FROM album_review LEFT JOIN (SELECT users, album, rated FROM user_rates_album_review WHERE userthatrates = ?) as rat "
+				+ "ON album_review.users = rat.users and album_review.album = rat.album "
+				+ "WHERE album_review.album = ?;";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setInt(2, albumId);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<AlbumReview> reviews = new ArrayList<AlbumReview>();
-		while (result.next())
-		{
+		while (result.next()) {
 			reviews.add(buildReview(result, true));
 		}
 
@@ -209,8 +192,7 @@ public class AlbumJDBC implements AlbumDao
 		return reviews;
 	}
 
-	private AlbumReview buildReview(ResultSet result, boolean withRateMode) throws SQLException
-	{
+	private AlbumReview buildReview(ResultSet result, boolean withRateMode) throws SQLException {
 		String user = result.getString("users");
 		int albumId = result.getInt("album");
 		short numberOfStars = result.getShort("numberOfStars");
@@ -224,10 +206,11 @@ public class AlbumJDBC implements AlbumDao
 		review.setDescription(description);
 		review.setPostDate(postDate);
 
-		if(withRateMode) {
+		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");
-			if(result.wasNull())
+			if (result.wasNull()) {
 				rating = null;
+			}
 
 			review.setActualUserRate(rating);
 		}
@@ -236,15 +219,12 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<Album> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException
-	{
+	public ArrayList<Album> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select albumid, name, users, rating "
-					 + "from album "
-					 + "where name similar to ? " 
-					 + "limit ? offset ?";
+		String query = "select albumid, name, users, rating " + "from album " + "where name similar to ? "
+				+ "limit ? offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, keyWords);
@@ -254,8 +234,7 @@ public class AlbumJDBC implements AlbumDao
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			albums.add(buildSimplifiedAlbum(result));
 		}
 
@@ -267,19 +246,18 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<Album> findByGenre(String genre) throws SQLException
-	{
+	public ArrayList<Album> findByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select distinct albumid, name, users, rating " + "from album "
-				+ "inner join musical_genre_album " + "on album.albumid = musical_genre_album.album " + "where musical_genre_album.musical_genre = ?";
+				+ "inner join musical_genre_album " + "on album.albumid = musical_genre_album.album "
+				+ "where musical_genre_album.musical_genre = ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			albums.add(buildSimplifiedAlbum(result));
 		}
 
@@ -287,18 +265,16 @@ public class AlbumJDBC implements AlbumDao
 		statment.close();
 		connection.close();
 
-		if (albums.size() > 0)
-		{
+		if (albums.size() > 0) {
 			return albums;
-		} else
-		{
+		} else {
 			throw new RuntimeException("No albums found in this genre");
 		}
 	}
 
 	@Override
-	public void insertAlbumGenres(int albumId, List<String> genres) throws SQLException{
-		for(String genre : genres) {
+	public void insertAlbumGenres(int albumId, List<String> genres) throws SQLException {
+		for (String genre : genres) {
 			Connection connection = this.dataSource.getConnection();
 
 			String query = "insert into musical_genre_album(album, musical_genre) values (?,?)";
@@ -333,8 +309,7 @@ public class AlbumJDBC implements AlbumDao
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<String> genres = new ArrayList<String>();
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("musical_genre"));
 		}
 
@@ -356,8 +331,7 @@ public class AlbumJDBC implements AlbumDao
 		ResultSet result = statment.executeQuery();
 		List<String> genres = new ArrayList<>();
 
-		while (result.next())
-		{
+		while (result.next()) {
 			genres.add(result.getString("name"));
 		}
 
@@ -369,11 +343,12 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void upsertAlbumReview(String ownerNickname, int albumId, String raterNickname, boolean rating) throws SQLException {
+	public void upsertAlbumReview(String ownerNickname, int albumId, String raterNickname, boolean rating)
+			throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "INSERT INTO user_rates_album_review(users, album, userthatrates, rated) VALUES(?, ?, ?, ?) " +
-				"ON CONFLICT ON CONSTRAINT user_rates_album_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
+		String query = "INSERT INTO user_rates_album_review(users, album, userthatrates, rated) VALUES(?, ?, ?, ?) "
+				+ "ON CONFLICT ON CONSTRAINT user_rates_album_review_pkey DO UPDATE SET rated = EXCLUDED.rated";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, ownerNickname);
 		statment.setInt(2, albumId);
@@ -385,8 +360,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void addReview(AlbumReview review) throws SQLException
-	{
+	public void addReview(AlbumReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "insert into album_review(users, album, numberofstars, description) values(?,?,?,?)";
@@ -402,8 +376,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void deleteReview(String nickname, int albumId) throws SQLException
-	{
+	public void deleteReview(String nickname, int albumId) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from album_review where users = ? and album = ?";
@@ -416,8 +389,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void updateReview(AlbumReview review) throws SQLException
-	{
+	public void updateReview(AlbumReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "update album_review set numberofStars = ?, description = ? " + "where users = ? and album = ?";
@@ -432,13 +404,11 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void updateAlbum(Album album) throws SQLException
-	{
+	public void updateAlbum(Album album) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "update album set name  = ?, releasedate = ?, label = ? , artist = ? "
-					 + "where albumid = ?";
-		
+		String query = "update album set name  = ?, releasedate = ?, label = ? , artist = ? " + "where albumid = ?";
+
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, album.getName());
 		statement.setDate(2, album.getReleaseDate());
@@ -451,8 +421,7 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public void deleteAlbum(int id) throws SQLException
-	{
+	public void deleteAlbum(int id) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "delete from album where albumid = ?";
@@ -464,23 +433,19 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<Song> getSongs(int id) throws SQLException
-	{
+	public ArrayList<Song> getSongs(int id) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.length, song.rating" 
-				+ " from song " 
-				+ " inner join album on song.album = album.albumid"
+				+ " song.length, song.rating" + " from song " + " inner join album on song.album = album.albumid"
 				+ " where albumid = ?";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
 		ResultSet result = statement.executeQuery();
 		ArrayList<Song> songs = new ArrayList<Song>();
 
-		while (result.next())
-		{
-			String name = result.getString("songname");
+		while (result.next()) {
+			String name = result.getString("songnname");
 			int albumId = result.getInt("albumid");
 			float length = result.getFloat("length");
 			float rating = result.getFloat("rating");
@@ -503,40 +468,35 @@ public class AlbumJDBC implements AlbumDao
 	}
 
 	@Override
-	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException
-	{
+	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select album.albumid, album.name, album.users, album.rating " +
-					   "from album ";
+		String query = "select album.albumid, album.name, album.users, album.rating " + "from album ";
 
-		if(mostRated)
+		if (mostRated) {
 			query += "where rating = (select max(rating) from album) ";
+		}
 
 		query += "order by random() limit ?";
 
 		PreparedStatement statement = connection.prepareStatement(query);
-		statement.setInt(1,limit);
+		statement.setInt(1, limit);
 
 		ResultSet result = statement.executeQuery();
 		ArrayList<Album> albums = new ArrayList<>();
-		while (result.next())
+		while (result.next()) {
 			albums.add(buildShortAlbum(result));
-
-
-		try
-		{
-			return albums;
 		}
-		finally
-		{
+
+		try {
+			return albums;
+		} finally {
 			connection.close();
 			statement.close();
 			result.close();
 		}
 	}
 
-	private Album buildShortAlbum(ResultSet result) throws SQLException
-	{
+	private Album buildShortAlbum(ResultSet result) throws SQLException {
 		int albumId = result.getInt("albumid");
 		String name = result.getString("name");
 		String user = result.getString("users");
@@ -549,5 +509,149 @@ public class AlbumJDBC implements AlbumDao
 		album.setRating(rating);
 
 		return album;
+	}
+
+	@Override
+	public ArrayList<Album> getHighRateAlbums() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from album Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Album> getLatestAlbums() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * from album Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<String> getRandomGenres() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select distinct  * from (select musical_genre from musical_genre_album Order by random()) as gen limit 5";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<String> genres = new ArrayList<>();
+
+		while (result.next()) {
+			genres.add(result.getString("musical_genre"));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return genres;
+	}
+
+	@Override
+	public ArrayList<Album> getHighRateAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select distinct albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by rating DESC limit 4";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Album> getLatestAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "select albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by postdate DESC limit 3";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getNumerAlbumByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT COUNT(DISTINCT album) as count from musical_genre_album where musical_genre = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
 	}
 }

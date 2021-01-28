@@ -3,6 +3,9 @@ package it.ingsw.revedia.daoInterfaces;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
+
+import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -27,6 +30,13 @@ public interface SongDao
 	public ArrayList<Song> findByGenre(String genre) throws SQLException;
 
 	public ArrayList<String> getGenres(int albumId) throws SQLException;
-
+	
+	
+	public ArrayList<Song> getHighRateSongs() throws SQLException;
+	public ArrayList<Song> getLatestSongs() throws SQLException;
+	public ArrayList<Song> getHighRateSongByGenre(String genre) throws SQLException;
+	public ArrayList<Song> getLatestSongByGenre(String genre) throws SQLException;
+	public ArrayList<Song> getRandomSongs(String genre) throws SQLException;
+	
 	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException;
 }

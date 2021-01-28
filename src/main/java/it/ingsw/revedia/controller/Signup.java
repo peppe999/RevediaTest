@@ -15,8 +15,10 @@ import java.sql.SQLException;
 public class Signup
 {
     @GetMapping("/signup")
-    public String signup()
+    public String signup(HttpServletRequest request)
     {
+        if(request.getSession().getAttribute("nickname") != null)
+            return "redirect:/";
         return "signup";
     }
 

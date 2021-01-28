@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,9 +25,9 @@
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="#">Musica</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
+                <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
+                <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"><label class="searchLbl" for="search-field">
@@ -41,11 +42,11 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
                     <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
                         <h5 class="dropdown-info-header">${user.nickname}</h5>
-                        <h6 class="dropdown-info-subheader">UTENTE ${user.permissions}</h6>
+                        <h6 class="dropdown-info-subheader">Utente ${fn:toLowerCase(user.permissions)}</h6>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a>
+                    <a class="dropdown-item" href="/user"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
+                    <c:if test="${user.permissions != 'STANDARD'}"><a class="dropdown-item" href="/manage"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a></c:if>
                     <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
             </div>
             <a href="/Login">

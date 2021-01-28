@@ -23,8 +23,8 @@ public class UserPageController {
 
     @GetMapping("/user")
     public String getUserPage(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        if(session == null)
+        HttpSession session = request.getSession();
+        if(session.getAttribute("nickname") == null)
             return "redirect:/";
 
         try {
