@@ -57,7 +57,7 @@
 <!-- carousel -->
 <div class="carousel slide" data-ride="carousel" data-pause="false" id="carousel-1">
     <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url(&quot;images/37.jpg&quot;);">
+        <div class="carousel-item active" style="background-image: url(&quot;images/music/${albumCarousel.id}.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">ALBUM</h6>
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);">
+        <div class="carousel-item" style="background-image: url(&quot;images/music/${songCarousel.albumID}.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">BRANO</h6>
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);">
+        <div class="carousel-item" style="background-image: url(&quot;images/movies/${movieCarousel.imageId}.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">FILM</h6>
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);">
+        <div class="carousel-item" style="background-image: url(&quot;images/books/${bookCarousel.imageId}.jpg&quot;);">
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">LIBRO</h6>
@@ -120,7 +120,7 @@
                 <div class="col">
                     <div class="card home-card">
                         <div class="card-body">
-                            <div class="card-img-cover" style="background-image: url(&quot;images/maxresdefault.jpg&quot;);">
+                            <div class="card-img-cover" style="background-image: url(&quot;images/music/${song.albumID}.jpg&quot;);">
                             </div>
                             <div class="card-info">
                                 <ul class="list-inline">
@@ -153,7 +153,7 @@
                 <div class="col">
                     <div class="card home-card">
                         <div class="card-body">
-                            <div class="card-img-cover" style="background-image: url(&quot;images/403624.jpg&quot;);"></div>
+                            <div class="card-img-cover" style="background-image: url(&quot;images/music/${album.id}.jpg&quot;);"></div>
                             <div class="card-info">
                                 <ul class="list-inline">
                                     <c:forEach var="counter" begin="0" end="4">
@@ -185,7 +185,7 @@
                 <div class="col">
                     <div class="card home-card">
                         <div class="card-body">
-                            <div class="card-img-cover" style="background-image: url(&quot;images/interstellar-122823.jpg&quot;);"></div>
+                            <div class="card-img-cover" style="background-image: url(&quot;images/movies/${movie.imageId}.jpg&quot;);"></div>
                             <div class="card-info">
                                 <ul class="list-inline">
                                     <c:forEach var="counter" begin="0" end="4">
@@ -217,7 +217,7 @@
                 <div class="col">
                     <div class="card home-card">
                         <div class="card-body">
-                            <div class="card-img-cover" style="background-image: url(&quot;images/Isaac-Asimov-4-e1586190753716-701x514.png&quot;);"></div>
+                            <div class="card-img-cover" style="background-image: url(&quot;images/books/${book.imageId}.jpg&quot;);"></div>
                             <div class="card-info">
                                 <ul class="list-inline">
                                     <c:forEach var="counter" begin="0" end="4">

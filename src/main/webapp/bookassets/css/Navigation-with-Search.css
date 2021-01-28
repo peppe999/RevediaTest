@@ -1,0 +1,263 @@
+.navigation-clean-search {
+  background: #fff;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  color: #333;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  margin-bottom: 0;
+}
+
+@media (min-width:768px) {
+  .navigation-clean-search {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.navigation-clean-search .navbar-brand {
+  font-weight: bold;
+  color: inherit;
+}
+
+.navigation-clean-search .navbar-brand:hover {
+  color: #222;
+}
+
+.navigation-clean-search .navbar-toggler {
+  border-color: #ddd;
+}
+
+.navigation-clean-search .navbar-toggler:hover, .navigation-clean-search .navbar-toggler:focus {
+  background: none;
+}
+
+.navigation-clean-search .navbar-toggler {
+  color: #888;
+}
+
+.navigation-clean-search .navbar-collapse, .navigation-clean-search .form-inline {
+  border-top-color: #ddd;
+}
+
+.navigation-clean-search .navbar-nav a.active, .navigation-clean-search .navbar-nav > .show > a {
+  background: none;
+  box-shadow: none;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav a.active, .navigation-clean-search.navbar-light .navbar-nav a.active:focus, .navigation-clean-search.navbar-light .navbar-nav a.active:hover {
+  color: #8f8f8f;
+  box-shadow: none;
+  background: none;
+  pointer-events: none;
+}
+
+.navigation-clean-search.navbar .navbar-nav .nav-link {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav .nav-link {
+  color: #465765;
+}
+
+.navigation-clean-search.navbar-light .navbar-nav .nav-link:focus, .navigation-clean-search.navbar-light .navbar-nav .nav-link:hover {
+  color: #37434d !important;
+  background-color: transparent;
+}
+
+.navigation-clean-search .action-button, .navigation-clean-button .action-button:active {
+  background: #56c6c6;
+  border-radius: 20px;
+  font-size: inherit;
+  color: #fff !important;
+  box-shadow: none;
+  border: none;
+  text-shadow: none;
+  padding: 8px 20px;
+  transition: background-color 0.25s;
+}
+
+.navigation-clean-search .action-button:hover, .navigation-clean-search .action-button:focus {
+  background: #66d7d7;
+}
+
+.navigation-clean-search .form-inline label {
+  color: #ccc;
+}
+
+.navigation-clean-search .form-inline .search-field {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  color: #ccc;
+  box-shadow: none;
+  color: inherit;
+  transition: border-bottom-color 0.3s;
+}
+
+@media (max-width:767px) {
+  .navigation-clean-search .form-inline .search-field {
+    display: inline-block;
+    width: 80%;
+  }
+}
+
+.navigation-clean-search .form-inline .search-field:focus {
+  border-bottom: 1px solid #ccc;
+}
+
+img {
+  width: 300px;
+  height: 300px;
+  /*border: dotted;*/
+  /*padding: 5px 5px;*/
+  /*margin-left: 0px;*/
+  border-style: outset;
+  border-radius: 10px;
+}
+
+#audio {
+  background-color: #f0f0f0;
+  margin-right: 0px;
+  /*widht: px;*/
+}
+
+#tx-1 {
+  margin-top: 34px;
+  margin-left: -10px;
+  color: #292929;
+  border-color: #f0f0f0;
+}
+
+#span {
+}
+
+#span {
+  margin-top: 20px;
+  margin-left: -7px;
+  color: #292929;
+}
+
+.col {
+  padding: 15px;
+}
+
+#contprincipale {
+  margin-top: 30px;
+  background-image: url("https://cs.ilgiardinodeilibri.it/cop/c/w501/codice-da-vinci-libro-brown.jpg?_=1541406737");
+  background-repeat: repeat;
+  /*width: 1500px;*/
+  /*height: 771px;*/
+  box-shadow: 450px 0 200px 0 #f0f0f0 inset;
+}
+
+#card {
+  border: inherit;
+  border-color: inherit;
+  border-collapse: collapse;
+}
+
+#song {
+  color: #696969;
+}
+
+.card {
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  margin-left: -20px;
+}
+
+#song:focus {
+  color: #e66947;
+}
+
+#tx-1 {
+}
+
+.tx {
+  color: #e66947;
+}
+
+.h3, h3 {
+  color: #696969;
+  margin-left: -10px;
+}
+
+.icon-playlist {
+  font-size: 20px;
+  color: #e99741;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+  /*margin-top: 40px;*/
+}
+
+.fa.fa-music {
+  font-size: 20px;
+  margin-left: 15px;
+  color: #e99741;
+}
+
+.fa.fa-spotify {
+  margin-top: 15px;
+  margin-left: 75px;
+  font-size: 31px;
+  color: green;
+}
+
+.h3, h3 {
+}
+
+#askreview {
+  font-size: 16px;
+  margin-left: 7px;
+}
+
+.h3, h3 {
+}
+
+#ask {
+  font-size: 16px;
+  margin-left: 44px;
+  margin-top: -10px;
+}
+
+#valuta {
+  margin-left: 3px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  margin-top: 10px;
+}
+
+textarea.form-control {
+  text-decoration: blink;
+}
+
+#cont {
+}
+
+#cont {
+  background-color: #9999;
+}
+
+#contlink {
+  margin-top: 34px;
+}
+
+#profilIcon {
+  /*color: #e99714;*/
+  font-size: 45px;
+}
+
+#star {
+}
+
+#cards {
+  margin-left: 26px;
+  margin-right: 40px;
+}
+

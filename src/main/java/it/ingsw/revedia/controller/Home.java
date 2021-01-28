@@ -40,9 +40,7 @@ public class Home
             model.addObject("movieCarousel", movieCarousel);
 
             BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
-            Book bookCarousel = new Book();
-            bookCarousel.setTitle("Banana 33");
-            bookCarousel.setUser("Rocco");
+            Book bookCarousel = bookDao.getRandomBooksByConditions(1,true).get(0);
             model.addObject("bookCarousel", bookCarousel);
 
 
