@@ -17,28 +17,45 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
-        <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                id="navcol-1">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
-                </ul>
-                <form class="form-inline mr-auto" target="_self">
-                    <div class="form-group"><label class="searchLbl" for="search-field-1"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
-                </form>
-                <div class="dropdown ml-auto dropdown-user-controls" style="/*display: none;*/"><a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fa fa-user-circle"></i>peppe</a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
-                        <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
-                            <h5 class="dropdown-info-header">peppe</h5>
-                            <h6 class="dropdown-info-subheader">Utente editor</h6>
-                        </div>
-                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a><a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a><a class="dropdown-item" href="#"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
-                </div><button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="display: none;">Accedi</button></div>
+<nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
+    <div class="container-fluid"><a class="navbar-brand text-uppercase" href="/">REVEDIA</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+             id="navcol-1">
+            <ul class="nav navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
+                <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
+                <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
+            </ul>
+            <form class="form-inline mr-auto" target="_self">
+                <div class="form-group"><label class="searchLbl" for="search-field">
+                    <i class="fa fa-search"></i></label>
+                    <input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off">
+                </div>
+            </form>
+            <div class="dropdown ml-auto dropdown-user-controls" style="${hideuser}">
+                <a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#">
+                    <i class="fa fa-user-circle"></i>${user.nickname}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
+                    <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
+                        <h5 class="dropdown-info-header">${user.nickname}</h5>
+                        <h6 class="dropdown-info-subheader">Utente ${fn:toLowerCase(user.permissions)}</h6>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/user"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
+                    <c:if test="${user.permissions != 'STANDARD'}"><a class="dropdown-item" href="/manage"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a></c:if>
+                    <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
+            </div>
+            <a href="/Login">
+                <button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="${signupbutton}">Accedi</button>
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
     <div class="search-results-main-container">
         <div class="container-fluid pulse animated">
             <div class="row">

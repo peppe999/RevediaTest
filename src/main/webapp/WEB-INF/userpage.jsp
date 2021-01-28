@@ -199,7 +199,7 @@ pageEncoding="UTF-8"%>
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
+                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
             </div>
         </div>
     </footer>
