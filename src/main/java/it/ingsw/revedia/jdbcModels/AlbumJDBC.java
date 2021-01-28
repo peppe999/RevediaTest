@@ -165,7 +165,7 @@ public class AlbumJDBC implements AlbumDao
 
 		String query = "select users, album, numberofStars, description, postdate " 
 					 + "from album_review "
-					 + "where album = ?";
+					 + "where album = ? limit 20";
 		
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setInt(1, albumId);
@@ -480,7 +480,7 @@ public class AlbumJDBC implements AlbumDao
 
 		while (result.next())
 		{
-			String name = result.getString("songnname");
+			String name = result.getString("songname");
 			int albumId = result.getInt("albumid");
 			float length = result.getFloat("length");
 			float rating = result.getFloat("rating");
