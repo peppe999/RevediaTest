@@ -17,13 +17,13 @@
 
     <body>
     <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
-        <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid"><a class="navbar-brand text-uppercase" href="/">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
@@ -78,7 +78,7 @@
                     <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>
                         Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni
                     </p>
-                    <a class="card-link" href="#">Chi siamo</a>
+                    <a class="card-link" href="/aboutus">Chi siamo</a>
                 </div>
             </div>
         </div>

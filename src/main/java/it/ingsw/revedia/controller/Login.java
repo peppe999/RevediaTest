@@ -22,8 +22,11 @@ import javax.servlet.http.HttpSession;
 public class Login
 {
 	@GetMapping("/Login")
-	public String login()
+	public String login(HttpServletRequest request)
 	{
+		if(request.getSession().getAttribute("nickname") != null)
+			return "redirect:/";
+
 		return "login";
 	}
 

@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="music">Musica</a></li>
+                <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
                 <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
                 <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
             </ul>
