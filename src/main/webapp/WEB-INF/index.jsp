@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,11 +42,11 @@
                 <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
                     <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
                         <h5 class="dropdown-info-header">${user.nickname}</h5>
-                        <h6 class="dropdown-info-subheader">UTENTE ${user.permissions}</h6>
+                        <h6 class="dropdown-info-subheader">Utente ${fn:toLowerCase(user.permissions)}</h6>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a>
+                    <a class="dropdown-item" href="/user"><i class="fa fa-area-chart item-icon"></i>Profilo</a>
+                    <c:if test="${user.permissions != 'STANDARD'}"><a class="dropdown-item" href="/manage"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a></c:if>
                     <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
             </div>
             <a href="/Login">
