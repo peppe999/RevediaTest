@@ -275,7 +275,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${listAlbums.get(0).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(0).getUser()}</h6><a class="card-link" href="/more?albumid=${listAlbums.get(0).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -297,7 +297,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${listAlbums.get(1).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(1).getUser()}</h6><a class="card-link" href="/more?albumid=${listAlbums.get(1).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -321,7 +321,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${listAlbums.get(2).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(2).getUser()}</h6><a class="card-link" href="/more?albumid=${listAlbums.get(2).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -343,7 +343,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${listAlbums.get(3).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(3).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${listAlbums.get(3).getUser()}</h6><a class="card-link" href="/more?albumid=${listAlbums.get(3).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -374,7 +374,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestListAlbums.get(0).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(0).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(0).getUser()}</h6><a class="card-link" href="/more?albumid=${latestListAlbums.get(0).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -396,7 +396,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestListAlbums.get(1).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(1).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(1).getUser()}</h6><a class="card-link" href="/more?albumid=${latestListAlbums.get(1).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
@@ -420,7 +420,7 @@
                                     		</c:forEach>
                                         </ul>
                                         <h4 class="card-title">${latestListAlbums.get(2).getName()}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(2).getUser()}</h6><a class="card-link" href="#">Scopri di più</a></div>
+                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestListAlbums.get(2).getUser()}</h6><a class="card-link" href="/more?albumid=${latestListAlbums.get(2).getId()}">Scopri di più</a></div>
                                 </div>
                             </div>
                         </div>
