@@ -445,7 +445,7 @@ public class AlbumJDBC implements AlbumDao {
 		ArrayList<Song> songs = new ArrayList<Song>();
 
 		while (result.next()) {
-			String name = result.getString("songnname");
+			String name = result.getString("songname");
 			int albumId = result.getInt("albumid");
 			float length = result.getFloat("length");
 			float rating = result.getFloat("rating");
