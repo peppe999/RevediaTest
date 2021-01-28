@@ -866,12 +866,16 @@ footer {
   padding: 0!important;
 }
 
-.form-input-error-msg {
+.form-input-msg {
   display: inline-block;
-  color: #E64F47;
   font-size: 14px;
   padding-left: 10px;
   margin-top: 10px;
+  color: #696969;
+}
+
+.form-input-error-msg {
+  color: #E64F47;
 }
 
 .search-results-main-container {
