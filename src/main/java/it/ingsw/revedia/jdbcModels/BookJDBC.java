@@ -515,7 +515,7 @@ public class BookJDBC implements BookDao
 	public ArrayList<Book> getRandomBooksByConditions(int limit, boolean mostRated) throws SQLException
 	{
 		Connection connection = this.dataSource.getConnection();
-		String query = "select title, users, rating " +
+		String query = "select title, users, rating, imageid " +
 					   "from book ";
 
 		if(mostRated)
@@ -529,7 +529,7 @@ public class BookJDBC implements BookDao
 		ResultSet result = statement.executeQuery();
 		ArrayList<Book> books = new ArrayList<>();
 		while (result.next())
-			books.add(buildShortBook(result));
+			books.add(buildSimplifiedBook(result));
 
 		try
 		{
