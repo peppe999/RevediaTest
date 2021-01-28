@@ -65,7 +65,7 @@
                     <h4 class="card-title">${albumCarousel.name}</h4>
                     <h6 class="text-muted card-subtitle mb-2">
                         <i class="fa fa-user card-icon"></i>${albumCarousel.user}</h6>
-                    <a class="card-link" href="#">Scopri di più</a>
+                    <a class="card-link" href="/more?albumid=${albumCarousel.id }">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
                                 </ul>
                                 <h4 class="card-title">${album.name}</h4>
                                 <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${album.user}</h6>
-                                <a class="card-link" href="#">Scopri di più</a>
+                                <a class="card-link" href="/more?albumid=${album.id }">Scopri di più</a>
                             </div>
                         </div>
                     </div>

@@ -34,7 +34,7 @@ public class Login
 	public ModelAndView loginUser(HttpServletRequest request, @RequestParam("username") String nickname,
 								  @RequestParam("password") String password)
 	{
-		ModelAndView model = new ModelAndView();
+		ModelAndView model =  new ModelAndView();
 		try
 		{
 			String MD5Password = PasswordManager.getMD5(password);
