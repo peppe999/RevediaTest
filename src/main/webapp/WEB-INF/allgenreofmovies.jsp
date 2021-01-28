@@ -22,8 +22,8 @@
                 id="navcol-1">
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="music">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="books">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="movies">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
