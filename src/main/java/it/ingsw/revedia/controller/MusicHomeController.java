@@ -2,6 +2,7 @@ package it.ingsw.revedia.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.Permissions;
@@ -19,11 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class GetMusic {
+public class MusicHomeController {
 
 	@GetMapping("/music")
 	public ModelAndView returnMusic(HttpServletRequest request) {
-		ModelAndView model = new ModelAndView("music");
+		ModelAndView model = new ModelAndView("musicHome");
 
 		HttpSession session = request.getSession();
 		if(session.getAttribute("nickname") != null)
@@ -43,24 +44,24 @@ public class GetMusic {
 
 		try {
 
-			SongDao SongDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
+			SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 
-			ArrayList<Song> song = SongDao.getHighRateSongs();
-			model.addObject("list", song);
-			ArrayList<Song> latestSong = SongDao.getLatestSongs();
-			model.addObject("latestList", latestSong);
+			ArrayList<Song> song = songDao.getHighRateSongs();
+			model.addObject("bestSongsList", song);
+			ArrayList<Song> latestSong = songDao.getLatestSongs();
+			model.addObject("latestSongsList", latestSong);
 
 			// ALBUM
 
-			AlbumDao AlbumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
+			AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 
-			ArrayList<Album> album = AlbumDao.getHighRateAlbums();
-			model.addObject("listAlbums", album);
-			ArrayList<Album> latestAlbum = AlbumDao.getLatestAlbums();
-			model.addObject("latestListAlbums", latestAlbum);
+			ArrayList<Album> album = albumDao.getHighRateAlbums();
+			model.addObject("bestAlbumsList", album);
+			ArrayList<Album> latestAlbum = albumDao.getLatestAlbums();
+			model.addObject("latestAlbumsList", latestAlbum);
 
 			// GENERI
-			ArrayList<String> genre = AlbumDao.getRandomGenres();
+			List<String> genre = albumDao.getAllGenres();
 			model.addObject("genreList", genre);
 
 		} catch (SQLException throwables) {
