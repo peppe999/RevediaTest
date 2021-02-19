@@ -2,6 +2,7 @@ package it.ingsw.revedia.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.Permissions;
@@ -9,19 +10,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import it.ingsw.revedia.daoInterfaces.MovieDao;
+import it.ingsw.revedia.daoInterfaces.BookDao;
 import it.ingsw.revedia.database.DatabaseManager;
-import it.ingsw.revedia.model.Movie;
+import it.ingsw.revedia.model.Book;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class GetMovie {
+public class BooksHomeController {
 
-	@GetMapping("/movies")
-	public ModelAndView highrateMovies(HttpServletRequest request) {
-		ModelAndView model = new ModelAndView("movies");
+	@GetMapping("/books")
+	public ModelAndView getBooks(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("booksHome");
 
 		HttpSession session = request.getSession();
 		if(session.getAttribute("nickname") != null)
@@ -41,15 +42,15 @@ public class GetMovie {
 
 		try {
 
-			MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
+			BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
 
-			ArrayList<Movie> movie = movieDao.getHighRateMovies();
-			model.addObject("list", movie);
+			ArrayList<Book> book = bookDao.getBestBooks();
+			model.addObject("bestBooksList", book);
 
-			ArrayList<Movie> latestMovie = movieDao.getLatestMovies();
-			model.addObject("latestList", latestMovie);
+			ArrayList<Book> latestBooks = bookDao.getLatestBooks();
+			model.addObject("latestBooksList", latestBooks);
 
-			ArrayList<String> genre = movieDao.getRandomGenres();
+			List<String> genre = bookDao.getAllGenres();
 			model.addObject("genreList", genre);
 
 		} catch (SQLException throwables) {

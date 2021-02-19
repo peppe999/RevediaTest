@@ -46,19 +46,19 @@ public class getMusicGenre {
 
 			SongDao SongDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 
-			ArrayList<Song> song = SongDao.getHighRateSongByGenre(genres);
+			ArrayList<Song> song = SongDao.getBestSongsByGenre(genres);
 			model.addObject("list", song);
-			ArrayList<Song> latestSong = SongDao.getLatestSongByGenre(genres);
+			ArrayList<Song> latestSong = SongDao.getLatestSongsByGenre(genres);
 			model.addObject("latestList", latestSong);
 
 			AlbumDao AlbumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 
-			ArrayList<Album> album = AlbumDao.getHighRateAlbumByGenre(genres);
+			ArrayList<Album> album = AlbumDao.getBestAlbumsByGenre(genres);
 			model.addObject("listAlbums", album);
-			ArrayList<Album> latestAlbum = AlbumDao.getLatestAlbumByGenre(genres);
+			ArrayList<Album> latestAlbum = AlbumDao.getLatestAlbumsByGenre(genres);
 			model.addObject("latestListAlbums", latestAlbum);
 
-			Integer countAlbums = AlbumDao.getNumerAlbumByGenre(genres);
+			Integer countAlbums = AlbumDao.getAlbumsNumberByGenre(genres);
 			model.addObject("countAlbums", countAlbums);
 
 			ArrayList<Song> song1 = SongDao.getRandomSongs(genres);

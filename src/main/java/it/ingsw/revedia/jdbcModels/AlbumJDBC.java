@@ -484,7 +484,7 @@ public class AlbumJDBC implements AlbumDao {
 		ResultSet result = statement.executeQuery();
 		ArrayList<Album> albums = new ArrayList<>();
 		while (result.next()) {
-			albums.add(buildShortAlbum(result));
+			albums.add(buildSimplifiedAlbum(result));
 		}
 
 		try {
@@ -496,26 +496,11 @@ public class AlbumJDBC implements AlbumDao {
 		}
 	}
 
-	private Album buildShortAlbum(ResultSet result) throws SQLException {
-		int albumId = result.getInt("albumid");
-		String name = result.getString("name");
-		String user = result.getString("users");
-		float rating = result.getFloat("rating");
-
-		Album album = new Album();
-		album.setId(albumId);
-		album.setName(name);
-		album.setUser(user);
-		album.setRating(rating);
-
-		return album;
-	}
-
 	@Override
-	public ArrayList<Album> getHighRateAlbums() throws SQLException {
+	public ArrayList<Album> getBestAlbums() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select * from album Order by rating DESC limit 4";
+		String query = "select albumid, name, users, rating from album Order by rating DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();
@@ -540,7 +525,7 @@ public class AlbumJDBC implements AlbumDao {
 	public ArrayList<Album> getLatestAlbums() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select * from album Order by postdate, albumid DESC limit 4";
+		String query = "select albumid, name, users, rating from album Order by postdate, albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();
@@ -562,30 +547,7 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public ArrayList<String> getRandomGenres() throws SQLException {
-		Connection connection = this.dataSource.getConnection();
-
-		String query = "select distinct  * from (select musical_genre from musical_genre_album Order by random()) as gen limit 5";
-
-		PreparedStatement statment = connection.prepareStatement(query);
-
-		ResultSet result = statment.executeQuery();
-
-		ArrayList<String> genres = new ArrayList<>();
-
-		while (result.next()) {
-			genres.add(result.getString("musical_genre"));
-		}
-
-		result.close();
-		statment.close();
-		connection.close();
-
-		return genres;
-	}
-
-	@Override
-	public ArrayList<Album> getHighRateAlbumByGenre(String genre) throws SQLException {
+	public ArrayList<Album> getBestAlbumsByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 		String query = "select distinct albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by rating DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
@@ -610,7 +572,7 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public ArrayList<Album> getLatestAlbumByGenre(String genre) throws SQLException {
+	public ArrayList<Album> getLatestAlbumsByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 		String query = "select albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by postdate, album.albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
@@ -635,7 +597,7 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public Integer getNumerAlbumByGenre(String genre) throws SQLException {
+	public Integer getAlbumsNumberByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 		String query = "SELECT COUNT(DISTINCT album) as count from musical_genre_album where musical_genre = ?";
 		PreparedStatement statment = connection.prepareStatement(query);

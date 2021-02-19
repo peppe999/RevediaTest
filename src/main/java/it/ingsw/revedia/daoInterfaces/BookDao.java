@@ -46,20 +46,19 @@ public interface BookDao {
 
 	public List<String> getAllGenres() throws SQLException;
 
-	public ArrayList<Book> getHighRateBooks() throws SQLException;
+	public ArrayList<Book> getBestBooks() throws SQLException;
 
 	public ArrayList<Book> getLatestBooks() throws SQLException;
 
-	public ArrayList<String> getRandomGenres() throws SQLException;
 
 	public void upsertBookReview(String ownerNickname, String title, String raterNickname, boolean rating)
 			throws SQLException;
 
-	public ArrayList<Book> getHighRateBookByGenre(String genre) throws SQLException;
+	public ArrayList<Book> getBestBooksByGenre(String genre) throws SQLException;
 
-	public ArrayList<Book> getLatestBookByGenre(String genre) throws SQLException;
+	public ArrayList<Book> getLatestBooksByGenre(String genre) throws SQLException;
 
-	public Integer getNumerBookByGenre(String genre) throws SQLException;
+	public Integer getBooksNumberByGenre(String genre) throws SQLException;
 
 	public ArrayList<Book> getRandomBooks(String genre) throws SQLException;
 }

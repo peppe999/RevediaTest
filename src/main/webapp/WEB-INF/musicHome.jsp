@@ -90,28 +90,30 @@
                             <div class="row">
                         </c:if>
 
-                        <div class="col">
-                            <div class="card home-card">
-                                <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url('images/music/${bestSongsList[index].albumID}.jpg');"></div>
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <c:forEach var="i" begin="0" end="4">
-                                                <c:choose>
-                                                    <c:when test="${i < bestSongsList[index].rating}">
-                                                        <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </ul>
-                                        <h4 class="card-title">${bestSongsList[index].name} - ${bestSongsList[index].albumName}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${bestSongsList[index].name}"/>&album=${bestSongsList[index].albumID}">Scopri di più</a></div>
+                        <c:if test="${index < fn:length(bestSongsList)}">
+                            <div class="col">
+                                <div class="card home-card">
+                                    <div class="card-body">
+                                        <div class="card-img-cover" style="background-image: url('images/music/${bestSongsList[index].albumID}.jpg');"></div>
+                                        <div class="card-info">
+                                            <ul class="list-inline">
+                                                <c:forEach var="i" begin="0" end="4">
+                                                    <c:choose>
+                                                        <c:when test="${i < bestSongsList[index].rating}">
+                                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </ul>
+                                            <h4 class="card-title">${bestSongsList[index].name} - ${bestSongsList[index].albumName}</h4>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${bestSongsList[index].name}"/>&album=${bestSongsList[index].albumID}">Scopri di più</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
 
                         <c:if test="${index % 2 != 0}">
                             </div>
@@ -129,28 +131,30 @@
                             <div class="row">
                         </c:if>
 
-                        <div class="col">
-                            <div class="card home-card">
-                                <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url('images/music/${latestSongsList[index].albumID}.jpg');"></div>
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <c:forEach var="i" begin="0" end="4">
-                                                <c:choose>
-                                                    <c:when test="${i < latestSongsList[index].rating}">
-                                                        <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </ul>
-                                        <h4 class="card-title">${latestSongsList[index].name} - ${latestSongsList[index].albumName}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${latestSongsList[index].name}"/>&album=${latestSongsList[index].albumID}">Scopri di più</a></div>
+                        <c:if test="${index < fn:length(latestSongsList)}">
+                            <div class="col">
+                                <div class="card home-card">
+                                    <div class="card-body">
+                                        <div class="card-img-cover" style="background-image: url('images/music/${latestSongsList[index].albumID}.jpg');"></div>
+                                        <div class="card-info">
+                                            <ul class="list-inline">
+                                                <c:forEach var="i" begin="0" end="4">
+                                                    <c:choose>
+                                                        <c:when test="${i < latestSongsList[index].rating}">
+                                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </ul>
+                                            <h4 class="card-title">${latestSongsList[index].name} - ${latestSongsList[index].albumName}</h4>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${latestSongsList[index].name}"/>&album=${latestSongsList[index].albumID}">Scopri di più</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
 
                         <c:if test="${index % 2 != 0}">
                             </div>
@@ -170,28 +174,30 @@
                             <div class="row">
                         </c:if>
 
-                        <div class="col">
-                            <div class="card home-card">
-                                <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url('images/music/${bestAlbumsList[index].id}.jpg');"></div>
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <c:forEach var="i" begin="0" end="4">
-                                                <c:choose>
-                                                    <c:when test="${i < bestAlbumsList[index].rating}">
-                                                        <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </ul>
-                                        <h4 class="card-title">${bestAlbumsList[index].name}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${bestAlbumsList[index].id}">Scopri di più</a></div>
+                        <c:if test="${index < fn:length(bestAlbumsList)}">
+                            <div class="col">
+                                <div class="card home-card">
+                                    <div class="card-body">
+                                        <div class="card-img-cover" style="background-image: url('images/music/${bestAlbumsList[index].id}.jpg');"></div>
+                                        <div class="card-info">
+                                            <ul class="list-inline">
+                                                <c:forEach var="i" begin="0" end="4">
+                                                    <c:choose>
+                                                        <c:when test="${i < bestAlbumsList[index].rating}">
+                                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </ul>
+                                            <h4 class="card-title">${bestAlbumsList[index].name}</h4>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${bestAlbumsList[index].id}">Scopri di più</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
 
                         <c:if test="${index % 2 != 0}">
                             </div>
@@ -209,28 +215,30 @@
                             <div class="row">
                         </c:if>
 
-                        <div class="col">
-                            <div class="card home-card">
-                                <div class="card-body">
-                                    <div class="card-img-cover" style="background-image: url('images/music/${latestAlbumsList[index].id}.jpg');"></div>
-                                    <div class="card-info">
-                                        <ul class="list-inline">
-                                            <c:forEach var="i" begin="0" end="4">
-                                                <c:choose>
-                                                    <c:when test="${i < latestAlbumsList[index].rating}">
-                                                        <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </ul>
-                                        <h4 class="card-title">${latestAlbumsList[index].name}</h4>
-                                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${latestAlbumsList[index].id}">Scopri di più</a></div>
+                        <c:if test="${index < fn:length(latestAlbumsList)}">
+                            <div class="col">
+                                <div class="card home-card">
+                                    <div class="card-body">
+                                        <div class="card-img-cover" style="background-image: url('images/music/${latestAlbumsList[index].id}.jpg');"></div>
+                                        <div class="card-info">
+                                            <ul class="list-inline">
+                                                <c:forEach var="i" begin="0" end="4">
+                                                    <c:choose>
+                                                        <c:when test="${i < latestAlbumsList[index].rating}">
+                                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </ul>
+                                            <h4 class="card-title">${latestAlbumsList[index].name}</h4>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${latestAlbumsList[index].id}">Scopri di più</a></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
 
                         <c:if test="${index % 2 != 0}">
                             </div>
