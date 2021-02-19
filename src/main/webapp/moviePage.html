@@ -4,109 +4,150 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>film (1)</title>
-    <link rel="stylesheet" href="movieassets/bootstrap/css/bootstrap.min.css">
+    <title>Revedia - Scheda film</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
-    <link rel="stylesheet" href="movieassets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="movieassets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="movieassets/fonts/material-icons.min.css">
-    <link rel="stylesheet" href="movieassets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="fonts/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="movieassets/css/Navigation-with-Search.css">
-    <link rel="stylesheet" href="movieassets/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated" style="box-shadow: 0px 0px 1px 2px #eaeaea;box-shadow: 0px 0px 1px 2px #f0f0f0;">
+    <nav class="navbar navbar-light navbar-expand-md sticky-top pulse animated">
         <div class="container-fluid"><a class="navbar-brand text-uppercase" href="#">REVEDIA</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Film</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>
-                </form><button class="btn btn-primary btn-sm ml-auto" type="button">Accedi</button></div>
+                </form>
+                <div class="dropdown ml-auto dropdown-user-controls" style="/*display: none;*/"><a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fa fa-user-circle"></i>peppe</a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
+                        <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
+                            <h5 class="dropdown-info-header">peppe</h5>
+                            <h6 class="dropdown-info-subheader">Utente editor</h6>
+                        </div>
+                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-area-chart item-icon"></i>Profilo</a><a class="dropdown-item" href="#"><i class="fa fa-edit item-icon"></i>Gestisci contenuti</a><a class="dropdown-item" href="#"><i class="fa fa-sign-out item-icon"></i>Esci</a></div>
+                </div><button class="btn btn-primary btn-sm ml-auto nav-login-btn" type="button" style="display: none;">Accedi</button></div>
         </div>
     </nav>
-    <div class="container" id="contprincipale">
-        <div class="row">
-            <div class="col">
-                <h1 id="tx-2" style="font-size: 100px;">Attack On Titan</h1>
-                <h1 id="tx-3" style="font-size: 64px;">regista</h1>
-                <h1 id="tx-4" style="font-size: 38px;">durata</h1><span id="span">attori principali&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></div>
+    <div class="content-page-img" style="background-image: url(&quot;images/Attack-on-Titan-Season-4-Poster.jpg&quot;);"></div>
+    <div class="card explore-card content-page-main-card">
+        <div class="card-body">
+            <div class="card-info">
+                <ul class="list-inline">
+                    <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                    <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                    <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                    <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                    <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                </ul>
+                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon user-icon"></i>dio</h6>
+                <h6 class="text-muted card-subtitle mb-2 last-subtitle"><i class="fa fa-spinner card-icon"></i>22/01/2021</h6>
+                <h1 class="text-nowrap text-truncate card-title card-title-xl">Attack on Titans</h1>
+                <div class="content-page-info-section">
+                    <h5 class="info-header-lbl"><i class="fa fa-camera section-title-icon"></i>Regista</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl">Filomena Biafora</h4>
+                </div>
+                <div class="content-page-info-section">
+                    <h5 class="info-header-lbl"><i class="fa fa-clock-o section-title-icon clock-icon"></i>Durata</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl">120 minuti</h4>
+                </div>
+                <div class="content-page-info-section">
+                    <h5 class="info-header-lbl"><i class="fa fa-info-circle section-title-icon genre-icon"></i>Genere</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl">Anime</h4>
+                </div>
+                <div class="content-page-info-section">
+                    <h5 class="info-header-lbl"><i class="fa fa-list section-title-icon"></i>Trama</h5>
+                    <p class="description-lbl">Nell'anno 845 compare un gigante alto circa sessanta metri che con un calcio crea una breccia nella cinta esterna del Wall Maria, presso il distretto di Shiganshina. I giganti sciamano al suo interno divorando quanti più umani possibile,
+                        mentre questi cercano inutilmente di difendersi e trasferire più gente possibile all'interno della seconda cerchia di mura; ma prima che gli uomini riescano a chiudere la porta interna delle mura, un gigante corazzato la sfonda
+                        con un colpo e gli umani sono costretti a ripiegare sul Wall Rose. In seguito tentano una disperata riconquista del territorio perduto, circa un terzo del totale, che fallisce miseramente. L'enorme perdita di uomini contribuisce
+                        per lo meno ad attenuare la carestia di cibo creatasi per la perdita di una porzione territoriale così grande. Il gigante colossale e quello corazzato spariscono misteriosamente dopo avere spianato la strada ai loro simili.Fra
+                        i sopravvissuti alla tragedia vi sono i tre protagonisti della storia: Eren Jaeger, Mikasa Ackermann e Armin Arelet. Nel giorno dell'irruzione dei giganti, Eren perde sua madre, che viene divorata davanti ai suoi occhi. L'accaduto
+                        genera nel bambino, già impulsivo di natura, un odio verso i giganti superiore alla paura nei loro confronti, e giura di sterminarli tutti. Mikasa è un'orfana che dopo la perdita dei suoi genitori ha vissuto sotto l'ala protettiva
+                        della famiglia Jaeger, ma quel giorno — così come Armin, il miglior amico di Eren — anche lei perde tutto. A cinque anni di distanza dall'accaduto i tre amici sono cresciuti e sono entrati a fare parte dell'esercito, quando i giganti
+                        si presentano di nuovo. Per Eren, Mikasa, Armin e le altre reclute inizia così un crudele battesimo del fuoco.<br></p>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col" id="c">
-                <h3 class="text"><i class="material-icons icon">chrome_reader_mode</i>&nbsp;Trama</h3>
-                <div class="card">
-                    <div class="card-header" id="card-1">
-                        <p><br>Nell'anno 845 compare un gigante alto circa sessanta metri che con un calcio crea una breccia nella cinta esterna del Wall Maria, presso il distretto di Shiganshina. I giganti sciamano al suo interno divorando quanti più umani
-                            possibile, mentre questi cercano inutilmente di difendersi e trasferire più gente possibile all'interno della seconda cerchia di mura; ma prima che gli uomini riescano a chiudere la porta interna delle mura, un gigante corazzato
-                            la sfonda con un colpo e gli umani sono costretti a ripiegare sul Wall Rose. In seguito tentano una disperata riconquista del territorio perduto, circa un terzo del totale, che fallisce miseramente. L'enorme perdita di uomini
-                            contribuisce per lo meno ad attenuare la carestia di cibo creatasi per la perdita di una porzione territoriale così grande. Il gigante colossale e quello corazzato spariscono misteriosamente dopo avere spianato la strada ai
-                            loro simili.Fra i sopravvissuti alla tragedia vi sono i tre protagonisti della storia: Eren Jaeger, Mikasa Ackermann e Armin Arelet. Nel giorno dell'irruzione dei giganti, Eren perde sua madre, che viene divorata davanti ai
-                            suoi occhi. L'accaduto genera nel bambino, già impulsivo di natura, un odio verso i giganti superiore alla paura nei loro confronti, e giura di sterminarli tutti. Mikasa è un'orfana che dopo la perdita dei suoi genitori ha
-                            vissuto sotto l'ala protettiva della famiglia Jaeger, ma quel giorno — così come Armin, il miglior amico di Eren — anche lei perde tutto. A cinque anni di distanza dall'accaduto i tre amici sono cresciuti e sono entrati a fare
-                            parte dell'esercito, quando i giganti si presentano di nuovo. Per Eren, Mikasa, Armin e le altre reclute inizia così un crudele battesimo del fuoco.<br><br></p>
+    </div>
+    <div class="home-main-container">
+        <div class="container-fluid pulse animated content-section-area">
+            <h2><i class="fa fa-film section-title-icon"></i>Anteprima</h2>
+            <div class="row">
+                <div class="col"><iframe allowfullscreen="" frameborder="0" src="https://www.youtube-nocookie.com/embed/uh3X0Pmr9yc" style="/*width: 100%;*/" height="315" width="560"></iframe></div>
+            </div>
+        </div>
+        <div class="container-fluid pulse animated content-section-area">
+            <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-center add-review-rating-box">
+                        <h2 class="sub-header">Valutazione</h2>
+                        <ul class="list-inline">
+                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                        </ul>
+                    </div>
+                    <form>
+                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pulse animated content-section-area">
+            <h2><i class="fa fa-users section-title-icon"></i>Recensioni</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="card explore-card review-card">
+                        <div class="card-body">
+                            <div class="card-info">
+                                <div class="row review-card-header">
+                                    <div class="col d-md-flex align-self-center align-items-md-center review-card-user-area-container">
+                                        <div class="d-flex align-items-center review-card-user-area">
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>dio</h6>
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <div class="d-flex align-items-center review-card-user-area">
+                                            <h6 class="text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon like-icon selected-like-icon"></i>143</h6>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon like-icon"></i>21</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="review-card-txt">Bellissimo anime, un episodio chiama l'altro.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid contenitore">
-        <div class="row">
-            <div class="col contenitore">
-                <h3 class="text" style="font-size: 15px;color: #696969;"><i class="fa fa-youtube-play icon"></i>&nbsp; &nbsp;Dove posso guardarlo?</h3>
-                <p style="font-size: 17px;"><i class="fa fa-video-camera icon"></i>&nbsp;link sito streaming</p>
-            </div>
-            <div class="col contenitore">
-                <h1 class="text"><i class="fa fa-youtube icon" id="youtubeicon"></i>Trailer Youtube</h1><div class="col player"><iframe src="https://www.youtube.com/embed/LCm8G4J0Yaw" frameborder="0" hspace="30px" vspace="-30px" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
-        </div>
-    </div>
-    <div class="container-fluid contenitore">
-        <div class="row">
-            <div class="col">
-                <h3 class="text"><i class="icon ion-ios-people icon" id="ic"></i>&nbsp; &nbsp;Cosa pensi di questo contenuto?</h3>
-                <h3 class="text">Condividi con gli altri la tua opinione.</h3>
-            </div>
-            <div class="col">
-                <form>
-                    <h3 class="text">Valuta&nbsp;&nbsp;<i class="fa fa-star-o icon"></i><i class="fa fa-star-o icon"></i><i class="fa fa-star-o icon"></i><i class="fa fa-star-o icon"></i><i class="fa fa-star-o icon"></i></h3>
-                    <div class="form-group"><textarea class="form-control"></textarea><button class="btn btn-primary" id="but" type="button">Invia la tua recensione</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid contenitore">
-        <div class="row">
-            <div class="col foot">
-                <h3 class="text"><i class="material-icons icon" id="reviewicon">chrome_reader_mode</i>&nbsp;Recensioni di altri utenti</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card" id="cards-1">
-                    <div class="card-body" id="cards-1">
-                        <h4 class="card-title"><i class="fa fa-user-circle-o icon"></i>&nbsp; Users<i class="fa fa-star icon"></i><i class="fa fa-star icon"></i><i class="fa fa-star icon"></i><i class="fa fa-star icon"></i></h4>
-                        <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><i class="fa fa-thumbs-o-up ic"></i><i class="fa fa-thumbs-o-down ic"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer class="footer">
+    <footer>
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a id="link" class="card-link" href="#">Chi siamo</a></div>
+                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
             </div>
         </div>
     </footer>
-    <script src="movieassets/js/jquery.min.js"></script>
-    <script src="movieassets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
 </body>
 
 </html>
