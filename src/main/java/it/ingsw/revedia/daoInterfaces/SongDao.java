@@ -27,7 +27,7 @@ public interface SongDao
 	public ArrayList<Song> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 
 	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException;
-	public ArrayList<Song> findByGenre(String genre) throws SQLException;
+	public ArrayList<Song> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;
 
 	public ArrayList<String> getGenres(int albumId) throws SQLException;
 	
@@ -37,6 +37,7 @@ public interface SongDao
 	public ArrayList<Song> getBestSongsByGenre(String genre) throws SQLException;
 	public ArrayList<Song> getLatestSongsByGenre(String genre) throws SQLException;
 	public ArrayList<Song> getRandomSongs(String genre) throws SQLException;
+	public Integer getSongsNumberByGenre(String genre) throws SQLException;
 	
 	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException;
 }

@@ -246,14 +246,29 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public ArrayList<Album> findByGenre(String genre) throws SQLException {
+	public ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct albumid, name, users, rating " + "from album "
+		String query = "select albumid, name, users, rating " + "from album "
 				+ "inner join musical_genre_album " + "on album.albumid = musical_genre_album.album "
 				+ "where musical_genre_album.musical_genre = ?";
+
+		if(excludeSingles) {
+			query += " and numberofsongs > 1";
+		}
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by name " + orderString;
+		else
+			query += " order by postdate " + orderString + ", albumid " + orderString;
+
+		query += " limit 20 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<>();
 
@@ -597,9 +612,14 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public Integer getAlbumsNumberByGenre(String genre) throws SQLException {
+	public Integer getAlbumsNumberByGenre(String genre, boolean excludeSingles) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "SELECT COUNT(DISTINCT album) as count from musical_genre_album where musical_genre = ?";
+		String query = "SELECT COUNT(albumid) as count from musical_genre_album INNER JOIN album ON musical_genre_album.album = album.albumid where musical_genre = ?";
+
+		if(excludeSingles) {
+			query += " and numberofsongs > 1";
+		}
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();

@@ -108,7 +108,7 @@
                                                 </c:choose>
                                             </c:forEach>
                                         </ul>
-                                        <h4 class="card-title">${bestMoviesList[index].title}</h4>
+                                        <h4 class="card-title"><c:out value="${bestMoviesList[index].title}"/></h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestMoviesList[index].user}</h6><a class="card-link" href="movies/movie?title=<c:out value="${bestMoviesList[index].title}"/>">Scopri di più</a></div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                                                 </c:choose>
                                             </c:forEach>
                                         </ul>
-                                        <h4 class="card-title">${latestMoviesList[index].title}</h4>
+                                        <h4 class="card-title"><c:out value="${latestMoviesList[index].title}"/></h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestMoviesList[index].user}</h6><a class="card-link" href="movies/movie?title=<c:out value="${latestMoviesList[index].title}"/>">Scopri di più</a></div>
                                 </div>
                             </div>

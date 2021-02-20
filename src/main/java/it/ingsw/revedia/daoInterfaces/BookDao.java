@@ -14,7 +14,7 @@ public interface BookDao {
 
 	public ArrayList<Book> findByArtist(String artist) throws SQLException;
 
-	public ArrayList<Book> findByGenre(String genre) throws SQLException;
+	public ArrayList<Book> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;
 
 	public void updateBook(Book book) throws SQLException;
 

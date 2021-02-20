@@ -51,13 +51,24 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<Movie> findByGenre(String genre) throws SQLException {
+	public ArrayList<Movie> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct title, users, imageid, rating " + "from movie " + "inner join genre_movie "
+		String query = "select title, users, imageid, rating " + "from movie " + "inner join genre_movie "
 				+ "on movie.title = genre_movie.movie " + "where genre_movie.genre = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 

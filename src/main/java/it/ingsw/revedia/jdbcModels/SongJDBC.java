@@ -267,14 +267,25 @@ public class SongJDBC implements SongDao {
 	}
 
 	@Override
-	public ArrayList<Song> findByGenre(String genre) throws SQLException {
+	public ArrayList<Song> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating "
 				+ "from song inner join album on song.album = album.albumid " + "where exists "
 				+ "(select * from musical_genre_album " + "where album = albumid and musical_genre = ?)";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by songname " + orderString;
+		else
+			query += " order by song.postdate " + orderString + ", song.album " + orderString;
+
+		query += " limit 20 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<Song> songs = new ArrayList<>();
@@ -472,7 +483,7 @@ public class SongJDBC implements SongDao {
 	public ArrayList<Song> getBestSongsByGenre(String genre) throws SQLException {
 
 		Connection connection = this.dataSource.getConnection();
-		String query = "select album.albumid, song.name as songname, song.album as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.rating DESC limit 4";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.rating DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
@@ -497,7 +508,7 @@ public class SongJDBC implements SongDao {
 	@Override
 	public ArrayList<Song> getLatestSongsByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select album.albumid, song.name as songname, song.album as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.postdate, album.postdate, album.albumid DESC limit 4";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.postdate, album.postdate, album.albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
@@ -542,6 +553,28 @@ public class SongJDBC implements SongDao {
 			return songs;
 		} else {
 			throw new RuntimeException("No songs found in this genre");
+		}
+	}
+
+	@Override
+	public Integer getSongsNumberByGenre(String genre) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		String query = "SELECT SUM(numberofsongs) as count from musical_genre_album INNER JOIN album ON album.albumid = musical_genre_album.album where musical_genre = ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, genre);
+		ResultSet result = statment.executeQuery();
+		result.next();
+		Integer count = result.getInt("count");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (count > 0) {
+			return count;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
 		}
 	}
 

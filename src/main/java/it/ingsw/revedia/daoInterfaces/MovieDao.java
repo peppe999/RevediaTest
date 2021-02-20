@@ -11,7 +11,7 @@ import it.ingsw.revedia.model.MovieReview;
 public interface MovieDao {
 	public Movie findByPrimaryKey(String title) throws SQLException;
 
-	public ArrayList<Movie> findByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;
 
 	public int insertMovie(Movie movie) throws SQLException;
 

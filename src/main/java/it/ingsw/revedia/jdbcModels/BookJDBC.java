@@ -98,13 +98,24 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
-	public ArrayList<Book> findByGenre(String genre) throws SQLException {
+	public ArrayList<Book> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct title, users, imageid, rating " + "from book " + "inner join genre_book "
+		String query = "select title, users, imageid, rating " + "from book " + "inner join genre_book "
 				+ "on book.title = genre_book.book " + "where genre_book.genre = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Book> books = new ArrayList<Book>();
 
