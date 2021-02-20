@@ -38,10 +38,9 @@ public interface AlbumDao
 
 	public ArrayList<Album> getRandomAlbumsByConditions(int limit, boolean mostRated) throws SQLException;
 	
-	public ArrayList<Album> getHighRateAlbums() throws SQLException;
+	public ArrayList<Album> getBestAlbums() throws SQLException;
 	public ArrayList<Album> getLatestAlbums() throws SQLException;
-	public ArrayList<Album> getHighRateAlbumByGenre(String genre) throws SQLException;
-	public ArrayList<Album> getLatestAlbumByGenre(String genre) throws SQLException;
-	public Integer getNumerAlbumByGenre(String genre) throws SQLException;
-	ArrayList<String> getRandomGenres() throws SQLException;
+	public ArrayList<Album> getBestAlbumsByGenre(String genre) throws SQLException;
+	public ArrayList<Album> getLatestAlbumsByGenre(String genre) throws SQLException;
+	public Integer getAlbumsNumberByGenre(String genre) throws SQLException;
 }

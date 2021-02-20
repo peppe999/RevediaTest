@@ -32,10 +32,10 @@ public interface SongDao
 	public ArrayList<String> getGenres(int albumId) throws SQLException;
 	
 	
-	public ArrayList<Song> getHighRateSongs() throws SQLException;
+	public ArrayList<Song> getBestSongs() throws SQLException;
 	public ArrayList<Song> getLatestSongs() throws SQLException;
-	public ArrayList<Song> getHighRateSongByGenre(String genre) throws SQLException;
-	public ArrayList<Song> getLatestSongByGenre(String genre) throws SQLException;
+	public ArrayList<Song> getBestSongsByGenre(String genre) throws SQLException;
+	public ArrayList<Song> getLatestSongsByGenre(String genre) throws SQLException;
 	public ArrayList<Song> getRandomSongs(String genre) throws SQLException;
 	
 	public void upsertSongReview(String ownerNickname, String name, int albumId, String raterNickname, boolean rating) throws SQLException;

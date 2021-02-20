@@ -44,11 +44,11 @@ public class getBookGenre {
 
 			BookDao BookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
 
-			ArrayList<Book> Book = BookDao.getHighRateBookByGenre(genres);
+			ArrayList<Book> Book = BookDao.getBestBooksByGenre(genres);
 			model.addObject("list", Book);
-			ArrayList<Book> latestBook = BookDao.getLatestBookByGenre(genres);
+			ArrayList<Book> latestBook = BookDao.getLatestBooksByGenre(genres);
 			model.addObject("latestList", latestBook);
-			Integer countBooks = BookDao.getNumerBookByGenre(genres);
+			Integer countBooks = BookDao.getBooksNumberByGenre(genres);
 			model.addObject("countBooks", countBooks);
 
 			ArrayList<Book> Book1 = BookDao.getRandomBooks(genres);

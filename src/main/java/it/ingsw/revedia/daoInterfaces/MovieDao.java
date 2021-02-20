@@ -33,7 +33,7 @@ public interface MovieDao {
 
 	public List<Movie> findAll() throws SQLException;
 
-	public ArrayList<Movie> getHighRateMovies() throws SQLException;
+	public ArrayList<Movie> getBestMovies() throws SQLException;
 
 	public ArrayList<Movie> getLatestMovies() throws SQLException;
 
@@ -47,10 +47,9 @@ public interface MovieDao {
 
 	public List<String> getAllGenres() throws SQLException;
 
-	public ArrayList<String> getRandomGenres() throws SQLException;
-	public ArrayList<Movie> getHighRateMovieByGenre(String genre) throws SQLException;
-	public ArrayList<Movie> getLatestMovieByGenre(String genre) throws SQLException;
-	public Integer getNumerMovieByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> getBestMoviesByGenre(String genre) throws SQLException;
+	public ArrayList<Movie> getLatestMoviesByGenre(String genre) throws SQLException;
+	public Integer getMoviesNumberByGenre(String genre) throws SQLException;
 	public ArrayList<Movie> getRandomMovies(String genre) throws SQLException;
 
 	public void upsertMovieReview(String ownerNickname, String title, String raterNickname, boolean rating)

@@ -44,11 +44,11 @@ public class getMoviesGenre {
 
 			MovieDao MovieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
 
-			ArrayList<Movie> movie = MovieDao.getHighRateMovieByGenre(genres);
+			ArrayList<Movie> movie = MovieDao.getBestMoviesByGenre(genres);
 			model.addObject("list", movie);
-			ArrayList<Movie> latestMovie = MovieDao.getLatestMovieByGenre(genres);
+			ArrayList<Movie> latestMovie = MovieDao.getLatestMoviesByGenre(genres);
 			model.addObject("latestList", latestMovie);
-			Integer countMovies = MovieDao.getNumerMovieByGenre(genres);
+			Integer countMovies = MovieDao.getMoviesNumberByGenre(genres);
 			model.addObject("countMovies", countMovies);
 
 			ArrayList<Movie> movie1 = MovieDao.getRandomMovies(genres);

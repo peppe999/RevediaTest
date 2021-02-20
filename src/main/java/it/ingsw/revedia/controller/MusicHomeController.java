@@ -46,7 +46,7 @@ public class MusicHomeController {
 
 			SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 
-			ArrayList<Song> song = songDao.getHighRateSongs();
+			ArrayList<Song> song = songDao.getBestSongs();
 			model.addObject("bestSongsList", song);
 			ArrayList<Song> latestSong = songDao.getLatestSongs();
 			model.addObject("latestSongsList", latestSong);
@@ -55,7 +55,7 @@ public class MusicHomeController {
 
 			AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 
-			ArrayList<Album> album = albumDao.getHighRateAlbums();
+			ArrayList<Album> album = albumDao.getBestAlbums();
 			model.addObject("bestAlbumsList", album);
 			ArrayList<Album> latestAlbum = albumDao.getLatestAlbums();
 			model.addObject("latestAlbumsList", latestAlbum);
