@@ -413,14 +413,20 @@ public class BookJDBC implements BookDao {
 	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating " + "from book "
-				+ "where title similar to ? or artist similar to ? " + "limit ? offset ?";
+		String query = "SELECT title, users, imageid, rating, titleOcc, artistOcc, titleOcc+artistOcc AS totalOcc FROM book bookT, LATERAL (" +
+				"SELECT count(*) - 1 AS titleOcc " +
+				"FROM regexp_split_to_table(bookT.title, ?, 'i')) titleOccT, LATERAL (" +
+				"SELECT count(*) - 1 AS artistOcc " +
+				"FROM regexp_split_to_table(bookT.artist, ?, 'i')) artistOccT " +
+				"WHERE title ~* ? or artist ~* ? " +
+				"ORDER BY totalOcc DESC, rating DESC, imageid DESC LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setString(1, keyWords);
-		statment.setString(2, keyWords);
-		statment.setInt(3, limit);
-		statment.setInt(4, offset);
+		for(int i = 1; i <= 4; i++)
+			statment.setString(i, keyWords);
+
+		statment.setInt(5, limit);
+		statment.setInt(6, offset);
 
 		ResultSet result = statment.executeQuery();
 

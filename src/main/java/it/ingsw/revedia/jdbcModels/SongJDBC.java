@@ -242,15 +242,21 @@ public class SongJDBC implements SongDao {
 	public ArrayList<Song> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating"
-				+ " from song" + " inner join album" + " on song.album = album.albumid"
-				+ " where songname similar to ? or albumname similar to ?" + " limit ? offset ?";
+		String query = "select albumT.albumid, songT.name as songname, albumT.name as albumname, songT.users, songT.rating, titleOcc, albumOcc, titleOcc+albumOcc AS totalOcc"
+				+ " from song songT" + " inner join album albumT" + " on songT.album = albumT.albumid, LATERAL (" +
+				"SELECT count(*) - 1 AS titleOcc " +
+				"FROM regexp_split_to_table(songT.name, ?, 'i')) titleOccT, LATERAL (" +
+				"SELECT count(*) - 1 AS albumOcc " +
+				"FROM regexp_split_to_table(albumT.name, ?, 'i')) albumOccT " +
+				"WHERE songT.name ~* ? or albumT.name ~* ? " +
+				"ORDER BY totalOcc DESC, rating DESC, songT.name DESC, albumT.albumid DESC LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setString(1, keyWords);
-		statment.setString(2, keyWords);
-		statment.setInt(3, limit);
-		statment.setInt(4, offset);
+		for(int i = 1; i <= 4; i++)
+			statment.setString(i, keyWords);
+
+		statment.setInt(5, limit);
+		statment.setInt(6, offset);
 
 		ResultSet result = statment.executeQuery();
 

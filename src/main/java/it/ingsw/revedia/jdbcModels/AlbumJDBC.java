@@ -223,13 +223,16 @@ public class AlbumJDBC implements AlbumDao {
 
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select albumid, name, users, rating " + "from album " + "where name similar to ? "
-				+ "limit ? offset ?";
+		String query = "select albumid, name, users, rating " + "from album albumT, lateral (" +
+				"select count(*) - 1 as occ from regexp_split_to_table(albumT.name, ?, 'i')) occT " +
+				"where name ~* ? "
+				+ "order by occ desc, rating desc, albumid desc limit ? offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, keyWords);
-		statment.setInt(2, limit);
-		statment.setInt(3, offset);
+		statment.setString(2, keyWords);
+		statment.setInt(3, limit);
+		statment.setInt(4, offset);
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();
