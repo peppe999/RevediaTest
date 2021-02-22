@@ -3,8 +3,8 @@ package it.ingsw.revedia.jdbcModels;
 public class DBDAOFactory extends DAOFactory
 {
 	private static DataSource dataSource;
-	private final static String username = "revadmin";
-	private final static String password = "cac5c1dc7a21171f.3573529a7096c94d";
+	private final static String username = "postgres";
+	private final static String password = "postgres";
 
 	static
 	{
@@ -12,7 +12,7 @@ public class DBDAOFactory extends DAOFactory
 		{
 			Class.forName("org.postgresql.Driver").getDeclaredConstructor().newInstance();
 
-			dataSource = new DataSource("jdbc:postgresql://revediadb.c3igmyv3gigi.us-east-2.rds.amazonaws.com/revedia",username,password); // METTERE SERVER AWS
+			dataSource = new DataSource("jdbc:postgresql://localhost/revedia",username,password); // METTERE SERVER AWS
 
 		}
 		catch (Exception e)
