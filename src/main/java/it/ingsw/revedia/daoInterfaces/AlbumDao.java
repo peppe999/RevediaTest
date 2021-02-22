@@ -26,7 +26,7 @@ public interface AlbumDao
 	
 	public ArrayList<Album> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
 
-	ArrayList<Album> findByGenre(String genre) throws SQLException;
+	ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException;
 
 	public void insertAlbumGenres(int albumId, List<String> genres) throws SQLException;
 	public ArrayList<String> getGenres(int albumId) throws SQLException;
@@ -42,5 +42,5 @@ public interface AlbumDao
 	public ArrayList<Album> getLatestAlbums() throws SQLException;
 	public ArrayList<Album> getBestAlbumsByGenre(String genre) throws SQLException;
 	public ArrayList<Album> getLatestAlbumsByGenre(String genre) throws SQLException;
-	public Integer getAlbumsNumberByGenre(String genre) throws SQLException;
+	public Integer getAlbumsNumberByGenre(String genre, boolean excludeSingles) throws SQLException;
 }

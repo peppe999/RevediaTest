@@ -108,7 +108,7 @@
                                                 </c:choose>
                                             </c:forEach>
                                         </ul>
-                                        <h4 class="card-title">${bestBooksList[index].title}</h4>
+                                        <h4 class="card-title"><c:out value="${bestBooksList[index].title}"/></h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestBooksList[index].user}</h6><a class="card-link" href="books/book?title=<c:out value="${bestBooksList[index].title}"/>">Scopri di più</a></div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                                                 </c:choose>
                                             </c:forEach>
                                         </ul>
-                                        <h4 class="card-title">${latestBooksList[index].title}</h4>
+                                        <h4 class="card-title"><c:out value="${latestBooksList[index].title}"/></h4>
                                         <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestBooksList[index].user}</h6><a class="card-link" href="books/book?title=<c:out value="${latestBooksList[index].title}"/>">Scopri di più</a></div>
                                 </div>
                             </div>

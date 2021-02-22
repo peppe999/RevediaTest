@@ -29,12 +29,11 @@ document.getElementById("test").addEventListener("click", function(){
         btn.style.display = "block";
     });
 });*/
-
+/*
 var numI = document.getElementById("page-number-input");
-
 numI.addEventListener("input", function(){
     //this.style.width = (this.value.length * 12 + 16) + "px";
     document.getElementById("hidden-page-number").innerHTML = this.value;
     this.style.width = document.getElementById("hidden-page-number").clientWidth + 10 + "px";
     //alert(this.offsetWidth);
-});
+});*/

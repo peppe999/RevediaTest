@@ -51,13 +51,24 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<Movie> findByGenre(String genre) throws SQLException {
+	public ArrayList<Movie> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select distinct title, users, imageid, rating " + "from movie " + "inner join genre_movie "
+		String query = "select title, users, imageid, rating " + "from movie " + "inner join genre_movie "
 				+ "on movie.title = genre_movie.movie " + "where genre_movie.genre = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
@@ -351,13 +362,16 @@ public class MovieJDBC implements MovieDao {
 	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating " + "from movie " + "where title similar to ? "
-				+ "limit ? offset ?";
+		String query = "select title, users, imageid, rating " + "from movie movieT, lateral (" +
+				"select count(*) - 1 as occ from regexp_split_to_table(movieT.title, ?, 'i')) occT " +
+				"where title ~* ? "
+				+ "order by occ desc, rating desc, imageid desc limit ? offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, keyWords);
-		statment.setInt(2, limit);
-		statment.setInt(3, offset);
+		statment.setString(2, keyWords);
+		statment.setInt(3, limit);
+		statment.setInt(4, offset);
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();

@@ -108,7 +108,7 @@
                                                     </c:choose>
                                                 </c:forEach>
                                             </ul>
-                                            <h4 class="card-title">${bestSongsList[index].name} - ${bestSongsList[index].albumName}</h4>
+                                            <h4 class="card-title"><c:out value="${bestSongsList[index].name}"/> - <c:out value="${bestSongsList[index].albumName}"/></h4>
                                             <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${bestSongsList[index].name}"/>&album=${bestSongsList[index].albumID}">Scopri di più</a></div>
                                     </div>
                                 </div>
@@ -149,7 +149,7 @@
                                                     </c:choose>
                                                 </c:forEach>
                                             </ul>
-                                            <h4 class="card-title">${latestSongsList[index].name} - ${latestSongsList[index].albumName}</h4>
+                                            <h4 class="card-title"><c:out value="${latestSongsList[index].name}"/> - <c:out value="${latestSongsList[index].albumName}"/></h4>
                                             <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${latestSongsList[index].name}"/>&album=${latestSongsList[index].albumID}">Scopri di più</a></div>
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@
                                                     </c:choose>
                                                 </c:forEach>
                                             </ul>
-                                            <h4 class="card-title">${bestAlbumsList[index].name}</h4>
+                                            <h4 class="card-title"><c:out value="${bestAlbumsList[index].name}"/></h4>
                                             <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${bestAlbumsList[index].id}">Scopri di più</a></div>
                                     </div>
                                 </div>
@@ -233,7 +233,7 @@
                                                     </c:choose>
                                                 </c:forEach>
                                             </ul>
-                                            <h4 class="card-title">${latestAlbumsList[index].name}</h4>
+                                            <h4 class="card-title"><c:out value="${latestAlbumsList[index].name}"/></h4>
                                             <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${latestAlbumsList[index].id}">Scopri di più</a></div>
                                     </div>
                                 </div>
