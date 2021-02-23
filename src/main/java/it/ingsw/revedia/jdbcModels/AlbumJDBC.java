@@ -455,7 +455,7 @@ public class AlbumJDBC implements AlbumDao {
 		Connection connection = this.dataSource.getConnection();
 
 		String query = "select album.albumid, song.name as songname, album.name as albumname,"
-				+ " song.length, song.rating" + " from song " + " inner join album on song.album = album.albumid"
+				+ " song.length, song.rating, song.users" + " from song " + " inner join album on song.album = album.albumid"
 				+ " where albumid = ?";
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setInt(1, id);
@@ -468,6 +468,7 @@ public class AlbumJDBC implements AlbumDao {
 			float length = result.getFloat("length");
 			float rating = result.getFloat("rating");
 			String albumName = result.getString("albumname");
+			String user = result.getString("users");
 
 			Song song = new Song();
 			song.setName(name);
@@ -475,6 +476,7 @@ public class AlbumJDBC implements AlbumDao {
 			song.setRating(rating);
 			song.setAlbumID(albumId);
 			song.setAlbumName(albumName);
+			song.setUser(user);
 
 			songs.add(song);
 		}
