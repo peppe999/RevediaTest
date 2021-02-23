@@ -1,11 +1,10 @@
 package it.ingsw.revedia.controller;
 
-
-import it.ingsw.revedia.daoInterfaces.AlbumDao;
+import it.ingsw.revedia.daoInterfaces.MovieDao;
 import it.ingsw.revedia.database.DatabaseManager;
-import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.AlbumReview;
-import it.ingsw.revedia.model.Song;
+import it.ingsw.revedia.model.Movie;
+import it.ingsw.revedia.model.MovieReview;
 import it.ingsw.revedia.model.User;
 import it.ingsw.revedia.utilities.Permissions;
 import org.springframework.stereotype.Controller;
@@ -20,36 +19,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Controller
-public class AlbumController {
+public class MovieController {
 
+    @GetMapping("/moreMovie")
+    public ModelAndView getMovie(@RequestParam("title") String movietitle, HttpServletRequest request) throws SQLException {
 
-    @GetMapping("/more")
-    public ModelAndView getAlbum(@RequestParam("albumid") int albumid, HttpServletRequest request) throws SQLException {
+        ModelAndView modelAndView = new ModelAndView("moviePage");
+        MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
+        Movie movie = movieDao.findByPrimaryKey(movietitle);
+        ArrayList<MovieReview> reviews = movieDao.getReviews(movietitle);
 
-        ModelAndView modelAndView = new ModelAndView("albumPage");
-        AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
-        Album album = albumDao.findByPrimaryKey(albumid);
-        ArrayList<Song> songs = albumDao.getSongs(albumid);
-        ArrayList<AlbumReview>  reviews = albumDao.getReviews(albumid);
-        ArrayList<String>  songsName = new ArrayList<>();
-
-        float durata = 0;
-        for(int i = 0; i < songs.size(); i++){
-            songsName.add(songs.get(i).getName());
-            durata += songs.get(i).getLength();
-        }
-
-        durata = (durata/1000)/60;
-
-        modelAndView.addObject("durata", (int)durata);
-        modelAndView.addObject("album", album);
-        modelAndView.addObject("songs", songs);
-        modelAndView.addObject("reviews", reviews);
+        modelAndView.addObject("reviews",reviews);
+        modelAndView.addObject("movie", movie);
 
         HttpSession session = request.getSession();
-        session.setAttribute("albumid", albumid);
-        if(session.getAttribute("nickname") != null)
-        {
+        session.setAttribute("movietitle", movietitle);
+        if(session.getAttribute("nickname") != null){
             User user = new User();
             user.setNickname(session.getAttribute("nickname").toString());
             user.setPermissions(Permissions.valueOf(session.getAttribute("permissions").toString()));
@@ -64,14 +49,10 @@ public class AlbumController {
         }
 
         return modelAndView;
-
-
     }
 
-
-    @PostMapping("/sendalbumreview")
-    public ModelAndView sendAlbumReview(HttpServletRequest request, @RequestParam( "reviewinput") String review)  {
-
+    @PostMapping("/sendmoviereview")
+    public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
         ModelAndView modelAndView = new ModelAndView();
 
         HttpSession session = request.getSession();
@@ -80,19 +61,19 @@ public class AlbumController {
             User user = new User();
             user.setNickname(session.getAttribute("nickname").toString());
             user.setPermissions(Permissions.valueOf(session.getAttribute("permissions").toString()));
-            AlbumReview albumReview = new AlbumReview();
-            albumReview.setUser(user.getNickname());
-            int idAlbum = Integer.parseInt(session.getAttribute("albumid").toString());
-            albumReview.setAlbumId(idAlbum);
-            albumReview.setDescription(review);
-            albumReview.setNumberOfStars((short) 3);
+            MovieReview movieReview = new MovieReview();
+            movieReview.setUser(user.getNickname());
+            String idMovie = session.getAttribute("movietitle").toString();
+            movieReview.setMovie(idMovie);
+            movieReview.setDescription(review);
+            movieReview.setNumberOfStars((short) 3);
             try {
-                DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC().addReview(albumReview);
+                DatabaseManager.getIstance().getDaoFactory().getMovieJDBC().addReview(movieReview);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
-           modelAndView.setViewName("redirect:/more?albumid="+ idAlbum );
+            modelAndView.setViewName("redirect:/more?movietitle="+ idMovie );
         }
         else
         {
@@ -102,5 +83,6 @@ public class AlbumController {
 
         return  modelAndView;
     }
+
 
 }

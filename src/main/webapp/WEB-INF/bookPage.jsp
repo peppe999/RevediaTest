@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Revedia - Scheda album</title>
+    <title>Revedia - Scheda libro</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
     <link rel="stylesheet" href="../fonts/font-awesome.min.css">
@@ -56,14 +56,14 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 </nav>
-    <div class="content-page-img" style="background-image: url(&quot;images/music/${album.id}.jpg&quot;);"></div>
+    <div class="content-page-img" style="background-image: url(&quot;images/books/${book.imageId}.jpg&quot;);"></div>
     <div class="card explore-card content-page-main-card">
         <div class="card-body">
             <div class="card-info">
                 <ul class="list-inline">
                     <c:forEach var="counter" begin="0" end="4">
                         <c:choose>
-                            <c:when test="${counter < album.rating}">
+                            <c:when test="${counter < book.rating}">
                                 <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
                             </c:when>
                             <c:otherwise>
@@ -72,83 +72,44 @@ pageEncoding="UTF-8"%>
                         </c:choose>
                     </c:forEach>
                 </ul>
-                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon user-icon"></i><c:out value="${album.user}"/></h6>
-                <h6 class="text-muted card-subtitle mb-2 last-subtitle"><i class="fa fa-spinner card-icon"></i>${album.postDate}</h6>
-                <h1 class="text-nowrap text-truncate card-title card-title-xl"><c:out value="${album.name}"/></h1>
+                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon user-icon"></i><c:out value="${book.user}"/></h6>
+                <h6 class="text-muted card-subtitle mb-2 last-subtitle"><i class="fa fa-spinner card-icon"></i><c:out value="${book.postDate}"/></h6>
+                <h1 class="text-nowrap text-truncate card-title card-title-xl"><c:out value="${book.title}"/></h1>
                 <div class="content-page-info-section">
-                    <h5 class="info-header-lbl"><i class="fa fa-microphone section-title-icon album-icon"></i>Artista</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${album.artist}"/></h4>
+                    <h5 class="info-header-lbl"><i class="fa fa-book section-title-icon"></i>Autore</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${book.artist}"/></h4>
                 </div>
                 <div class="content-page-info-section">
-                    <h5 class="info-header-lbl"><i class="fa fa-calendar section-title-icon calendar-icon"></i>Data di rilascio</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl">${album.releaseDate}</h4>
+                    <h5 class="info-header-lbl"><i class="fa fa-bookmark section-title-icon clock-icon"></i>Numero di pagine</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl">${book.numberOfPages}</h4>
                 </div>
                 <div class="content-page-info-section">
-                    <h5 class="info-header-lbl"><i class="fa fa-clock-o section-title-icon clock-icon"></i>Durata complessiva</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl">${durata}</h4>
-                </div>
-                <div class="content-page-info-section">
-                    <h5 class="info-header-lbl"><i class="fa fa-headphones section-title-icon clock-icon"></i>Etichetta</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${album.label}"/></h4>
+                    <h5 class="info-header-lbl"><i class="fa fa-print section-title-icon clock-icon"></i>Casa editrice</h5>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${book.publishingHouse}"/></h4>
                 </div>
                 <div class="content-page-info-section">
                     <h5 class="info-header-lbl"><i class="fa fa-info-circle section-title-icon genre-icon"></i>Genere</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${album.genre}"/></h4>
+                    <h4 class="text-nowrap text-truncate card-title info-lbl"><c:out value="${book.genres}"/></h4>
                 </div>
                 <div class="content-page-info-section">
-                    <h5 class="info-header-lbl"><i class="fa fa-music section-title-icon genre-icon"></i>Numero brani</h5>
-                    <h4 class="text-nowrap text-truncate card-title info-lbl">${album.numberOfSongs}</h4>
+                    <h5 class="info-header-lbl"><i class="fa fa-list section-title-icon"></i>Trama</h5>
+                    <p class="description-lbl"><c:out value="${book.description}"/><br></p>
                 </div>
             </div>
         </div>
     </div>
     <div class="home-main-container">
         <div class="container-fluid pulse animated content-section-area">
-            <h2><i class="fa fa-tasks section-title-icon"></i>Tracklist</h2>
+            <h2><i class="fa fa-file-text section-title-icon"></i>Estratto</h2>
             <div class="row">
-                <c:forEach items="${songs}" var="song">
-                    <div class="col">
-                        <div class="card home-card">
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <ul class="list-inline">
-                                        <c:forEach var="counter" begin="0" end="4">
-                                            <c:choose>
-                                                <c:when test="${counter < song.rating}">
-                                                    <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </ul>
-                                    <h4 class="card-title"><c:out value="${song.name}"/></h4>
-                                    <h6 class="text-muted card-subtitle mb-2">
-                                        <i class="fa fa-user card-icon"></i><c:out value="${song.user}"/></h6>
-                                    <a class="card-link" href="#">Scopri di più</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
+                <div class="col"><button class="btn btn-primary btn-sm" type="button">Leggi l'estratto</button></div>
+            </div>
         </div>
         <div class="container-fluid pulse animated content-section-area">
             <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
             <div class="row">
                 <div class="col">
-                    <div class="d-flex align-items-center flex-wrap add-review-rating-box">
-                        <h2 class="sub-header">Valutazione</h2>
-                        <ul class="list-inline text-nowrap">
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                        </ul>
-                    </div>
-                    <form>
-                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
+                    <h6 class="not-logged-msg">Devi essere autenticato per pubblicare una recensione</h6>
                 </div>
             </div>
         </div>
@@ -191,7 +152,8 @@ pageEncoding="UTF-8"%>
                         </div>
                     </div>
                 </c:forEach>
-
+            </div>
+                </div>
             </div>
         </div>
     </div>
@@ -200,7 +162,7 @@ pageEncoding="UTF-8"%>
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="#">Chi siamo</a></div>
+                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
             </div>
         </div>
     </footer>

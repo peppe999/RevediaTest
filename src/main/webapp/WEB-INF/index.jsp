@@ -37,11 +37,11 @@
             </form>
             <div class="dropdown ml-auto dropdown-user-controls" style="${hideuser}">
                 <a class="text-left dropdown-user-controls-btn" data-toggle="dropdown" aria-expanded="false" href="#">
-                    <i class="fa fa-user-circle"></i>${user.nickname}
+                    <i class="fa fa-user-circle"></i><c:out value="${user.nickname}"/>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-user-controls-menu">
                     <div class="dropdown-info-area"><i class="fa fa-user-circle"></i>
-                        <h5 class="dropdown-info-header">${user.nickname}</h5>
+                        <h5 class="dropdown-info-header"><c:out value="${user.nickname}"/></h5>
                         <h6 class="dropdown-info-subheader">Utente ${fn:toLowerCase(user.permissions)}</h6>
                     </div>
                     <div class="dropdown-divider"></div>
@@ -62,9 +62,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">ALBUM</h6>
-                    <h4 class="card-title">${albumCarousel.name}</h4>
+                    <h4 class="card-title"><c:out value="${albumCarousel.name}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${albumCarousel.user}</h6>
+                        <i class="fa fa-user card-icon"></i><c:out value="${albumCarousel.user}"/></h6>
                     <a class="card-link" href="/more?albumid=${albumCarousel.id}">Scopri di più</a>
                 </div>
             </div>
@@ -73,9 +73,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">BRANO</h6>
-                    <h4 class="card-title">${songCarousel.name}</h4>
+                    <h4 class="card-title"><c:out value="${songCarousel.name}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${songCarousel.user}</h6>
+                        <i class="fa fa-user card-icon"></i><c:out value="${songCarousel.user}"/></h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -84,9 +84,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">FILM</h6>
-                    <h4 class="card-title">${movieCarousel.title}</h4>
+                    <h4 class="card-title"><c:out value="${movieCarousel.title}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${movieCarousel.user}</h6>
+                        <i class="fa fa-user card-icon"></i><c:out value="${movieCarousel.user}"/></h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -95,9 +95,9 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="carousel-card-genre">LIBRO</h6>
-                    <h4 class="card-title">${bookCarousel.title}</h4>
+                    <h4 class="card-title"><c:out value="${bookCarousel.title}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
-                        <i class="fa fa-user card-icon"></i>${bookCarousel.user}</h6>
+                        <i class="fa fa-user card-icon"></i><c:out value="${bookCarousel.user}"/></h6>
                     <a class="card-link" href="#">Scopri di più</a>
                 </div>
             </div>
@@ -136,9 +136,9 @@
                                         </c:choose>
                                     </c:forEach>
                                 </ul>
-                                <h4 class="card-title">${song.name}</h4>
-                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${song.user}</h6>
-                                <a class="card-link" href="#">Scopri di più</a>
+                                <h4 class="card-title"><c:out value="${song.name}"/></h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${song.user}"/></h6>
+                                <a class="card-link" href="/moreSong?name=${song.name}&albumID=${song.albumID}">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -168,8 +168,8 @@
                                         </c:choose>
                                     </c:forEach>
                                 </ul>
-                                <h4 class="card-title">${album.name}</h4>
-                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${album.user}</h6>
+                                <h4 class="card-title"><c:out value="${album.name}"/></h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${album.user}"/></h6>
                                 <a class="card-link" href="/more?albumid=${album.id }">Scopri di più</a>
                             </div>
                         </div>
@@ -200,9 +200,9 @@
                                         </c:choose>
                                     </c:forEach>
                                 </ul>
-                                <h4 class="card-title">${movie.title}</h4>
-                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${movie.user}</h6>
-                                <a class="card-link" href="#">Scopri di più</a>
+                                <h4 class="card-title"><c:out value="${movie.title}"/></h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${movie.user}"/></h6>
+                                <a class="card-link" href="/moreMovie?title=${movie.title}">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -232,9 +232,9 @@
                                         </c:choose>
                                     </c:forEach>
                                 </ul>
-                                <h4 class="card-title">${book.title}</h4>
-                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${book.user}</h6>
-                                <a class="card-link" href="#">Scopri di più</a>
+                                <h4 class="card-title"><c:out value="${book.title}"/></h4>
+                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${book.user}"/></h6>
+                                <a class="card-link" href="/moreBook?title=${book.title}">Scopri di più</a>
                             </div>
                         </div>
                     </div>
