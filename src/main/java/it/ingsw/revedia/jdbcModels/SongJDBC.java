@@ -10,6 +10,7 @@ import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.SongDao;
 import it.ingsw.revedia.database.DatabaseManager;
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -160,15 +161,19 @@ public class SongJDBC implements SongDao {
 	}
 
 	@Override
-	public ArrayList<SongReview> getReviews(Song song) throws SQLException {
+	public ArrayList<SongReview> getReviews(String name, int albumId, Integer offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select users, song, album, numberofstars, description, postdate " + "from song_review "
-				+ "where song = ? and album = ?";
+		String query = "select users, song, album, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from song_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = false) dislikeT "
+				+ "where song = ? and album = ? ORDER BY postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setString(1, song.getName());
-		statment.setInt(2, song.getAlbumID());
+		statment.setString(1, name);
+		statment.setInt(2, albumId);
+		statment.setInt(3, offset);
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<SongReview> reviews = new ArrayList<SongReview>();
@@ -184,17 +189,48 @@ public class SongJDBC implements SongDao {
 	}
 
 	@Override
-	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname) throws SQLException {
+	public SongReview getUserReview(String name, int albumId, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT song_review.users, song_review.song, song_review.album, numberofstars, description, song_review.postdate, rat.rated "
-				+ "FROM song_review LEFT JOIN (SELECT users, song, album, rated FROM user_rates_song_review WHERE userthatrates = ?) as rat "
-				+ "ON song_review.users = rat.users and song_review.song = rat.song and song_review.album = rat.album "
-				+ "WHERE song_review.song = ? and song_review.album = ?";
+		String query = "select users, song, album, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from song_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = false) dislikeT "
+				+ "where song = ? and album = ? and users = ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, name);
+		statment.setInt(2, albumId);
+		statment.setString(3, nickname);
+		ResultSet result = statment.executeQuery();
+
+		SongReview review = null;
+		if (result.next()) {
+			review = buildReview(result, false);
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+		return review;
+	}
+
+	@Override
+	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname, Integer offset) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT reviewT.users, reviewT.song, reviewT.album, numberofstars, description, reviewT.postdate, rat.rated, likeNumber, dislikeNumber "
+				+ "FROM song_review reviewT LEFT JOIN (SELECT users, song, rated FROM user_rates_song_review WHERE userthatrates = ?) as rat "
+				+ "ON reviewT.users = rat.users and reviewT.song = rat.song, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_song_review WHERE users = reviewT.users and song = reviewT.song and album = reviewT.album and rated = false) dislikeT "
+				+ "where reviewT.song = ? and reviewT.album = ? ORDER BY reviewT.postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setString(2, name);
 		statment.setInt(3, albumId);
+		statment.setInt(4, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<SongReview> reviews = new ArrayList<SongReview>();
@@ -217,6 +253,8 @@ public class SongJDBC implements SongDao {
 		short numberOfStars = result.getShort("numberofstars");
 		String description = result.getString("description");
 		Date postDate = result.getDate("postdate");
+		Integer likeNumber = result.getInt("likeNumber");
+		Integer dislikeNumber = result.getInt("dislikeNumber");
 
 		SongReview review = new SongReview();
 		review.setUser(user);
@@ -225,6 +263,8 @@ public class SongJDBC implements SongDao {
 		review.setNumberOfStars(numberOfStars);
 		review.setDescription(description);
 		review.setPostDate(postDate);
+		review.setLikeNumber(likeNumber);
+		review.setDislikeNumber(dislikeNumber);
 
 		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");

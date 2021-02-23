@@ -27,7 +27,7 @@ public class MovieController {
         ModelAndView modelAndView = new ModelAndView("moviePage");
         MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
         Movie movie = movieDao.findByPrimaryKey(movietitle);
-        ArrayList<MovieReview> reviews = movieDao.getReviews(movietitle);
+        ArrayList<MovieReview> reviews = movieDao.getReviews(movietitle, 0);
 
         modelAndView.addObject("reviews",reviews);
         modelAndView.addObject("movie", movie);

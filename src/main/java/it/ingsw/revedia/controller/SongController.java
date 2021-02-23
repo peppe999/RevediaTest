@@ -25,7 +25,7 @@ public class SongController {
         ModelAndView modelAndView = new ModelAndView("songPage");
         SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
         Song song = songDao.findByPrimaryKey(songtitle, songid);
-        ArrayList<SongReview> reviews = songDao.getReviews(song);
+        ArrayList<SongReview> reviews = songDao.getReviews(songtitle, songid, 0);
 
 
         modelAndView.addObject("reviews", reviews);

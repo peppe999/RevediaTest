@@ -9,11 +9,11 @@ pageEncoding="UTF-8"%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Revedia - Scheda film</title>
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
-    <link rel="stylesheet" href="../fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
@@ -26,9 +26,9 @@ pageEncoding="UTF-8"%>
         <div class="collapse navbar-collapse"
              id="navcol-1">
             <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="music">Musica</a></li>
-                <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
-                <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
+                <li class="nav-item"><a class="nav-link" href="/music">Musica</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/movies">Film</a></li>
+                <li class="nav-item"><a class="nav-link" href="/books">Libri</a></li>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"><label class="searchLbl" for="search-field">
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 </nav>
-    <div class="content-page-img" style="background-image: url(&quot;images/movies/${movie.imageId}.jpg&quot;);"></div>
+    <div class="content-page-img" style="background-image: url(&quot;/images/movies/${movie.imageId}.jpg&quot;);"></div>
     <div class="card explore-card content-page-main-card">
         <div class="card-body">
             <div class="card-info">
@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div class="content-page-info-section">
                     <h5 class="info-header-lbl"><i class="fa fa-list section-title-icon"></i>Trama</h5>
-                    <p class="description-lbl"><c:out value="${movie.description}"/>}<br></p>
+                    <p class="description-lbl"><c:out value="${movie.description}"/><br></p>
                 </div>
             </div>
         </div>
@@ -167,9 +167,9 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
     </footer>
-    <script src="../js/jquery.min.js"></script>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
-    <script src="../js/bs-init.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/bs-init.js"></script>
 </body>
 
 </html>

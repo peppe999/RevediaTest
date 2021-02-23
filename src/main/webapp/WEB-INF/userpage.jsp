@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Revedia - peppe</title>
+    <title>Revedia - ${user.nickname}</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
     <link rel="stylesheet" href="../fonts/font-awesome.min.css">
@@ -22,9 +22,9 @@ pageEncoding="UTF-8"%>
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="#">Musica</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Film</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Libri</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/music">Musica</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/movies">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/books">Libri</a></li>
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                     <div class="form-group"><label class="searchLbl" for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off"></div>

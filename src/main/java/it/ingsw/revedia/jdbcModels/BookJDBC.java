@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.BookDao;
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
 
@@ -338,13 +339,18 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
-	public ArrayList<BookReview> getReviews(String title) throws SQLException {
+	public ArrayList<BookReview> getReviews(String title, Integer offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select users, book, numberofstars, description, postdate " + "from book_review "
-				+ "where book = ?";
+		String query = "select users, book, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from book_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = false) dislikeT "
+				+ "where book = ? ORDER BY postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, title);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
@@ -360,15 +366,47 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
-	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
+	public BookReview getUserReview(String title, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT book_review.users, book_review.book, numberofstars, description, book_review.postdate, rat.rated "
-				+ "FROM book_review LEFT JOIN (SELECT users, book, rated FROM user_rates_book_review WHERE userthatrates = ?) as rat "
-				+ "ON book_review.users = rat.users and book_review.book = rat.book " + "WHERE book_review.book = ?";
+		String query = "select users, book, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from book_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = false) dislikeT "
+				+ "where book = ? and users = ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, title);
+		statment.setString(2, nickname);
+		ResultSet result = statment.executeQuery();
+
+		BookReview review = null;
+		if (result.next()) {
+			review = buildReview(result, false);
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+		return review;
+	}
+
+
+	@Override
+	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname, Integer offset) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT reviewT.users, reviewT.book, numberofstars, description, reviewT.postdate, rat.rated, likeNumber, dislikeNumber "
+				+ "FROM book_review reviewT LEFT JOIN (SELECT users, book, rated FROM user_rates_book_review WHERE userthatrates = ?) as rat "
+				+ "ON reviewT.users = rat.users and reviewT.book = rat.book, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_book_review WHERE users = reviewT.users and book = reviewT.book and rated = false) dislikeT "
+				+ "where reviewT.book = ? ORDER BY reviewT.postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
+
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setString(2, title);
+		statment.setInt(3, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<BookReview> reviews = new ArrayList<BookReview>();
@@ -389,6 +427,8 @@ public class BookJDBC implements BookDao {
 		short numberOfStars = result.getShort("numberofstars");
 		String description = result.getString("description");
 		Date postDate = result.getDate("postdate");
+		Integer likeNumber = result.getInt("likeNumber");
+		Integer dislikeNumber = result.getInt("dislikeNumber");
 
 		BookReview review = new BookReview();
 		review.setUser(user);
@@ -396,6 +436,8 @@ public class BookJDBC implements BookDao {
 		review.setDescription(description);
 		review.setNumberOfStars(numberOfStars);
 		review.setPostDate(postDate);
+		review.setLikeNumber(likeNumber);
+		review.setDislikeNumber(dislikeNumber);
 
 		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");

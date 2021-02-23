@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.MovieDao;
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
 
@@ -286,13 +287,18 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<MovieReview> getReviews(String title) throws SQLException {
+	public ArrayList<MovieReview> getReviews(String title, Integer offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select users, movie, numberofstars, description, postdate " + "from movie_review "
-				+ "where movie = ?";
+		String query = "select users, movie, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from movie_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = false) dislikeT "
+				+ "where movie = ? ORDER BY postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
+		
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, title);
+		statment.setInt(2, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
@@ -308,16 +314,46 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname) throws SQLException {
+	public MovieReview getUserReview(String title, String nickname) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "SELECT movie_review.users, movie_review.movie, numberofstars, description, movie_review.postdate, rat.rated "
-				+ "FROM movie_review LEFT JOIN (SELECT users, movie, rated FROM user_rates_movie_review WHERE userthatrates = ?) as rat "
-				+ "ON movie_review.users = rat.users and movie_review.movie = rat.movie "
-				+ "WHERE movie_review.movie = ?";
+		String query = "select users, movie, numberofstars, description, postdate, likeNumber, dislikeNumber " + "from movie_review reviewT, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = false) dislikeT "
+				+ "where movie = ? and users = ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, title);
+		statment.setString(2, nickname);
+		ResultSet result = statment.executeQuery();
+
+		MovieReview review = null;
+		if (result.next()) {
+			review = buildReview(result, false);
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+		return review;
+	}
+
+
+	@Override
+	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname, Integer offset) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT reviewT.users, reviewT.movie, numberofstars, description, reviewT.postdate, rat.rated, likeNumber, dislikeNumber "
+				+ "FROM movie_review reviewT LEFT JOIN (SELECT users, movie, rated FROM user_rates_movie_review WHERE userthatrates = ?) as rat "
+				+ "ON reviewT.users = rat.users and reviewT.movie = rat.movie, LATERAL " +
+				"(select COUNT(*) as likeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = true) likeT, LATERAL " +
+				"(select COUNT(*) as dislikeNumber FROM user_rates_movie_review WHERE users = reviewT.users and movie = reviewT.movie and rated = false) dislikeT "
+				+ "where reviewT.movie = ? ORDER BY reviewT.postdate DESC, likeNumber DESC, dislikeNumber ASC, numberofstars DESC, reviewT.users DESC " +
+				"limit 15 offset ?";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, nickname);
 		statment.setString(2, title);
+		statment.setInt(3, offset);
 		ResultSet result = statment.executeQuery();
 
 		ArrayList<MovieReview> reviews = new ArrayList<MovieReview>();
@@ -338,6 +374,8 @@ public class MovieJDBC implements MovieDao {
 		short numberOfStars = result.getShort("numberofstars");
 		String description = result.getString("description");
 		Date postDate = result.getDate("postdate");
+		Integer likeNumber = result.getInt("likeNumber");
+		Integer dislikeNumber = result.getInt("dislikeNumber");
 
 		MovieReview review = new MovieReview();
 		review.setUser(user);
@@ -345,6 +383,8 @@ public class MovieJDBC implements MovieDao {
 		review.setNumberOfStars(numberOfStars);
 		review.setDescription(description);
 		review.setPostDate(postDate);
+		review.setLikeNumber(likeNumber);
+		review.setDislikeNumber(dislikeNumber);
 
 		if (withRateMode) {
 			Boolean rating = result.getBoolean("rated");
