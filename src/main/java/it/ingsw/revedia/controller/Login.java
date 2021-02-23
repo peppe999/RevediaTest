@@ -4,12 +4,10 @@ import java.sql.SQLException;
 
 import it.ingsw.revedia.jdbcModels.TupleNotFoundException;
 import it.ingsw.revedia.jdbcModels.UserJDBC;
+import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.utilities.EmailManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.User;
@@ -60,5 +58,13 @@ public class Login
 		}
 		
 		return model;
+	}
+
+	@PostMapping("/checkLogin")
+	@ResponseBody
+	public Boolean checkLogin(HttpServletRequest request) {
+		if(request.getSession().getAttribute("nickname") != null)
+			return true;
+		return false;
 	}
 }

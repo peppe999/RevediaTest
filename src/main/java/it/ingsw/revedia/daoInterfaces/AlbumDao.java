@@ -18,8 +18,9 @@ public interface AlbumDao
 	public void deleteAlbum(int id) throws SQLException;
 	public ArrayList<Song> getSongs(int id) throws SQLException;
 	
-	public ArrayList<AlbumReview> getReviews(int albumId) throws SQLException;
-	public ArrayList<AlbumReview> getReviewsByUserRater(int albumId, String nickname) throws SQLException;
+	public ArrayList<AlbumReview> getReviews(int albumId, int offset) throws SQLException;
+	public AlbumReview getUserReview(int albumId, String nickname) throws SQLException;
+	public ArrayList<AlbumReview> getReviewsByUserRater(int albumId, String nickname, int offset) throws SQLException;
 	public void addReview(AlbumReview review) throws SQLException;
 	public void deleteReview(String nickname, int albumId) throws SQLException;
 	public void updateReview(AlbumReview review) throws SQLException;

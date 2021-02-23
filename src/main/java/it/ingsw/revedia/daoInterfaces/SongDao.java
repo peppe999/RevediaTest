@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
@@ -18,8 +19,9 @@ public interface SongDao
 	public Song findByPrimaryKey(String name, int albumKey) throws SQLException;
 	public List<Song> findAll() throws SQLException;
 	
-	public ArrayList<SongReview> getReviews(Song song) throws SQLException;
-	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname) throws SQLException;
+	public ArrayList<SongReview> getReviews(String name, int albumId, Integer offset) throws SQLException;
+	public SongReview getUserReview(String name, int albumId, String nickname) throws SQLException;
+	public ArrayList<SongReview> getReviewsByUserRater(String name, int albumId, String nickname, Integer offset) throws SQLException;
 	public void addReview(SongReview review) throws SQLException;
 	public void deleteReview(String nickname, String song, int albumId) throws SQLException;
 	public void updateReview(SongReview review) throws SQLException;

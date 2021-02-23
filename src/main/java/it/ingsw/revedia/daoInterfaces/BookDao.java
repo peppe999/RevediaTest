@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
 
@@ -22,9 +23,9 @@ public interface BookDao {
 
 	public void deleteBook(String title) throws SQLException;
 
-	public ArrayList<BookReview> getReviews(String title) throws SQLException;
-
-	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname) throws SQLException;
+	public ArrayList<BookReview> getReviews(String title, Integer offset) throws SQLException;
+	public BookReview getUserReview(String title, String nickname) throws SQLException;
+	public ArrayList<BookReview> getReviewsByUserRater(String title, String nickname, Integer offset) throws SQLException;
 
 	public void addReview(BookReview review) throws SQLException;
 

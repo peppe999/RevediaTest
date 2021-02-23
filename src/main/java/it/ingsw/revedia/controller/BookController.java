@@ -26,7 +26,7 @@ public class BookController {
         ModelAndView modelAndView = new ModelAndView("bookPage");
         BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
         Book book = bookDao.findByPrimaryKey(booktitle);
-        ArrayList<BookReview> reviews = bookDao.getReviews(booktitle);
+        ArrayList<BookReview> reviews = bookDao.getReviews(booktitle, 0);
 
         modelAndView.addObject("reviews", reviews);
         modelAndView.addObject("book", book);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.model.Album;
+import it.ingsw.revedia.model.BookReview;
 import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.MovieReview;
 
@@ -19,9 +20,9 @@ public interface MovieDao {
 
 	public void updateMovie(Movie movie) throws SQLException;
 
-	public ArrayList<MovieReview> getReviews(String title) throws SQLException;
-
-	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname) throws SQLException;
+	public ArrayList<MovieReview> getReviews(String title, Integer offset) throws SQLException;
+	public MovieReview getUserReview(String title, String nickname) throws SQLException;
+	public ArrayList<MovieReview> getReviewsByUserRater(String title, String nickname, Integer offset) throws SQLException;
 
 	public void addReview(MovieReview review) throws SQLException;
 
