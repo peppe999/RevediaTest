@@ -19,8 +19,8 @@ import java.util.ArrayList;
 @Controller
 public class SongController {
 
-    @GetMapping(value = "/moreSong")
-    public ModelAndView getSong(@RequestParam("name") String songtitle, @RequestParam("albumID") int songid, HttpServletRequest request) throws SQLException {
+    @GetMapping("/music/song")
+    public ModelAndView getSong(@RequestParam("name") String songtitle, @RequestParam("album") int songid, HttpServletRequest request) throws SQLException {
 
         ModelAndView modelAndView = new ModelAndView("songPage");
         SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();

@@ -98,13 +98,29 @@ var loadBookReviews = function () {
     });
 }
 
+var manageRatingResponse = function (response, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
+    if(!response)
+        return;
+
+    if(rate) {
+        if(dislikeBtn.classList.contains("selected-like-icon"))
+            dislikeCounter.innerText = parseInt(dislikeCounter.innerText) - 1;
+
+        dislikeBtn.classList.remove("selected-like-icon");
+        likeBtn.classList.add("selected-like-icon");
+        likeCounter.innerText = parseInt(likeCounter.innerText) + 1;
+    }
+    else {
+        if(likeBtn.classList.contains("selected-like-icon"))
+            likeCounter.innerText = parseInt(likeCounter.innerText) - 1;
+
+        dislikeBtn.classList.add("selected-like-icon");
+        likeBtn.classList.remove("selected-like-icon");
+        dislikeCounter.innerText = parseInt(dislikeCounter.innerText) + 1;
+    }
+}
+
 var rateAlbumReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
-    if(likeBtn.classList.contains("selected-like-icon") && rate)
-        return;
-
-    if(dislikeBtn.classList.contains("selected-like-icon") && !rate)
-        return;
-
     $.ajax({
         url: requestUrl + "/rateReview",
         method: "POST",
@@ -114,26 +130,7 @@ var rateAlbumReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, di
             rating: rate
         },
         success: function (response) {
-            if(!response)
-                return;
-
-            if(rate) {
-                if(dislikeBtn.classList.contains("selected-like-icon"))
-                    dislikeCounter.innerText = parseInt(dislikeCounter.innerText) - 1;
-
-                dislikeBtn.classList.remove("selected-like-icon");
-                likeBtn.classList.add("selected-like-icon");
-                likeCounter.innerText = parseInt(likeCounter.innerText) + 1;
-            }
-            else {
-                if(likeBtn.classList.contains("selected-like-icon"))
-                    likeCounter.innerText = parseInt(likeCounter.innerText) - 1;
-
-                dislikeBtn.classList.add("selected-like-icon");
-                likeBtn.classList.remove("selected-like-icon");
-                dislikeCounter.innerText = parseInt(dislikeCounter.innerText) + 1;
-            }
-
+            manageRatingResponse(response, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter);
         },
         fail: function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
@@ -142,12 +139,6 @@ var rateAlbumReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, di
 }
 
 var rateSongReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
-    if(likeBtn.classList.contains("selected-like-icon") && rate)
-        return;
-
-    if(dislikeBtn.classList.contains("selected-like-icon") && !rate)
-        return;
-
     $.ajax({
         url: requestUrl + "/rateReview",
         method: "POST",
@@ -158,26 +149,7 @@ var rateSongReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dis
             rating: rate
         },
         success: function (response) {
-            if(!response)
-                return;
-
-            if(rate) {
-                if(dislikeBtn.classList.contains("selected-like-icon"))
-                    dislikeCounter.innerText = parseInt(dislikeCounter.innerText) - 1;
-
-                dislikeBtn.classList.remove("selected-like-icon");
-                likeBtn.classList.add("selected-like-icon");
-                likeCounter.innerText = parseInt(likeCounter.innerText) + 1;
-            }
-            else {
-                if(likeBtn.classList.contains("selected-like-icon"))
-                    likeCounter.innerText = parseInt(likeCounter.innerText) - 1;
-
-                dislikeBtn.classList.add("selected-like-icon");
-                likeBtn.classList.remove("selected-like-icon");
-                dislikeCounter.innerText = parseInt(dislikeCounter.innerText) + 1;
-            }
-
+            manageRatingResponse(response, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter);
         },
         fail: function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
@@ -186,12 +158,6 @@ var rateSongReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dis
 }
 
 var rateMovieReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
-    if(likeBtn.classList.contains("selected-like-icon") && rate)
-        return;
-
-    if(dislikeBtn.classList.contains("selected-like-icon") && !rate)
-        return;
-
     $.ajax({
         url: requestUrl + "/rateReview",
         method: "POST",
@@ -201,26 +167,7 @@ var rateMovieReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, di
             rating: rate
         },
         success: function (response) {
-            if(!response)
-                return;
-
-            if(rate) {
-                if(dislikeBtn.classList.contains("selected-like-icon"))
-                    dislikeCounter.innerText = parseInt(dislikeCounter.innerText) - 1;
-
-                dislikeBtn.classList.remove("selected-like-icon");
-                likeBtn.classList.add("selected-like-icon");
-                likeCounter.innerText = parseInt(likeCounter.innerText) + 1;
-            }
-            else {
-                if(likeBtn.classList.contains("selected-like-icon"))
-                    likeCounter.innerText = parseInt(likeCounter.innerText) - 1;
-
-                dislikeBtn.classList.add("selected-like-icon");
-                likeBtn.classList.remove("selected-like-icon");
-                dislikeCounter.innerText = parseInt(dislikeCounter.innerText) + 1;
-            }
-
+            manageRatingResponse(response, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter);
         },
         fail: function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
@@ -229,12 +176,6 @@ var rateMovieReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, di
 }
 
 var rateBookReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
-    if(likeBtn.classList.contains("selected-like-icon") && rate)
-        return;
-
-    if(dislikeBtn.classList.contains("selected-like-icon") && !rate)
-        return;
-
     $.ajax({
         url: requestUrl + "/rateReview",
         method: "POST",
@@ -244,26 +185,7 @@ var rateBookReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dis
             rating: rate
         },
         success: function (response) {
-            if(!response)
-                return;
-
-            if(rate) {
-                if(dislikeBtn.classList.contains("selected-like-icon"))
-                    dislikeCounter.innerText = parseInt(dislikeCounter.innerText) - 1;
-
-                dislikeBtn.classList.remove("selected-like-icon");
-                likeBtn.classList.add("selected-like-icon");
-                likeCounter.innerText = parseInt(likeCounter.innerText) + 1;
-            }
-            else {
-                if(likeBtn.classList.contains("selected-like-icon"))
-                    likeCounter.innerText = parseInt(likeCounter.innerText) - 1;
-
-                dislikeBtn.classList.add("selected-like-icon");
-                likeBtn.classList.remove("selected-like-icon");
-                dislikeCounter.innerText = parseInt(dislikeCounter.innerText) + 1;
-            }
-
+            manageRatingResponse(response, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter);
         },
         fail: function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
@@ -272,6 +194,12 @@ var rateBookReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dis
 }
 
 var rateReview = function (user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter) {
+    if(likeBtn.classList.contains("selected-like-icon") && rate)
+        return;
+
+    if(dislikeBtn.classList.contains("selected-like-icon") && !rate)
+        return;
+
     switch (type) {
         case "album":
             rateAlbumReview(user, likeBtn, dislikeBtn, rate, likeCounter, dislikeCounter);

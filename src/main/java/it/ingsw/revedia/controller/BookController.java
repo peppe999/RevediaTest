@@ -20,7 +20,7 @@ import java.util.ArrayList;
 @Controller
 public class BookController {
 
-    @GetMapping("/moreBook")
+    @GetMapping("books/book")
     public ModelAndView getBook(@RequestParam("title") String booktitle, HttpServletRequest request) throws SQLException {
 
         ModelAndView modelAndView = new ModelAndView("bookPage");
