@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <c:forEach items="${reviews}" var="review">
@@ -29,8 +29,8 @@
                             </div>
                             <div class="col align-self-center review-card-user-area-container">
                                 <div class="justify-content-start align-items-center flex-wrap justify-content-sm-end review-card-user-area">
-                                    <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon like-bts like-icon <c:if test="${not empty review.actualUserRate && review.actualUserRate}">selected-like-icon</c:if>"></i><span class="like-counter">${review.likeNumber}</span></h6>
-                                    <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon dislike-btn like-icon <c:if test="${not empty review.actualUserRate && not review.actualUserRate}">selected-like-icon</c:if>"></i><span class="dislike-counter">${review.dislikeNumber}</span></h6>
+                                    <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon like-bts locked-like-icon like-icon <c:if test="${not empty review.actualUserRate && review.actualUserRate}">selected-like-icon</c:if>"></i><span class="like-counter">${review.likeNumber}</span></h6>
+                                    <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon dislike-btn locked-like-icon like-icon <c:if test="${not empty review.actualUserRate && not review.actualUserRate}">selected-like-icon</c:if>"></i><span class="dislike-counter">${review.dislikeNumber}</span></h6>
                                 </div>
                             </div>
                         </div>
