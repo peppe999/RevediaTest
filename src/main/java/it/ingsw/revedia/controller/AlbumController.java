@@ -117,6 +117,10 @@ public class AlbumController {
     }
 
 
+
+
+    // STO METODO QUI E' DA FARE!!!
+
     @PostMapping("/sendalbumreview")
     public ModelAndView sendAlbumReview(HttpServletRequest request, @RequestParam( "reviewinput") String review)  {
 

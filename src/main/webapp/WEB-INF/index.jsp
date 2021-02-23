@@ -8,11 +8,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Revedia - Home</title>
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
-    <link rel="stylesheet" href="../fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
@@ -65,7 +65,7 @@
                     <h4 class="card-title"><c:out value="${albumCarousel.name}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
                         <i class="fa fa-user card-icon"></i><c:out value="${albumCarousel.user}"/></h6>
-                    <a class="card-link" href="/more?albumid=${albumCarousel.id}">Scopri di più</a>
+                    <a class="card-link" href="/music/album?id=${albumCarousel.id}">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                     <h4 class="card-title"><c:out value="${songCarousel.name}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
                         <i class="fa fa-user card-icon"></i><c:out value="${songCarousel.user}"/></h6>
-                    <a class="card-link" href="#">Scopri di più</a>
+                    <a class="card-link" href="/music/song?name=<c:out value="${songCarousel.name}"/>&album=${songCarousel.albumID}">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                     <h4 class="card-title"><c:out value="${movieCarousel.title}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
                         <i class="fa fa-user card-icon"></i><c:out value="${movieCarousel.user}"/></h6>
-                    <a class="card-link" href="#">Scopri di più</a>
+                    <a class="card-link" href="/movies/movie?title=<c:out value="${movieCarousel.title}"/>">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
                     <h4 class="card-title"><c:out value="${bookCarousel.title}"/></h4>
                     <h6 class="text-muted card-subtitle mb-2">
                         <i class="fa fa-user card-icon"></i><c:out value="${bookCarousel.user}"/></h6>
-                    <a class="card-link" href="#">Scopri di più</a>
+                    <a class="card-link" href="/books/book?title=<c:out value="${bookCarousel.title}"/>">Scopri di più</a>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                                 </ul>
                                 <h4 class="card-title"><c:out value="${song.name}"/></h4>
                                 <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${song.user}"/></h6>
-                                <a class="card-link" href="/moreSong?name=${song.name}&albumID=${song.albumID}">Scopri di più</a>
+                                <a class="card-link" href="/music/song?name=<c:out value="${song.name}"/>&album=${song.albumID}">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                                 </ul>
                                 <h4 class="card-title"><c:out value="${album.name}"/></h4>
                                 <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${album.user}"/></h6>
-                                <a class="card-link" href="/more?albumid=${album.id }">Scopri di più</a>
+                                <a class="card-link" href="/music/album?id=${album.id}">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                                 </ul>
                                 <h4 class="card-title"><c:out value="${movie.title}"/></h4>
                                 <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${movie.user}"/></h6>
-                                <a class="card-link" href="/moreMovie?title=${movie.title}">Scopri di più</a>
+                                <a class="card-link" href="/movies/movie?title=<c:out value="${movie.title}"/>">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -234,7 +234,7 @@
                                 </ul>
                                 <h4 class="card-title"><c:out value="${book.title}"/></h4>
                                 <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${book.user}"/></h6>
-                                <a class="card-link" href="/moreBook?title=${book.title}">Scopri di più</a>
+                                <a class="card-link" href="/books/book?title=<c:out value="${book.title}"/>">Scopri di più</a>
                             </div>
                         </div>
                     </div>
@@ -255,9 +255,9 @@
         </div>
     </div>
 </footer>
-<script src="../js/jquery.min.js"></script>
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../js/bs-init.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/bs-init.js"></script>
 </body>
 
 </html>

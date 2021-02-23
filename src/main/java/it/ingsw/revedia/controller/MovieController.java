@@ -21,9 +21,8 @@ import java.util.ArrayList;
 @Controller
 public class MovieController {
 
-    @GetMapping("/moreMovie")
+    @GetMapping("movies/movie")
     public ModelAndView getMovie(@RequestParam("title") String movietitle, HttpServletRequest request) throws SQLException {
-
         ModelAndView modelAndView = new ModelAndView("moviePage");
         MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
         Movie movie = movieDao.findByPrimaryKey(movietitle);
