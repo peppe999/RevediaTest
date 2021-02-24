@@ -103,63 +103,86 @@
             </div>
         </div>
         <div class="container-fluid pulse animated content-section-area">
-            <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex align-items-center add-review-rating-box">
-                        <h2 class="sub-header">Valutazione</h2>
-                        <ul class="list-inline">
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                        </ul>
+            <c:choose>
+                <c:when test="${not logged}">
+                    <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="not-logged-msg">Devi essere autenticato per pubblicare una recensione</h6>
+                        </div>
                     </div>
-                    <form>
-                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid pulse animated content-section-area">
-            <h2><i class="fa fa-users section-title-icon"></i>Recensioni</h2>
-            <div class="row">
-                <c:forEach items="${reviews}" var="review">
-                    <div class="col">
-                        <div class="card explore-card review-card">
-                            <div class="card-body">
-                                <div class="card-info">
-                                    <div class="row review-card-header">
-                                        <div class="col d-md-flex align-self-center align-items-md-center review-card-user-area-container left-container">
-                                            <div class="d-flex align-items-center flex-wrap review-card-user-area">
-                                                <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${review.user}"/></h6>
-                                                <ul class="list-inline text-nowrap">
-                                                    <c:forEach var="counter" begin="0" end="4">
-                                                        <c:choose>
-                                                            <c:when test="${counter < review.numberOfStars}">
-                                                                <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <li class="list-inline-item star"><i class="fa fa-star"></i></li>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:forEach>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col align-self-center review-card-user-area-container">
-                                            <div class="justify-content-start align-items-center flex-wrap justify-content-sm-end review-card-user-area">
-                                                <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon like-icon selected-like-icon"></i>143</h6>
-                                                <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon like-icon"></i>21</h6>
+                </c:when>
+                <c:otherwise>
+                    <c:choose>
+                        <c:when test="${empty myreview}">
+                            <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="d-flex align-items-center flex-wrap add-review-rating-box">
+                                        <h2 class="sub-header">Valutazione</h2>
+                                        <ul class="list-inline text-nowrap">
+                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                        </ul>
+                                    </div>
+                                    <form>
+                                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <h2><i class="fa fa-pencil-square section-title-icon"></i>La tua recensione</h2>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card explore-card review-card">
+                                        <div class="card-body">
+                                            <div class="card-info">
+                                                <div class="row review-card-header">
+                                                    <div class="col d-md-flex align-self-center align-items-md-center review-card-user-area-container left-container">
+                                                        <div class="d-flex align-items-center flex-wrap review-card-user-area">
+                                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i><c:out value="${myreview.user}"/></h6>
+                                                            <ul class="list-inline text-nowrap">
+                                                                <c:forEach var="counter" begin="0" end="4">
+                                                                    <c:choose>
+                                                                        <c:when test="${counter < myreview.numberOfStars}">
+                                                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:forEach>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col align-self-center review-card-user-area-container">
+                                                        <div class="justify-content-start align-items-center flex-wrap justify-content-sm-end review-card-user-area">
+                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon locked-like-icon like-icon"></i>${myreview.likeNumber}</h6>
+                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon locked-like-icon like-icon"></i>${myreview.dislikeNumber}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="review-card-txt"><c:out value="${myreview.description}"/></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="review-card-txt"><c:out value="${review.description}"/></p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="container-fluid pulse animated content-section-area" id="reviews-container">
+            <h2><i class="fa fa-users section-title-icon"></i>Recensioni</h2>
+            <h6 class="no-result-lbl" id="no-reviews" style="display: none">Nessuna recensione</h6>
+        </div>
+        <div class="container-fluid pulse animated">
+            <div class="row">
+                <div class="col-auto align-self-center m-auto spinner-col"><span class="spinner-grow" role="status" id="loading-spinner"></span></div>
             </div>
         </div>
     </div>
@@ -175,6 +198,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/bs-init.js"></script>
+    <script src="/js/reviewsLoader.js"></script>
 </body>
 
 </html>
