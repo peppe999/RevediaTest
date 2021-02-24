@@ -121,38 +121,28 @@ public class AlbumController {
 
     // STO METODO QUI E' DA FARE!!!
 
-    @PostMapping("/sendalbumreview")
-    public ModelAndView sendAlbumReview(HttpServletRequest request, @RequestParam( "reviewinput") String review)  {
+    @PostMapping("/music/album/sendreview")
+    public ModelAndView sendAlbumReview(@RequestParam("id") Integer albumid, @RequestParam("text") String text, @RequestParam("rating") Integer rating, HttpServletRequest request)  {
 
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("myReview");
 
         HttpSession session = request.getSession();
         if(session.getAttribute("nickname") != null)
         {
-            User user = new User();
-            user.setNickname(session.getAttribute("nickname").toString());
-            user.setPermissions(Permissions.valueOf(session.getAttribute("permissions").toString()));
             AlbumReview albumReview = new AlbumReview();
-            albumReview.setUser(user.getNickname());
-            int idAlbum = Integer.parseInt(session.getAttribute("albumid").toString());
-            albumReview.setAlbumId(idAlbum);
-            albumReview.setDescription(review);
-            albumReview.setNumberOfStars((short) 3);
+            albumReview.setUser(session.getAttribute("nickname").toString());
+            albumReview.setAlbumId(albumid);
+            albumReview.setDescription(text);
+            albumReview.setNumberOfStars(rating.shortValue());
             try {
                 DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC().addReview(albumReview);
+                modelAndView.addObject("myreview", albumReview);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
-           modelAndView.setViewName("redirect:/more?albumid="+ idAlbum );
-        }
-        else
-        {
-
-            modelAndView.setViewName("redirect:/Login");
         }
 
-        return  modelAndView;
+        return modelAndView;
     }
 
 }

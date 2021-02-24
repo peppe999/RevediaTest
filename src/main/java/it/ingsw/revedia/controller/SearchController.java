@@ -84,10 +84,13 @@ public class SearchController {
 		else {
 			expression = "(";
 			for(String token : tokens) {
-				expression += token + "|";
+				if(token.length() > 1)
+					expression += token + "|";
 			}
 			expression = expression.substring(0, expression.length() - 1) + ")";
 		}
+
+		System.out.println(expression);
 
 		return expression;
 	}
@@ -147,16 +150,22 @@ public class SearchController {
 		ModelAndView model = loadMainInfo(query, null, request);
 		String queryExp = getQueryExpression(query);
 
+		loadSomeResults(queryExp, model, 4);
+
+		return model;
+	}
+
+	private void loadSomeResults(String queryExp, ModelAndView model, Integer limit) {
 		try {
 			BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
 			MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
 			SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 			AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 
-			ArrayList<Book> books = bookDao.searchByKeyWords(queryExp, 4, 0);
-			ArrayList<Movie> movies = movieDao.searchByKeyWords(queryExp, 4, 0);
-			ArrayList<Song> songs = songDao.searchByKeyWords(queryExp, 4, 0);
-			ArrayList<Album> albums = albumDao.searchByKeyWords(queryExp, 4, 0);
+			ArrayList<Book> books = bookDao.searchByKeyWords(queryExp, limit, 0);
+			ArrayList<Movie> movies = movieDao.searchByKeyWords(queryExp, limit, 0);
+			ArrayList<Song> songs = songDao.searchByKeyWords(queryExp, limit, 0);
+			ArrayList<Album> albums = albumDao.searchByKeyWords(queryExp, limit, 0);
 
 			model.addObject("booksList", books);
 			model.addObject("moviesList", movies);
@@ -166,13 +175,21 @@ public class SearchController {
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-
-		return model;
 	}
 
 	@PostMapping("/search")
 	public ModelAndView getContents(@RequestParam("query") String query, @RequestParam("type") String type, @RequestParam("offset") Integer offset) {
 		return loadResultsByType(query, type, offset);
+	}
+
+	@PostMapping("/search/autocomplete")
+	public ModelAndView getAutocompleteResults(@RequestParam("query") String query) {
+		ModelAndView model = new ModelAndView("searchAutocomplete");
+		String queryExp = getQueryExpression(query);
+
+		loadSomeResults(queryExp, model, 1);
+
+		return model;
 	}
 /*
 	@GetMapping("/books/explore/numberOfContents")

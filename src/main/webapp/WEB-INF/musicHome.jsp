@@ -30,10 +30,9 @@
                     <li class="nav-item"><a class="nav-link" href="movies">Film</a></li>
                     <li class="nav-item"><a class="nav-link" href="books">Libri</a></li>
                 </ul>
-                <form class="form-inline mr-auto" target="_self">
-                    <div class="form-group"><label class="searchLbl" for="search-field">
-                        <i class="fa fa-search"></i></label>
-                        <input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off">
+                <form class="form-inline mr-auto search-form" action="/search">
+                    <div class="form-group"><label class="searchLbl" for="search-field-box"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-box" name="query" placeholder="Cerca un contenuto" autocomplete="off"></div>
+                    <div class="search-autocomplete-box" style="display: none">
                     </div>
                 </form>
                 <div class="dropdown ml-auto dropdown-user-controls" style="${hideuser}">
@@ -260,6 +259,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/bs-init.js"></script>
+    <script src="/js/autocompleteLoader.js"></script>
 </body>
 
 </html>
