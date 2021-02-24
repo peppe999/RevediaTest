@@ -30,10 +30,9 @@ pageEncoding="UTF-8"%>
                 <li class="nav-item"><a class="nav-link" href="/movies">Film</a></li>
                 <li class="nav-item"><a class="nav-link" href="/books">Libri</a></li>
             </ul>
-            <form class="form-inline mr-auto" target="_self">
-                <div class="form-group"><label class="searchLbl" for="search-field">
-                    <i class="fa fa-search"></i></label>
-                    <input class="form-control search-field" type="search" id="search-field-1" name="search" placeholder="Cerca un contenuto" autocomplete="off">
+            <form class="form-inline mr-auto search-form" action="/search">
+                <div class="form-group"><label class="searchLbl" for="search-field-box"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" id="search-field-box" name="query" placeholder="Cerca un contenuto" autocomplete="off"></div>
+                <div class="search-autocomplete-box" style="display: none">
                 </div>
             </form>
             <div class="dropdown ml-auto dropdown-user-controls" style="${hideuser}">
@@ -134,7 +133,7 @@ pageEncoding="UTF-8"%>
                 </c:forEach>
             </div>
         </div>
-        <div class="container-fluid pulse animated content-section-area">
+        <div class="container-fluid pulse animated content-section-area" id="my-review-container">
             <c:choose>
                 <c:when test="${not logged}">
                     <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
@@ -152,16 +151,25 @@ pageEncoding="UTF-8"%>
                                 <div class="col">
                                     <div class="d-flex align-items-center flex-wrap add-review-rating-box">
                                         <h2 class="sub-header">Valutazione</h2>
-                                        <ul class="list-inline text-nowrap">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                        <ul class="list-inline text-nowrap" id="new-review-stars">
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                     </div>
                                     <form>
-                                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
+                                        <div class="form-group">
+                                            <label class="text-area-lbl">Testo della recensione</label>
+                                            <textarea class="form-control form-input-field" id="new-review-text" required=""></textarea>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm" type="button" id="send-review-btn">Invia recensione</button>
+                                        <span class="form-input-msg form-input-error-msg" id="send-review-error-lbl" style="display: none;"></span>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-auto align-self-center m-auto spinner-col"><span class="spinner-grow" role="status" id="loading-review-spinner" style="display: none"></span></div>
+                                    </div>
                                 </div>
                             </div>
                         </c:when>
@@ -231,6 +239,10 @@ pageEncoding="UTF-8"%>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/bs-init.js"></script>
     <script src="/js/reviewsLoader.js"></script>
+    <script src="/js/autocompleteLoader.js"></script>
+    <c:if test="${logged && empty myreview}">
+        <script src="/js/sendReview.js"></script>
+    </c:if>
 </body>
 
 </html>
