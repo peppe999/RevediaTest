@@ -30,7 +30,7 @@ public interface MovieDao {
 
 	public void updateReview(MovieReview review) throws SQLException;
 
-	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Movie> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
 
 	public List<Movie> findAll() throws SQLException;
 

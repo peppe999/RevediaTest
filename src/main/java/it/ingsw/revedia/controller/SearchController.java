@@ -73,39 +73,24 @@ public class SearchController {
 		return model;
 	}
 
-	private String getQueryExpression(String plainQuery) {
-		String expression;
-
+	private String[] getQueryList(String plainQuery) {
 		plainQuery.replaceAll("'", " ");
 		String[] tokens = plainQuery.split(" ");
 
-		if(tokens.length == 1)
-			expression = tokens[0];
-		else {
-			expression = "(";
-			for(String token : tokens) {
-				if(token.length() > 1)
-					expression += token + "|";
-			}
-			expression = expression.substring(0, expression.length() - 1) + ")";
-		}
-
-		System.out.println(expression);
-
-		return expression;
+		return tokens;
 	}
 
 	private ModelAndView loadResultsByType(String query, String type, Integer offset) {
 		ModelAndView model = null;
 
-		String queryExp = getQueryExpression(query);
+		String[] queryList = getQueryList(query);
 
 		switch (type) {
 			case "albums":
 				model = new ModelAndView("moreAlbumResults");
 				AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 				try {
-					ArrayList<Album> albums = albumDao.searchByKeyWords(queryExp, 15, offset);
+					ArrayList<Album> albums = albumDao.searchByKeyWords(queryList, 15, offset);
 					model.addObject("albumsList", albums);
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
@@ -115,7 +100,7 @@ public class SearchController {
 				model = new ModelAndView("moreSongResults");
 				SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 				try {
-					ArrayList<Song> songs = songDao.searchByKeyWords(queryExp, 15, offset);
+					ArrayList<Song> songs = songDao.searchByKeyWords(queryList, 15, offset);
 					model.addObject("songsList", songs);
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
@@ -125,7 +110,7 @@ public class SearchController {
 				model = new ModelAndView("moreMovieResults");
 				MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
 				try {
-					ArrayList<Movie> movies = movieDao.searchByKeyWords(queryExp, 15, offset);
+					ArrayList<Movie> movies = movieDao.searchByKeyWords(queryList, 15, offset);
 					model.addObject("moviesList", movies);
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
@@ -135,7 +120,7 @@ public class SearchController {
 				model = new ModelAndView("moreBookResults");
 				BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
 				try {
-					ArrayList<Book> books = bookDao.searchByKeyWords(queryExp, 15, offset);
+					ArrayList<Book> books = bookDao.searchByKeyWords(queryList, 15, offset);
 					model.addObject("booksList", books);
 				} catch (SQLException throwables) {
 					throwables.printStackTrace();
@@ -148,24 +133,24 @@ public class SearchController {
 
 	private ModelAndView loadResultsMainPage(String query, HttpServletRequest request) {
 		ModelAndView model = loadMainInfo(query, null, request);
-		String queryExp = getQueryExpression(query);
+		String[] queryList = getQueryList(query);
 
-		loadSomeResults(queryExp, model, 4);
+		loadSomeResults(queryList, model, 4);
 
 		return model;
 	}
 
-	private void loadSomeResults(String queryExp, ModelAndView model, Integer limit) {
+	private void loadSomeResults(String[] queryList, ModelAndView model, Integer limit) {
 		try {
 			BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
 			MovieDao movieDao = DatabaseManager.getIstance().getDaoFactory().getMovieJDBC();
 			SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
 			AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
 
-			ArrayList<Book> books = bookDao.searchByKeyWords(queryExp, limit, 0);
-			ArrayList<Movie> movies = movieDao.searchByKeyWords(queryExp, limit, 0);
-			ArrayList<Song> songs = songDao.searchByKeyWords(queryExp, limit, 0);
-			ArrayList<Album> albums = albumDao.searchByKeyWords(queryExp, limit, 0);
+			ArrayList<Book> books = bookDao.searchByKeyWords(queryList, limit, 0);
+			ArrayList<Movie> movies = movieDao.searchByKeyWords(queryList, limit, 0);
+			ArrayList<Song> songs = songDao.searchByKeyWords(queryList, limit, 0);
+			ArrayList<Album> albums = albumDao.searchByKeyWords(queryList, limit, 0);
 
 			model.addObject("booksList", books);
 			model.addObject("moviesList", movies);
@@ -185,9 +170,9 @@ public class SearchController {
 	@PostMapping("/search/autocomplete")
 	public ModelAndView getAutocompleteResults(@RequestParam("query") String query) {
 		ModelAndView model = new ModelAndView("searchAutocomplete");
-		String queryExp = getQueryExpression(query);
+		String[] queryList = getQueryList(query);
 
-		loadSomeResults(queryExp, model, 1);
+		loadSomeResults(queryList, model, 1);
 
 		return model;
 	}

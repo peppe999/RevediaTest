@@ -25,7 +25,7 @@ public interface AlbumDao
 	public void deleteReview(String nickname, int albumId) throws SQLException;
 	public void updateReview(AlbumReview review) throws SQLException;
 	
-	public ArrayList<Album> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Album> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
 
 	ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException;
 

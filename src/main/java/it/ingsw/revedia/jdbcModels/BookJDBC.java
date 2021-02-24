@@ -452,23 +452,31 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
-	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
+	public ArrayList<Book> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
 
-		String query = "SELECT title, users, imageid, rating, titleOcc, artistOcc, titleOcc+artistOcc AS totalOcc FROM book bookT, LATERAL (" +
-				"SELECT count(*) - 1 AS titleOcc " +
-				"FROM regexp_split_to_table(bookT.title, ?, 'i')) titleOccT, LATERAL (" +
-				"SELECT count(*) - 1 AS artistOcc " +
-				"FROM regexp_split_to_table(bookT.artist, ?, 'i')) artistOccT " +
-				"WHERE title ~* ? or artist ~* ? " +
-				"ORDER BY totalOcc DESC, rating DESC, imageid DESC LIMIT ? OFFSET ?";
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select title, users, imageid, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from book bookT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(bookT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 " +
+				"GROUP BY title, users, imageid, rating " +
+				"ORDER BY numTok DESC, sumOcc DESC, rating DESC, imageid DESC " +
+				"LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		for(int i = 1; i <= 4; i++)
-			statment.setString(i, keyWords);
-
-		statment.setInt(5, limit);
-		statment.setInt(6, offset);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setInt(keySize + 1, limit);
+		statment.setInt(keySize + 2, offset);
 
 		ResultSet result = statment.executeQuery();
 
