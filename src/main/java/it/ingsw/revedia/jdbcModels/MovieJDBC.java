@@ -399,19 +399,31 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
-	public ArrayList<Movie> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
+	public ArrayList<Movie> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
 
-		String query = "select title, users, imageid, rating " + "from movie movieT, lateral (" +
-				"select count(*) - 1 as occ from regexp_split_to_table(movieT.title, ?, 'i')) occT " +
-				"where title ~* ? "
-				+ "order by occ desc, rating desc, imageid desc limit ? offset ?";
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select title, users, imageid, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from movie movieT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(movieT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 " +
+				"GROUP BY title, users, imageid, rating " +
+				"ORDER BY numTok DESC, sumOcc DESC, rating DESC, imageid DESC " +
+				"LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setString(1, keyWords);
-		statment.setString(2, keyWords);
-		statment.setInt(3, limit);
-		statment.setInt(4, offset);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setInt(keySize + 1, limit);
+		statment.setInt(keySize + 2, offset);
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();

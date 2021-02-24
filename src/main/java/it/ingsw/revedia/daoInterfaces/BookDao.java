@@ -33,7 +33,7 @@ public interface BookDao {
 
 	public void updateReview(BookReview review) throws SQLException;
 
-	public ArrayList<Book> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Book> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
 
 	public List<Book> findAll() throws SQLException;
 

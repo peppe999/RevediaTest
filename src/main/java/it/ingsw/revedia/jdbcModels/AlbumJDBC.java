@@ -256,20 +256,31 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
-	public ArrayList<Album> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
-
+	public ArrayList<Album> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
 
-		String query = "select albumid, name, users, rating " + "from album albumT, lateral (" +
-				"select count(*) - 1 as occ from regexp_split_to_table(albumT.name, ?, 'i')) occT " +
-				"where name ~* ? "
-				+ "order by occ desc, rating desc, albumid desc limit ? offset ?";
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select albumid, name, users, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from album albumT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(albumT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 " +
+				"GROUP BY albumid, name, users, rating " +
+				"ORDER BY numTok DESC, sumOcc DESC, rating DESC, albumid DESC " +
+				"LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		statment.setString(1, keyWords);
-		statment.setString(2, keyWords);
-		statment.setInt(3, limit);
-		statment.setInt(4, offset);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setInt(keySize + 1, limit);
+		statment.setInt(keySize + 2, offset);
 
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();

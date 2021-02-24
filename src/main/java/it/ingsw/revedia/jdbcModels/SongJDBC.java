@@ -279,24 +279,31 @@ public class SongJDBC implements SongDao {
 	}
 
 	@Override
-	public ArrayList<Song> searchByKeyWords(String keyWords, int limit, int offset) throws SQLException {
+	public ArrayList<Song> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
 
-		String query = "select albumT.albumid, songT.name as songname, albumT.name as albumname, songT.users, songT.rating, titleOcc, albumOcc, titleOcc+albumOcc AS totalOcc"
-				+ " from song songT" + " inner join album albumT" + " on songT.album = albumT.albumid, LATERAL (" +
-				"SELECT count(*) - 1 AS titleOcc " +
-				"FROM regexp_split_to_table(songT.name, ?, 'i')) titleOccT, LATERAL (" +
-				"SELECT count(*) - 1 AS albumOcc " +
-				"FROM regexp_split_to_table(albumT.name, ?, 'i')) albumOccT " +
-				"WHERE songT.name ~* ? or albumT.name ~* ? " +
-				"ORDER BY totalOcc DESC, rating DESC, songT.name DESC, albumT.albumid DESC LIMIT ? OFFSET ?";
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select albumT.albumid, songT.name as songname, albumT.name as albumname, songT.users, songT.rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from song songT inner join album albumT on songT.album = albumT.albumid, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(songT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 " +
+				"GROUP BY songT.name, albumT.albumid, albumT.name, songT.users, songT.rating " +
+				"ORDER BY numTok DESC, sumOcc DESC, rating DESC, albumT.albumid DESC, songT.name DESC " +
+				"LIMIT ? OFFSET ?";
 
 		PreparedStatement statment = connection.prepareStatement(query);
-		for(int i = 1; i <= 4; i++)
-			statment.setString(i, keyWords);
-
-		statment.setInt(5, limit);
-		statment.setInt(6, offset);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setInt(keySize + 1, limit);
+		statment.setInt(keySize + 2, offset);
 
 		ResultSet result = statment.executeQuery();
 
