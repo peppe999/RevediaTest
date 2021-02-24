@@ -37,23 +37,12 @@ autocompleteSearchBox.addEventListener("input", function () {
 
 });
 
-
-
-autocompleteSearchBox.addEventListener("focusout", function () {
-    //searchBoxContentsContainer.focus();
-    //if(!searchBoxContentsContainer.hasFocus && !searchBoxContentsContainer.contains(document.activeElement))
-        searchBoxContentsContainer.style.display = "none";
-});
-
-/*searchBoxContentsContainer.addEventListener("focusout", function () {
-    searchBoxContentsContainer.style.display = "none";
-});
-
-searchBoxContentsContainer.addEventListener("click", function () {
-    searchBoxContentsContainer.focus();
-})*/
-
 autocompleteSearchBox.addEventListener("focusin", function () {
     if(searchBoxQuery != "")
         searchBoxContentsContainer.style.display = "block";
+});
+
+document.body.addEventListener("click", function (event){
+    if(searchBoxContentsContainer != event.target && !searchBoxContentsContainer.contains(event.target) && autocompleteSearchBox != event.target)
+        searchBoxContentsContainer.style.display = "none";
 });
