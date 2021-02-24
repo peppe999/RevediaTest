@@ -1360,17 +1360,21 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 }
 
 .like-icon {
-  color: #a0a0a0;
+  color: #696969;
   font-size: 16px;
   transition: color 0.2s linear;
 }
 
 .like-icon:hover:not(.selected-like-icon) {
-  color: #cacaca;
+  color: #a0a0a0;
 }
 
 .like-icon:focus:not(.selected-like-icon) {
   color: #909090;
+}
+
+.locked-like-icon {
+  color: #a0a0a0;
 }
 
 .selected-like-icon {

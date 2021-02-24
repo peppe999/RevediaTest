@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <c:forEach items="${songsList}" var="song">
@@ -22,7 +22,7 @@
                             </c:forEach>
                         </ul>
                         <h4 class="text-nowrap text-truncate card-title"><c:out value="${song.name}"/> - <c:out value="${song.albumName}"/></h4>
-                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${song.user}</h6><a class="card-link" href="/music/song?name=<c:out value="${song.name}"/>&album=${song.albumID}">Scopri di più</a></div>
+                        <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${song.user}</h6><a class="card-link" href="/music/song?name=<c:out value="${song.name}"/>&album=${song.albumID}">Scopri di piÃ¹</a></div>
                     <div class="card-img-cover" style="background-image: url('/images/music/${song.albumID}.jpg');"></div>
                 </div>
             </div>

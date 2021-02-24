@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
@@ -109,7 +109,7 @@
                                                 </c:forEach>
                                             </ul>
                                             <h4 class="card-title"><c:out value="${bestSongsList[index].name}"/> - <c:out value="${bestSongsList[index].albumName}"/></h4>
-                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${bestSongsList[index].name}"/>&album=${bestSongsList[index].albumID}">Scopri di più</a></div>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${bestSongsList[index].name}"/>&album=${bestSongsList[index].albumID}">Scopri di piÃ¹</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                 <div class="col block-col">
                     <div class="row">
                         <div class="col align-self-center">
-                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Brani più recenti</h2>
+                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Brani piÃ¹ recenti</h2>
                         </div>
                     </div>
                     <c:forEach var="index" begin="0" end="3">
@@ -150,7 +150,7 @@
                                                 </c:forEach>
                                             </ul>
                                             <h4 class="card-title"><c:out value="${latestSongsList[index].name}"/> - <c:out value="${latestSongsList[index].albumName}"/></h4>
-                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${latestSongsList[index].name}"/>&album=${latestSongsList[index].albumID}">Scopri di più</a></div>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestSongsList[index].user}</h6><a class="card-link" href="music/song?name=<c:out value="${latestSongsList[index].name}"/>&album=${latestSongsList[index].albumID}">Scopri di piÃ¹</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                                                 </c:forEach>
                                             </ul>
                                             <h4 class="card-title"><c:out value="${bestAlbumsList[index].name}"/></h4>
-                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${bestAlbumsList[index].id}">Scopri di più</a></div>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${bestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${bestAlbumsList[index].id}">Scopri di piÃ¹</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                 <div class="col block-col">
                     <div class="row">
                         <div class="col align-self-center">
-                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Album più recenti</h2>
+                            <h2 class="section-title"><i class="fa fa-calendar section-title-icon"></i>Album piÃ¹ recenti</h2>
                         </div>
                     </div>
                     <c:forEach var="index" begin="0" end="3">
@@ -234,7 +234,7 @@
                                                 </c:forEach>
                                             </ul>
                                             <h4 class="card-title"><c:out value="${latestAlbumsList[index].name}"/></h4>
-                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${latestAlbumsList[index].id}">Scopri di più</a></div>
+                                            <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${latestAlbumsList[index].user}</h6><a class="card-link" href="music/album?id=${latestAlbumsList[index].id}">Scopri di piÃ¹</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +253,7 @@
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
+                    <p class="footer-text">Revedia Ã¨ un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
             </div>
         </div>
     </footer>

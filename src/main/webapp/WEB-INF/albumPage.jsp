@@ -192,8 +192,8 @@ pageEncoding="UTF-8"%>
                                                     </div>
                                                     <div class="col align-self-center review-card-user-area-container">
                                                         <div class="justify-content-start align-items-center flex-wrap justify-content-sm-end review-card-user-area">
-                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon like-icon"></i>${myreview.likeNumber}</h6>
-                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon like-icon"></i>${myreview.dislikeNumber}</h6>
+                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2 rate-section"><i class="fa fa-thumbs-up card-icon locked-like-icon like-icon"></i>${myreview.likeNumber}</h6>
+                                                            <h6 class="text-nowrap text-muted card-subtitle mb-2"><i class="fa fa-thumbs-down card-icon locked-like-icon like-icon"></i>${myreview.dislikeNumber}</h6>
                                                         </div>
                                                     </div>
                                                 </div>

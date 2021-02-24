@@ -227,6 +227,9 @@ var connectReviews = function (startIndex) {
         let likeCounter = card.getElementsByClassName("like-counter")[0];
         let dislikeCounter = card.getElementsByClassName("dislike-counter")[0];
 
+        likeBtn.classList.remove("locked-like-icon");
+        dislikeBtn.classList.remove("locked-like-icon");
+
         likeBtn.addEventListener("click", rateReview.bind(this, user, likeBtn, dislikeBtn, true, likeCounter, dislikeCounter));
         dislikeBtn.addEventListener("click", rateReview.bind(this, user, likeBtn, dislikeBtn, false, likeCounter, dislikeCounter));
     }

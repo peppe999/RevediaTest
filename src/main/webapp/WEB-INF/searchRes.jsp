@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <!DOCTYPE html>
@@ -95,7 +95,7 @@
                                                         </c:forEach>
                                                     </ul>
                                                     <h4 class="text-nowrap text-truncate card-title"><c:out value="${songsList[index].name}"/> - <c:out value="${songsList[index].albumName}"/></h4>
-                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${songsList[index].user}</h6><a class="card-link" href="/music/song?name=<c:out value="${songsList[index].name}"/>&album=${songsList[index].albumID}">Scopri di più</a></div>
+                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${songsList[index].user}</h6><a class="card-link" href="/music/song?name=<c:out value="${songsList[index].name}"/>&album=${songsList[index].albumID}">Scopri di piÃ¹</a></div>
                                                 <div class="card-img-cover" style="background-image: url('/images/music/${songsList[index].albumID}.jpg');"></div>
                                             </div>
                                         </div>
@@ -146,7 +146,7 @@
                                                         </c:forEach>
                                                     </ul>
                                                     <h4 class="text-nowrap text-truncate card-title"><c:out value="${albumsList[index].name}"/></h4>
-                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${albumsList[index].user}</h6><a class="card-link" href="/music/album?id=${albumsList[index].id}">Scopri di più</a></div>
+                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${albumsList[index].user}</h6><a class="card-link" href="/music/album?id=${albumsList[index].id}">Scopri di piÃ¹</a></div>
                                                 <div class="card-img-cover" style="background-image: url('/images/music/${albumsList[index].id}.jpg');"></div>
                                             </div>
                                         </div>
@@ -199,7 +199,7 @@
                                                         </c:forEach>
                                                     </ul>
                                                     <h4 class="text-nowrap text-truncate card-title"><c:out value="${moviesList[index].title}"/></h4>
-                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${moviesList[index].user}</h6><a class="card-link" href="/movies/movie?title=<c:out value="${moviesList[index].title}"/>">Scopri di più</a></div>
+                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${moviesList[index].user}</h6><a class="card-link" href="/movies/movie?title=<c:out value="${moviesList[index].title}"/>">Scopri di piÃ¹</a></div>
                                                 <div class="card-img-cover" style="background-image: url('/images/movies/${moviesList[index].imageId}.jpg');"></div>
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                                         </c:forEach>
                                                     </ul>
                                                     <h4 class="text-nowrap text-truncate card-title"><c:out value="${booksList[index].title}"/></h4>
-                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${booksList[index].user}</h6><a class="card-link" href="/books/book?title=<c:out value="${booksList[index].title}"/>">Scopri di più</a></div>
+                                                    <h6 class="text-muted card-subtitle mb-2"><i class="fa fa-user card-icon"></i>${booksList[index].user}</h6><a class="card-link" href="/books/book?title=<c:out value="${booksList[index].title}"/>">Scopri di piÃ¹</a></div>
                                                 <div class="card-img-cover" style="background-image: url('/images/books/${booksList[index].imageId}.jpg');"></div>
                                             </div>
                                         </div>
@@ -276,7 +276,7 @@
             <div class="row">
                 <div class="col">
                     <h6 class="footer-logo">REVEDIA</h6>
-                    <p class="footer-text">Revedia è un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
+                    <p class="footer-text">Revedia Ã¨ un punto di incontro per tutti gli amanti di musica, film e libri<br>Esplora il vasto catalogo di contenuti, contribuendo anche tu con le tue recensioni</p><a class="card-link" href="/aboutus">Chi siamo</a></div>
             </div>
         </div>
     </footer>
