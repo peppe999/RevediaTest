@@ -297,6 +297,91 @@ public class AlbumJDBC implements AlbumDao {
 	}
 
 	@Override
+	public ArrayList<Album> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select albumid, name, users, rating " + "from album "
+				+ "where users = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by name " + orderString + ", albumid " + orderString;
+		else
+			query += " order by postdate " + orderString + ", albumid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, user);
+		statment.setInt(2, offset);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<>();
+
+		while (result.next()) {
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		if (albums.size() > 0) {
+			return albums;
+		} else {
+			throw new RuntimeException("No albums found in this genre");
+		}
+	}
+
+	@Override
+	public ArrayList<Album> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select albumid, name, users, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from album albumT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(albumT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? " +
+				"GROUP BY albumid, name, users, rating ";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by name " + orderString + ", albumid " + orderString;
+		else
+			query += " order by postdate " + orderString + ", albumid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+		statment.setInt(keySize + 2, offset);
+
+		ResultSet result = statment.executeQuery();
+		ArrayList<Album> albums = new ArrayList<Album>();
+
+		while (result.next()) {
+			albums.add(buildSimplifiedAlbum(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return albums;
+	}
+
+	@Override
 	public ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
@@ -311,7 +396,7 @@ public class AlbumJDBC implements AlbumDao {
 		String orderString = (order == 0) ? "ASC" : "DESC";
 
 		if(modality == 0)
-			query += " order by name " + orderString;
+			query += " order by name " + orderString + ", albumid " + orderString;
 		else
 			query += " order by postdate " + orderString + ", albumid " + orderString;
 

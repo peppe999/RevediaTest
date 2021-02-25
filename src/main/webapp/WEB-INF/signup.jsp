@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-8 col-sm-5 col-xl-4 login-col">
                 <h2 class="section-title login-page-title"><i class="fa fa-user-plus section-title-icon"></i>Crea nuovo account</h2>
-                <p class="section-title" style="color: red">${usernotavaible}</p>
+                <span class="form-input-msg form-input-error-msg" id="send-review-error-lbl" style="margin-bottom: 10px; display: ${usernotavailable}">${errorMsg}</span>
                 <form action="/register" method="post">
                     <div class="form-group">
                         <input class="form-control form-input-field" name="username" type="text" required="">

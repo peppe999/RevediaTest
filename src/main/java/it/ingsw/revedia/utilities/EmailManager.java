@@ -28,7 +28,7 @@ public class EmailManager
             props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
             props.put("mail.smtp.auth", "true");
 
-            Session session = Session.getInstance(props, new Authenticator() {
+            session = Session.getInstance(props, new Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication()
                 {
@@ -43,11 +43,27 @@ public class EmailManager
     public static void registrationConfirm(String userMail, String userNickname)
     {
         String text = "Ciao " + userNickname + ",\n" +
-                "<h2>benvenuto su Revedia!!</h2>\n"+
+                "Benvenuto su Revedia!\n"+
                 "La tua registrazione è andata a buon fine.\n" +
                 "Per adesso puoi cercare, visualizzare e recensire tutti i contenuti presenti\n" +
                 "ma chissà un giorno potrai anche inserirne di nuovi!!\n" +
                 "Maggiori informazioni alla pagina ";
+
+        sendMail(userMail,text,"Benvenuto su Revedia");
+    }
+
+    public static void googleRegistrationConfirm(String userMail, String userNickname, String userPsw)
+    {
+        String text = "Ciao " + userNickname + ",\n" +
+                "Benvenuto su Revedia!\n"+
+                "La tua registrazione è andata a buon fine.\n" +
+                "Per adesso puoi cercare, visualizzare e recensire tutti i contenuti presenti\n" +
+                "ma chissà un giorno potrai anche inserirne di nuovi!!\n" +
+                "Maggiori informazioni alla pagina\n\n" +
+                "Hai effettuato la registrazione tramite google, quindi il sistema ha generato per te le tue credenziali\n" +
+                "Username: " + userNickname + "\n" +
+                "Password: " + userPsw + "\n\n" +
+                "Custodisci le credenziali con cura!";
 
         sendMail(userMail,text,"Benvenuto su Revedia");
     }
