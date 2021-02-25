@@ -103,8 +103,30 @@ public class BookController {
         return false;
     }
 
-    @PostMapping("/sendbookreview")
-    public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
+    @PostMapping("/books/book/sendreview")
+    public ModelAndView sendBookReview(@RequestParam("title") String booktitle, @RequestParam("text") String text, @RequestParam("rating") Integer rating, HttpServletRequest request)  {
+
+        ModelAndView modelAndView = new ModelAndView("myReview");
+
+        HttpSession session = request.getSession();
+        if(session.getAttribute("nickname") != null)
+        {
+            BookReview bookReview = new BookReview();
+            bookReview.setUser(session.getAttribute("nickname").toString());
+            bookReview.setBook(booktitle);
+            bookReview.setDescription(text);
+            bookReview.setNumberOfStars(rating.shortValue());
+            try {
+                DatabaseManager.getIstance().getDaoFactory().getBookJDBC().addReview(bookReview);
+                modelAndView.addObject("myreview", bookReview);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return modelAndView;
+    }
+    /*public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
         ModelAndView modelAndView = new ModelAndView();
 
         HttpSession session = request.getSession();
@@ -134,6 +156,6 @@ public class BookController {
         }
 
         return  modelAndView;
-    }
+    }*/
 
 }

@@ -36,6 +36,11 @@ public class SongController {
         HttpSession session = request.getSession();
         session.setAttribute("songtitle", songtitle);
        // session.setAttribute("songid", songid);
+        String link = song.getLink();
+        if(link != null)
+            link = link.replace("/track", "/embed/track");
+
+        modelAndView.addObject("link", link);
 
         boolean logged = false;
 
@@ -109,8 +114,31 @@ public class SongController {
 
 
 
-    @PostMapping("/sendsongreview")
-    public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
+    @PostMapping("/music/song/sendreview")
+    public ModelAndView sendAlbumReview(@RequestParam("name") String name, @RequestParam("album") int songid,  @RequestParam("text") String text, @RequestParam("rating") Integer rating, HttpServletRequest request)  {
+
+        ModelAndView modelAndView = new ModelAndView("myReview");
+
+        HttpSession session = request.getSession();
+        if(session.getAttribute("nickname") != null)
+        {
+            SongReview songReview = new SongReview();
+            songReview.setUser(session.getAttribute("nickname").toString());
+            songReview.setAlbumId(songid);
+            songReview.setSongName(name);
+            songReview.setDescription(text);
+            songReview.setNumberOfStars(rating.shortValue());
+            try {
+                DatabaseManager.getIstance().getDaoFactory().getSongJDBC().addReview(songReview);
+                modelAndView.addObject("myreview", songReview);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return modelAndView;
+    }
+   /* public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
         ModelAndView modelAndView = new ModelAndView();
 
         HttpSession session = request.getSession();
@@ -142,6 +170,6 @@ public class SongController {
         }
 
         return  modelAndView;
-    }
+    }*/
 
 }

@@ -98,10 +98,12 @@
         <div class="container-fluid pulse animated content-section-area">
             <h2><i class="fa fa-music section-title-icon"></i>Anteprima</h2>
             <div class="row">
-                <div class="col"></div>
+                <div class="col">
+                    <iframe src="${link}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
             </div>
         </div>
-        <div class="container-fluid pulse animated content-section-area">
+        <div class="container-fluid pulse animated content-section-area" id="my-review-container">
             <c:choose>
                 <c:when test="${not logged}">
                     <h2><i class="fa fa-pencil-square section-title-icon"></i>Lascia la tua recensione</h2>
@@ -119,16 +121,25 @@
                                 <div class="col">
                                     <div class="d-flex align-items-center flex-wrap add-review-rating-box">
                                         <h2 class="sub-header">Valutazione</h2>
-                                        <ul class="list-inline text-nowrap">
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
-                                            <li class="list-inline-item star selected-star"><i class="fa fa-star"></i></li>
+                                        <ul class="list-inline text-nowrap" id="new-review-stars">
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
+                                            <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                             <li class="list-inline-item star"><i class="fa fa-star"></i></li>
                                         </ul>
                                     </div>
                                     <form>
-                                        <div class="form-group"><label class="text-area-lbl">Testo della recensione</label><textarea class="form-control form-input-field" required=""></textarea></div><button class="btn btn-primary btn-sm" type="button">Invia recensione</button></form>
+                                        <div class="form-group">
+                                            <label class="text-area-lbl">Testo della recensione</label>
+                                            <textarea class="form-control form-input-field" id="new-review-text" required=""></textarea>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm" type="button" id="send-review-btn">Invia recensione</button>
+                                        <span class="form-input-msg form-input-error-msg" id="send-review-error-lbl" style="display: none;"></span>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-auto align-self-center m-auto spinner-col"><span class="spinner-grow" role="status" id="loading-review-spinner" style="display: none"></span></div>
+                                    </div>
                                 </div>
                             </div>
                         </c:when>
@@ -199,6 +210,9 @@
     <script src="/js/bs-init.js"></script>
     <script src="/js/reviewsLoader.js"></script>
     <script src="/js/autocompleteLoader.js"></script>
+<c:if test="${logged && empty myreview}">
+    <script src="/js/sendReview.js"></script>
+</c:if>
 </body>
 
 </html>
