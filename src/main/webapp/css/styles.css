@@ -357,6 +357,8 @@ body {
   margin-bottom: 15px;
 }
 
+
+
 .home-card .card-subtitle {
   font-weight: 400;
   font-size: 13px;
@@ -1719,4 +1721,21 @@ content-page-main-card .list-inline {
 .search-form {
   position: relative;
 }
+
+.rwd-video {
+  height: 70vh;
+  overflow: hidden;
+  padding-right: 56.25%;
+  padding-top: 30px;
+  position: relative;
+}
+ .rwd-video iframe,
+ .rwd-video object,
+ .rwd-video embed {
+  height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+ }
 

@@ -36,6 +36,13 @@ public class MovieController {
         HttpSession session = request.getSession();
         session.setAttribute("movietitle", movietitle);
 
+        String link = movie.getLink();
+        if(link != null){
+            link =  link.replace("/watch?v=", "/embed/");
+        }
+
+        modelAndView.addObject("linkYT", link);
+
         boolean logged = false;
 
         if(session.getAttribute("nickname") != null){
@@ -96,7 +103,7 @@ public class MovieController {
             String loggedUser = session.getAttribute("nickname").toString();
 
             try {
-                DatabaseManager.getIstance().getDaoFactory().getBookJDBC().upsertBookReview(user, movietitle, loggedUser, rating);
+                DatabaseManager.getIstance().getDaoFactory().getMovieJDBC().upsertMovieReview(user, movietitle, loggedUser, rating);
                 return true;
             } catch (SQLException throwables) {
                 return false;
@@ -107,8 +114,30 @@ public class MovieController {
     }
 
 
-    @PostMapping("/sendmoviereview")
-    public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
+    @PostMapping("/movies/movie/sendreview")
+    public ModelAndView sendAlbumReview(@RequestParam("title") String movietitle, @RequestParam("text") String text, @RequestParam("rating") Integer rating, HttpServletRequest request)  {
+
+        ModelAndView modelAndView = new ModelAndView("myReview");
+
+        HttpSession session = request.getSession();
+        if(session.getAttribute("nickname") != null)
+        {
+            MovieReview movieReview = new MovieReview();
+            movieReview.setUser(session.getAttribute("nickname").toString());
+            movieReview.setMovie(movietitle);
+            movieReview.setDescription(text);
+            movieReview.setNumberOfStars(rating.shortValue());
+            try {
+                DatabaseManager.getIstance().getDaoFactory().getMovieJDBC().addReview(movieReview);
+                modelAndView.addObject("myreview", movieReview);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return modelAndView;
+    }
+  /*  public  ModelAndView sendMovieReview(HttpServletRequest request, @RequestParam("reviewinput") String review){
         ModelAndView modelAndView = new ModelAndView();
 
         HttpSession session = request.getSession();
@@ -138,7 +167,7 @@ public class MovieController {
         }
 
         return  modelAndView;
-    }
+    }*/
 
 
 }
