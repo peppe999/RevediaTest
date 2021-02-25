@@ -493,6 +493,16 @@ public class BookJDBC implements BookDao {
 	}
 
 	@Override
+	public ArrayList<Book> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException {
+		return null;
+	}
+
+	@Override
+	public ArrayList<Book> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException {
+		return null;
+	}
+
+	@Override
 	public void addReview(BookReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 

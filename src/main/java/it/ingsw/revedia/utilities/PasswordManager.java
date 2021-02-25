@@ -3,6 +3,7 @@ package it.ingsw.revedia.utilities;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 public class PasswordManager 
 {
@@ -23,5 +24,16 @@ public class PasswordManager
 		}
 		
 		return hashPassword;
+	}
+
+	public static String generatePassword() {
+		String psw = "";
+		Random random = new Random();
+
+		for(int i = 0; i < 16; i++) {
+			psw += (char)(random.nextInt(94) + 33);
+		}
+
+		return psw;
 	}
 }

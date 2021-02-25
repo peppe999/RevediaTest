@@ -64,16 +64,15 @@ public class UserJDBC implements UserDao
 		ResultSet result = statment.executeQuery();
 
 		User user = null;
-		if(result.next())
-		{
+		if(result.next()) {
 			user = buildUser(result);
-			statment.close();
-			result.close();
-			connection.close();
-			return user;
 		}
-		else
-			throw new TupleNotFoundException("No result set avaible with this condition");
+
+		statment.close();
+		result.close();
+		connection.close();
+
+		return user;
 	}
 
 	private static User buildUser(ResultSet result) throws SQLException
@@ -235,6 +234,24 @@ public class UserJDBC implements UserDao
 			connection.close();
 			throw new TupleNotFoundException("No users found with this mail or username");
 		}
+	}
+
+	@Override
+	public Integer getNextGoogleIdValue() throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT nextval('user_googleid_seq')";
+		PreparedStatement statment = connection.prepareStatement(query);
+		ResultSet result = statment.executeQuery();
+
+		result.next();
+		Integer value = result.getInt(1);
+
+		statment.close();
+		result.close();
+		connection.close();
+
+		return value;
 	}
 
 	@Override
@@ -732,5 +749,81 @@ public class UserJDBC implements UserDao
 		result.close();
 		connection.close();
 		return values;
+	}
+
+    @Override
+    public Integer getNumLoadedAlbums(String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT COUNT(*) AS num FROM album WHERE users = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+
+		ResultSet result = statment.executeQuery();
+
+		result.next();
+		Integer value = result.getInt("num");
+
+		statment.close();
+		result.close();
+		connection.close();
+		return value;
+    }
+
+	@Override
+	public Integer getNumLoadedSongs(String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT COUNT(*) AS num FROM song WHERE users = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+
+		ResultSet result = statment.executeQuery();
+
+		result.next();
+		Integer value = result.getInt("num");
+
+		statment.close();
+		result.close();
+		connection.close();
+		return value;
+	}
+
+	@Override
+	public Integer getNumLoadedMovies(String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT COUNT(*) AS num FROM movie WHERE users = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+
+		ResultSet result = statment.executeQuery();
+
+		result.next();
+		Integer value = result.getInt("num");
+
+		statment.close();
+		result.close();
+		connection.close();
+		return value;
+	}
+
+	@Override
+	public Integer getNumLoadedBooks(String nickname) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "SELECT COUNT(*) AS num FROM book WHERE users = ?";
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, nickname);
+
+		ResultSet result = statment.executeQuery();
+
+		result.next();
+		Integer value = result.getInt("num");
+
+		statment.close();
+		result.close();
+		connection.close();
+		return value;
 	}
 }

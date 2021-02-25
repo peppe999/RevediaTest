@@ -7,6 +7,7 @@ import it.ingsw.revedia.jdbcModels.UserJDBC;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.utilities.EmailManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import it.ingsw.revedia.database.DatabaseManager;
@@ -20,11 +21,12 @@ import javax.servlet.http.HttpSession;
 public class Login
 {
 	@GetMapping("/Login")
-	public String login(HttpServletRequest request)
+	public String login(HttpServletRequest request, Model m)
 	{
 		if(request.getSession().getAttribute("nickname") != null)
 			return "redirect:/";
 
+		m.addAttribute("invalidparameters", "none");
 		return "login";
 	}
 
@@ -49,12 +51,16 @@ public class Login
 
 				model.setViewName("redirect:/");
 			}
+			else {
+				model.setViewName("login");
+				model.addObject("invalidparameters", "block");
+			}
 		} 
 		catch (SQLException | TupleNotFoundException e)
 		{
 			e.printStackTrace();
 			model.setViewName("login");
-			model.addObject("invalidparameters", "Nome utente, mail o password errati");
+			model.addObject("invalidparameters", "block");
 		}
 		
 		return model;

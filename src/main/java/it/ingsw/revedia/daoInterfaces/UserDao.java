@@ -19,6 +19,7 @@ public interface UserDao
 	public void changePermissions(Permissions permissions, String nickname) throws SQLException;
 	public boolean validateLogin(String password, String nickname) throws SQLException;
 	public boolean validateLoginByNicknameOrMail(String nickname, String mail, String password) throws SQLException, TupleNotFoundException;
+	public Integer getNextGoogleIdValue() throws SQLException;
 
 	public Float getAvgQuality(String nickname) throws SQLException;
 	public Float getAvgRating(String nickname) throws SQLException;
@@ -28,4 +29,9 @@ public interface UserDao
 	public Map<String, Object> getNumReviews(String nickname) throws SQLException;
 	public Map<String, String> getFavouriteGenreForCat(String nickname) throws SQLException;
 	public Map<String, List<Object>> getContributeForDay(String nickname) throws SQLException;
+
+	public Integer getNumLoadedAlbums(String nickname) throws SQLException;
+	public Integer getNumLoadedSongs(String nickname) throws SQLException;
+	public Integer getNumLoadedBooks(String nickname) throws SQLException;
+	public Integer getNumLoadedMovies(String nickname) throws SQLException;
 }

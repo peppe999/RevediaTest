@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <meta name="google-signin-client_id" content="515813722957-cf1qne959r79ib23jd9i9jd5i5j1s67a.apps.googleusercontent.com">
         <title>Revedia - Accedi</title>
         <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700">
@@ -50,7 +51,7 @@
             <div class="row">
                 <div class="col-8 col-sm-4 col-xl-3 login-col">
                     <h2 class="section-title login-page-title"><i class="fa fa-sign-in section-title-icon"></i>Login</h2>
-                    <p class="section-title" style="color: red">${invalidparameters}</p>
+                    <span class="form-input-msg form-input-error-msg" id="send-review-error-lbl" style="margin-bottom: 10px; display: ${invalidparameters}">Nome utente, mail o password errati</span>
                     <form action="/loginUser" method="post">
                         <div class="form-group">
                             <input class="form-control form-input-field" type="text" name="username" required="required">
@@ -68,6 +69,8 @@
                     <h2 class="section-title login-page-title"><i class="fa fa-user-plus section-title-icon"></i>Non sei registrato?</h2>
                     <h6 class="section-title login-page-subtitle">Registrati subito in pochi passi</h6>
                     <a class="btn btn-primary btn-sm" role="button" href="/signup">Crea nuovo account</a>
+                    <h6 class="section-title login-page-subtitle">oppure</h6>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </div>
             </div>
         </div>
@@ -89,5 +92,7 @@
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <script src="../js/bs-init.js"></script>
     <script src="/js/autocompleteLoader.js"></script>
+    <script src="/js/googleLogin.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     </body>
 </html>

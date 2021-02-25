@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
@@ -34,6 +35,8 @@ public interface BookDao {
 	public void updateReview(BookReview review) throws SQLException;
 
 	public ArrayList<Book> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Book> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException;
+	public ArrayList<Book> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException;
 
 	public List<Book> findAll() throws SQLException;
 
