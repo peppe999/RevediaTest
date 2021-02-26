@@ -1,46 +1,16 @@
 var categoryTabContainer = document.getElementById("category-tab");
 var musicChoiceTabContainer = document.getElementById("music-choice-tab");
-var musicModalityTabContainer = document.getElementById("music-modality-tab");
-var movieModalityTabContainer = document.getElementById("movie-modality-tab");
-var bookModalityTabContainer = document.getElementById("book-modality-tab");
 var apiSearchModalityTabContainer = document.getElementById("api-search-modality-tab");
-var genreChoiceTabContainer = document.getElementById("genre-choice-tab");
-var albumTabContainer = document.getElementById("album-tab");
-var songTabContainer = document.getElementById("song-tab");
-var movieTabContainer = document.getElementById("movie-tab");
-var bookTabContainer = document.getElementById("book-tab");
 var musicRadioBtn = document.getElementById("music-radio");
 var movieRadioBtn = document.getElementById("film-radio");
 var bookRadioBtn = document.getElementById("book-radio");
 var albumRadioBtn = document.getElementById("album-radio");
 var songRadioBtn = document.getElementById("song-radio");
-var spotifyModeRadioBtn = document.getElementById("spotify-mode-radio");
-var tmdbModeRadioBtn = document.getElementById("tmdb-mode-radio");
-var gbooksModeRadioBtn = document.getElementById("gbooks-mode-radio");
-var musicManualModeRadioBtn = document.getElementById("music-manual-mode-radio");
-var movieManualModeRadioBtn = document.getElementById("movie-manual-mode-radio");
-var bookManualModeRadioBtn = document.getElementById("book-manual-mode-radio");
 var newContApiSearchBox = document.getElementById("newcont-api-search-box");
-var albumNameInput = document.getElementById("album-name-input");
-var albumLabelInput = document.getElementById("album-label-input");
-var albumArtistInput = document.getElementById("album-artist-input");
-var albumReleaseDateInput = document.getElementById("album-release-date-input");
-var albumCoverFileInput = document.getElementById("album-cover-file-input");
-var songNameInput = document.getElementById("song-name-input");
-var songLengthInput = document.getElementById("song-length-input");
-var songDescriptionInput = document.getElementById("song-description-input");
-var movieNameInput = document.getElementById("movie-name-input");
-var movieLengthInput = document.getElementById("movie-length-input");
-var movieDescriptionInput = document.getElementById("movie-description-input");
-var movieCoverFileInput = document.getElementById("movie-cover-file-input");
-var bookNameInput = document.getElementById("book-name-input");
-var bookPageNumInput = document.getElementById("book-page-num-input");
-var bookPublisherInput = document.getElementById("book-publisher-input");
-var bookAuthorInput = document.getElementById("book-author-input");
-var bookDescriptionInput = document.getElementById("book-description-input");
-var bookCoverFileInput = document.getElementById("book-cover-file-input");
 var manageNextBtn = document.getElementById("manage-next-btn");
 var manageBackBtn = document.getElementById("manage-back-btn");
+var manageModalErrorLbl = document.getElementById("manage-modal-error-lbl");
+var manageModalCloseBtn = document.getElementById("manage-modal-close-btn");
 
 
 function Album(name, releaseDate, label, artist, genre) {
@@ -80,47 +50,12 @@ function Book(title, numberOfPages, description, publishingHouse, artist, genres
 var currentContentType = "";
 var currentWindow = categoryTabContainer;
 var currentMusicContentType = "";
-var currentModeType = "";
-var currentGenreList = [];
-
-
-
-
-
-var renderGenres = function (loadedGenres) {
-    var genreForm = genreChoiceTabContainer.getElementsByTagName("form")[0];
-    var htmlContent = "";
-    for(let i = 0; i < loadedGenres.length; i++) {
-        htmlContent += '<div class="form-group d-flex align-items-center add-category-group">' +
-            '<input type="checkbox" id="genre-checkbox-' + i + '" class="radio-toggle-x" name="genre-choice-checkbox">' +
-                '<label class="d-flex align-items-center radio-label-x radio-label-x-sm" for="genre-checkbox-' + i + '">' + loadedGenres[i] + '</label>' +
-        '</div>';
-    }
-    genreForm.innerHTML = htmlContent;
-}
-
-var loadAvailableGenres = function () {
-    $.ajax({
-        url: "/manage/getgenres",
-        method: "POST",
-        data: {
-            type: currentContentType
-        },
-        success: function (response) {
-            renderGenres(response);
-        },
-        fail: function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        }
-    });
-}
-
-
-
-
 
 
 var setContentType = function () {
+    manageModalErrorLbl.style.display = "none";
+    apiSearchModalityTabContainer.getElementsByTagName("form")[0].innerHTML = "";
+    newContApiSearchBox.value = "";
     if(musicRadioBtn.checked) {
         manageBackBtn.innerText = "Indietro";
         currentContentType = "music";
@@ -132,19 +67,24 @@ var setContentType = function () {
         manageBackBtn.innerText = "Indietro";
         currentContentType = "movie";
         currentWindow.style.display = "none";
-        currentWindow = movieModalityTabContainer;
+        currentWindow = apiSearchModalityTabContainer;
         currentWindow.style.display = "initial";
+        manageNextBtn.innerText = "Aggiungi";
     }
     else if(bookRadioBtn.checked) {
         manageBackBtn.innerText = "Indietro";
         currentContentType = "book";
         currentWindow.style.display = "none";
-        currentWindow = bookModalityTabContainer;
+        currentWindow = apiSearchModalityTabContainer;
         currentWindow.style.display = "initial";
+        manageNextBtn.innerText = "Aggiungi";
     }
 }
 
 var resetContentType = function () {
+    manageModalErrorLbl.style.display = "none";
+    apiSearchModalityTabContainer.getElementsByTagName("form")[0].innerHTML = "";
+    newContApiSearchBox.value = "";
     manageBackBtn.innerText = "Annulla";
     currentContentType = "";
     musicRadioBtn.checked = false;
@@ -154,110 +94,39 @@ var resetContentType = function () {
     currentWindow.style.display = "none";
     currentWindow = categoryTabContainer;
     currentWindow.style.display = "initial";
+    manageNextBtn.innerText = "Avanti";
 }
 
 var setMusicContentType = function () {
+    manageModalErrorLbl.style.display = "none";
+    apiSearchModalityTabContainer.getElementsByTagName("form")[0].innerHTML = "";
+    newContApiSearchBox.value = "";
     if(albumRadioBtn.checked) {
         currentMusicContentType = "album";
         currentWindow.style.display = "none";
-        currentWindow = musicModalityTabContainer;
+        currentWindow = apiSearchModalityTabContainer;
         currentWindow.style.display = "initial";
+        manageNextBtn.innerText = "Aggiungi";
     }
     else if(songRadioBtn.checked) {
         currentMusicContentType = "song";
         currentWindow.style.display = "none";
-        currentWindow = musicModalityTabContainer;
+        currentWindow = apiSearchModalityTabContainer;
         currentWindow.style.display = "initial";
+        manageNextBtn.innerText = "Aggiungi";
     }
 }
 
 var resetMusicContentType = function () {
+    manageModalErrorLbl.style.display = "none";
+    apiSearchModalityTabContainer.getElementsByTagName("form")[0].innerHTML = "";
+    newContApiSearchBox.value = "";
     currentMusicContentType = "";
     albumRadioBtn.checked = false;
     songRadioBtn.checked = false;
     currentWindow.style.display = "none";
     currentWindow = musicChoiceTabContainer;
     currentWindow.style.display = "initial";
-}
-
-var setModeType = function () {
-    if(spotifyModeRadioBtn.checked || tmdbModeRadioBtn.checked || gbooksModeRadioBtn.checked) {
-        currentModeType = "api";
-        currentWindow.style.display = "none";
-        currentWindow = apiSearchModalityTabContainer;
-        currentWindow.style.display = "initial";
-    }
-    else if(musicManualModeRadioBtn.checked || movieManualModeRadioBtn.checked || bookManualModeRadioBtn.checked) {
-        currentModeType = "manual";
-        currentWindow.style.display = "none";
-        if(currentMusicContentType === "song")
-            currentWindow = songTabContainer;
-        else {
-            currentWindow = genreChoiceTabContainer;
-            loadAvailableGenres();
-        }
-        currentWindow.style.display = "initial";
-    }
-}
-
-var resetModeType = function () {
-    var resultsForm = apiSearchModalityTabContainer.getElementsByTagName("form")[0];
-    resultsForm.innerHTML = "";
-    newContApiSearchBox.value = "";
-    currentModeType = "";
-    spotifyModeRadioBtn.checked = false;
-    tmdbModeRadioBtn.checked = false;
-    gbooksModeRadioBtn.checked = false;
-    musicManualModeRadioBtn.checked = false;
-    movieManualModeRadioBtn.checked = false;
-    bookManualModeRadioBtn.checked = false;
-    currentWindow.style.display = "none";
-    if(currentContentType === "music")
-        currentWindow = musicModalityTabContainer;
-    else if(currentContentType === "movie")
-        currentWindow = movieModalityTabContainer;
-    else if(currentContentType === "book")
-        currentWindow = bookModalityTabContainer;
-
-    currentWindow.style.display = "initial";
-}
-
-var setGenreList = function () {
-    var loadedGenres = genreChoiceTabContainer.getElementsByClassName("add-category-group");
-
-    for(let i = 0; i < loadedGenres.length; i++) {
-        if(loadedGenres[i].getElementsByTagName("input")[0].checked)
-            currentGenreList.push(loadedGenres[i].getElementsByTagName("label")[0].innerText);
-    }
-
-    if(currentGenreList.length > 0) {
-        currentWindow.style.display = "none";
-        if(currentContentType === "music" && currentMusicContentType === "album") {
-            currentWindow = albumTabContainer;
-            manageNextBtn.innerText = "Aggiungi";
-        }
-        else if(currentContentType === "movie") {
-            currentWindow = movieTabContainer;
-            manageNextBtn.innerText = "Aggiungi";
-        }
-        else if(currentContentType === "book") {
-            currentWindow = bookTabContainer;
-            manageNextBtn.innerText = "Aggiungi";
-        }
-
-        currentWindow.style.display = "initial";
-    }
-}
-
-var resetGenreList = function () {
-    currentGenreList = [];
-    var genreForm = genreChoiceTabContainer.getElementsByTagName("form")[0];
-    genreForm.innerHTML = "";
-
-    currentWindow.style.display = "none";
-    currentWindow = genreChoiceTabContainer;
-    currentWindow.style.display = "initial";
-    loadAvailableGenres();
     manageNextBtn.innerText = "Avanti";
 }
 
@@ -273,14 +142,10 @@ var startApiSearch = function () {
 var goBackAction = function () {
     if(currentWindow === categoryTabContainer)
         $("#addModal").modal("hide");
-    else if(currentWindow === musicChoiceTabContainer || currentWindow === movieModalityTabContainer || currentWindow === bookModalityTabContainer)
+    else if(currentWindow === musicChoiceTabContainer || (currentWindow === apiSearchModalityTabContainer && currentContentType != "music"))
         resetContentType();
-    else if(currentWindow === musicModalityTabContainer)
+    else if(currentWindow === apiSearchModalityTabContainer && currentContentType === "music")
         resetMusicContentType();
-    else if(currentWindow === apiSearchModalityTabContainer || currentWindow === songTabContainer || currentWindow === genreChoiceTabContainer)
-        resetModeType();
-    else if(currentWindow === albumTabContainer || currentWindow === movieTabContainer || currentWindow === bookTabContainer)
-        resetGenreList();
 };
 
 var goNextAction = function () {
@@ -288,11 +153,7 @@ var goNextAction = function () {
         setContentType();
     else if(currentWindow === musicChoiceTabContainer)
         setMusicContentType();
-    else if(currentWindow === musicModalityTabContainer || currentWindow === movieModalityTabContainer || currentWindow === bookModalityTabContainer)
-        setModeType();
-    else if(currentWindow === genreChoiceTabContainer) {
-        setGenreList();
-    }
+
     else if(currentWindow === apiSearchModalityTabContainer && currentContentType == "music")
         startUploadSpotify();
     else if(currentWindow === apiSearchModalityTabContainer && currentContentType == "movie")
@@ -329,7 +190,17 @@ newContApiSearchBox.addEventListener("focusout", function () {
     startApiSearch();
 });
 
+manageModalCloseBtn.addEventListener("click", function () {
+   resetMusicContentType();
+   resetContentType();
+});
 
+manageModalCloseBtn.addEventListener("keydown", function (event) {
+    if(event.key === "Enter") {
+        resetMusicContentType();
+        resetContentType();
+    }
+});
 
 
 
@@ -355,8 +226,15 @@ var uploadSpotifySongs = function (songs) {
         contentType: "application/json",
         data: JSON.stringify(songs),
         success: function (response) {
-            if (response == null)
+            if (response == null)  {
+                manageModalErrorLbl.style.display = "initial";
                 return;
+            }
+
+            resetMusicContentType();
+            resetContentType();
+
+            $("#addModal").modal("hide");
 
         },
         fail: function (jqXHR, textStatus) {
@@ -390,19 +268,27 @@ var uploadSpotifyAlbum = function (alb, tracks, trackID, imageURL) {
         contentType: "application/json",
         data: JSON.stringify(alb),
         success: function (response) {
-            if (response == null)
+            if (response == null)  {
+                manageModalErrorLbl.style.display = "initial";
                 return;
+            }
 
-            if(response < 0 && trackID == null)
+            if(response < 0 && trackID == null) {
+                manageModalErrorLbl.style.display = "initial";
                 return;
+            }
 
             if(response > 0)
                 uploadSpotifyImage(response, imageURL);
 
             var songs = [];
             for(var i = 0; i < tracks.length; i++) {
-                if(response > 0 || (response < 0 && tracks[i].id === trackID))
-                    songs.push(new Song(tracks[i].name, response, tracks[i].duration_ms, tracks[i].external_urls.spotify, "Questo brano è stato generato automaticamente dal sistema"))
+                if(response > 0 || (response < 0 && tracks[i].id === trackID)) {
+                    var albId = response;
+                    if(albId < 0)
+                        albId *= -1;
+                    songs.push(new Song(tracks[i].name, albId, tracks[i].duration_ms, tracks[i].external_urls.spotify, "Questo brano è stato generato automaticamente dal sistema"))
+                }
             }
 
             uploadSpotifySongs(songs);
@@ -651,6 +537,11 @@ var uploadTMDBImage = function (id, url) {
         success: function (response) {
             if (response === null)
                 return;
+
+            resetMusicContentType();
+            resetContentType();
+
+            $("#addModal").modal("hide");
         },
         fail: function (jqXHR, textStatus) {
             alert("Request failed: " + textStatus);
@@ -666,8 +557,10 @@ var uploadTMDBMovie = function (movieR, lnk, movGenres) {
         contentType: "application/json",
         data: JSON.stringify(movie),
         success: function (id) {
-            if (id == -1)
+            if (id == -1) {
+                manageModalErrorLbl.style.display = "initial";
                 return;
+            }
 
             var img = (movieR.poster_path != null) ? movieR.poster_path : movieR.backdrop_path;
             uploadTMDBImage(id, "http://image.tmdb.org/t/p/w780" + img);
@@ -744,7 +637,13 @@ var uploadImage = function(id, url){
             url: url
         },
         success: function(response){
-            console.log("load image");
+            if (response === null)
+                return;
+
+            resetMusicContentType();
+            resetContentType();
+
+            $("#addModal").modal("hide");
         },
     });
 
@@ -760,8 +659,10 @@ var uploadGBooksBook = function(rawBook){
         data: JSON.stringify(book),
         success: function (id) {
             console.log("load success");
-            if(id == -1)
+            if(id == -1) {
+                manageModalErrorLbl.style.display = "initial";
                 return;
+            }
 
             uploadImage(id, rawBook.volumeInfo.imageLinks.thumbnail.replace(/zoom=1/g, "zoom=0"));
         }

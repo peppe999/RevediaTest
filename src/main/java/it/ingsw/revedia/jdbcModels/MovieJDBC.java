@@ -135,7 +135,7 @@ public class MovieJDBC implements MovieDao {
 
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating from movie Order by postdate, imageid DESC limit 4";
+		String query = "select title, users, imageid, rating from movie Order by postdate DESC, imageid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -723,7 +723,7 @@ public class MovieJDBC implements MovieDao {
 	public ArrayList<Movie> getLatestMoviesByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating from movie inner join genre_movie on movie.title = genre_movie.movie where genre_movie.genre = ? Order by postdate, imageid DESC limit 4";
+		String query = "select title, users, imageid, rating from movie inner join genre_movie on movie.title = genre_movie.movie where genre_movie.genre = ? Order by postdate DESC, imageid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();

@@ -37,7 +37,7 @@ var validatePage = function () {
     updatePageNumberBox();
 }
 
-var createHTMLCard = function (name) {
+var createHTMLCard = function (name, cardUrl) {
     var iconName;
 
     switch (tipology) {
@@ -59,7 +59,7 @@ var createHTMLCard = function (name) {
                 '<div class="col">' +
                     '<div class="d-inline-flex align-items-center user-content-row">' +
                         '<h3 class="card-title"><i class="fa ' + iconName + ' card-icon"></i>' + name + '</h3>' +
-                        '<div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>' +
+                        '<div class="ml-auto"><a href="' + cardUrl + '"><button class="btn card-edit-btn" type="button">Visualizza</button></a></div>' +
                     '</div>' +
                 '</div>' +
             '</div>';
@@ -86,7 +86,8 @@ var loadAlbumContents = function () {
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
-                html += createHTMLCard(response[i].name);
+                var url = "/music/album?id=" + response[i].id;
+                html += createHTMLCard(response[i].name, url);
             }
             contentsContainer.innerHTML = html;
 
@@ -118,7 +119,8 @@ var loadSongContents = function () {
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
-                html += createHTMLCard(response[i].name);
+                var url = "/music/song?name=" + response[i].name + "&album=" + response[i].albumID;
+                html += createHTMLCard(response[i].name, url);
             }
             contentsContainer.innerHTML = html;
 
@@ -150,7 +152,8 @@ var loadMovieContents = function () {
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
-                html += createHTMLCard(response[i].title);
+                var url = "/movies/movie?title=" + response[i].title;
+                html += createHTMLCard(response[i].title, url);
             }
             contentsContainer.innerHTML = html;
 
@@ -182,7 +185,8 @@ var loadBookContents = function () {
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
-                html += createHTMLCard(response[i].title);
+                var url = "/books/book?title=" + response[i].title;
+                html += createHTMLCard(response[i].title, url);
             }
             contentsContainer.innerHTML = html;
 
@@ -327,16 +331,20 @@ window.addEventListener("load", function () {
 
     searchMyContentsBox.addEventListener("keydown", function (event) {
         if(event.key === "Enter") {
-            manageQuery = searchMyContentsBox.value;
-            actualPage = 1;
-            loadTipologyContents();
+            if(manageQuery != searchMyContentsBox.value) {
+                manageQuery = searchMyContentsBox.value;
+                actualPage = 1;
+                loadTipologyContents();
+            }
         }
     });
 
     searchMyContentsBox.addEventListener("focusout", function (event) {
-        manageQuery = searchMyContentsBox.value;
-        actualPage = 1;
-        loadTipologyContents();
+        if(manageQuery != searchMyContentsBox.value) {
+            manageQuery = searchMyContentsBox.value;
+            actualPage = 1;
+            loadTipologyContents();
+        }
     });
 
     alphaModeBtn = document.getElementById("alpha-order-btn");

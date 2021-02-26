@@ -34,9 +34,10 @@ public class AlbumJDBC implements AlbumDao {
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setInt(1, id);
 		ResultSet result = statment.executeQuery();
-		result.next();
 
-		Album album = buildAlbum(result);
+		Album album = null;
+		if(result.next())
+			album = buildAlbum(result);
 
 		result.close();
 		statment.close();
@@ -734,7 +735,7 @@ public class AlbumJDBC implements AlbumDao {
 	public ArrayList<Album> getLatestAlbums() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select albumid, name, users, rating from album Order by postdate, albumid DESC limit 4";
+		String query = "select albumid, name, users, rating from album Order by postdate DESC, albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Album> albums = new ArrayList<Album>();
@@ -783,7 +784,7 @@ public class AlbumJDBC implements AlbumDao {
 	@Override
 	public ArrayList<Album> getLatestAlbumsByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by postdate, album.albumid DESC limit 4";
+		String query = "select albumid, name, users, rating from album inner join musical_genre_album on album.albumid = musical_genre_album.album where musical_genre_album.musical_genre = ? Order by postdate DESC, album.albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
