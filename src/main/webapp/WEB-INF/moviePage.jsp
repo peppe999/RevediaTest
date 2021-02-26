@@ -185,16 +185,17 @@
                 </c:otherwise>
             </c:choose>
         </div>
-    </div>
-    <div class="container-fluid pulse animated content-section-area" id="reviews-container">
-        <h2><i class="fa fa-users section-title-icon"></i>Recensioni</h2>
-        <h6 class="no-result-lbl" id="no-reviews" style="display: none">Nessuna recensione</h6>
-    </div>
-    <div class="container-fluid pulse animated">
-        <div class="row">
-            <div class="col-auto align-self-center m-auto spinner-col"><span class="spinner-grow" role="status" id="loading-spinner"></span></div>
+        <div class="container-fluid pulse animated content-section-area" id="reviews-container">
+            <h2><i class="fa fa-users section-title-icon"></i>Recensioni</h2>
+            <h6 class="no-result-lbl" id="no-reviews" style="display: none">Nessuna recensione</h6>
+        </div>
+        <div class="container-fluid pulse animated">
+            <div class="row">
+                <div class="col-auto align-self-center m-auto spinner-col"><span class="spinner-grow" role="status" id="loading-spinner"></span></div>
+            </div>
         </div>
     </div>
+
 </div>
     <footer>
         <div class="container-fluid">

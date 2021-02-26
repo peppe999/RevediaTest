@@ -43,11 +43,8 @@ public class BookJDBC implements BookDao {
 		result.close();
 		statment.close();
 		connection.close();
-		if (book != null) {
-			return book;
-		} else {
-			throw new RuntimeException("No books avalaible with this title");
-		}
+
+		return book;
 	}
 
 	@Override
@@ -707,7 +704,7 @@ public class BookJDBC implements BookDao {
 	public ArrayList<Book> getLatestBooks() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, rating, imageid from book Order by postdate, imageid DESC limit 4";
+		String query = "select title, users, rating, imageid from book Order by postdate DESC, imageid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Book> books = new ArrayList<Book>();
@@ -788,7 +785,7 @@ public class BookJDBC implements BookDao {
 	public ArrayList<Book> getLatestBooksByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by postdate, imageid DESC limit 4";
+		String query = "select title, users, imageid, rating from book inner join genre_book on book.title = genre_book.book where genre_book.genre = ? Order by postdate DESC, imageid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();

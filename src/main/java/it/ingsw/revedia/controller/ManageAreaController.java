@@ -1,5 +1,7 @@
 package it.ingsw.revedia.controller;
 
+import it.ingsw.revedia.daoInterfaces.AlbumDao;
+import it.ingsw.revedia.daoInterfaces.BookDao;
 import it.ingsw.revedia.daoInterfaces.MovieDao;
 import it.ingsw.revedia.daoInterfaces.SongDao;
 import it.ingsw.revedia.database.DatabaseManager;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -308,6 +311,42 @@ public class ManageAreaController {
         return genres;
     }
 
+    private List<String> getAlbumGenres(Album album) {
+        AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
+        List<String> genres = new ArrayList<>();
+        try {
+            List<String> musicalGenres = albumDao.getAllGenres();
+            for(String dbGenre : musicalGenres) {
+                for(String myGenre : album.getGenre()) {
+                    if(myGenre.toLowerCase().contains(dbGenre.toLowerCase()) && !genres.contains(dbGenre))
+                        genres.add(dbGenre);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return genres;
+    }
+
+    private List<String> getBookGenres(Book book) {
+        BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
+        List<String> genres = new ArrayList<>();
+        try {
+            List<String> musicalGenres = bookDao.getAllGenres();
+            for(String dbGenre : musicalGenres) {
+                for(String myGenre : book.getGenres()) {
+                    if(myGenre.toLowerCase().contains(dbGenre.toLowerCase()) && !genres.contains(dbGenre))
+                        genres.add(dbGenre);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return genres;
+    }
+
     @PostMapping("/manage/upload/album")
     @ResponseBody
     public Integer uploadAlbum(@RequestBody Album album, HttpServletRequest request) {
@@ -318,9 +357,24 @@ public class ManageAreaController {
         if(!session.getAttribute("permissions").toString().equals("EDITOR"))
             return null;
 
-        System.out.println(album.getName());
+        try {
+            AlbumDao albumDao = DatabaseManager.getIstance().getDaoFactory().getAlbumJDBC();
+            Album dbAlbum = albumDao.findAlbum(album);
+            if(dbAlbum == null) {
+                album.setUser(session.getAttribute("nickname").toString());
+                album.setGenre(getAlbumGenres(album));
+                if(album.getGenre().isEmpty())
+                    return null;
+                Integer id = albumDao.insertAlbum(album);
+                return id;
+            }
+            else
+                return dbAlbum.getId() * -1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-        return -1;
+        return null;
     }
 
     @PostMapping("/manage/upload/songs")
@@ -333,18 +387,25 @@ public class ManageAreaController {
         if(!session.getAttribute("permissions").toString().equals("EDITOR"))
             return null;
 
+        Integer count = 0;
         try {
             for(Song s : songs) {
                 SongDao songDao = DatabaseManager.getIstance().getDaoFactory().getSongJDBC();
                 Song dbSong = songDao.findByPrimaryKey(s.getName(), s.getAlbumID());
                 if(dbSong == null) {
+                    s.setUser(session.getAttribute("nickname").toString());
                     songDao.insertSong(s, session.getAttribute("nickname").toString());
                 }
+                else
+                    count++;
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return null;
         }
+
+        if(count == songs.size())
+            return null;
 
         return 1;
     }
@@ -364,6 +425,7 @@ public class ManageAreaController {
             Movie dbMovie = movieDao.findByPrimaryKey(movie.getTitle());
 
             if(dbMovie == null) {
+                movie.setUser(session.getAttribute("nickname").toString());
                 Integer id = movieDao.insertMovie(movie);
                 return id;
             }
@@ -385,9 +447,26 @@ public class ManageAreaController {
         if(!session.getAttribute("permissions").toString().equals("EDITOR"))
             return null;
 
+        try {
+            BookDao bookDao = DatabaseManager.getIstance().getDaoFactory().getBookJDBC();
+            Book dbBook = bookDao.findByPrimaryKey(book.getTitle());
 
+            if(dbBook == null) {
+                book.setUser(session.getAttribute("nickname").toString());
+                book.setGenres(getBookGenres(book));
 
-        return 1;
+                if(book.getGenres().isEmpty())
+                    return -1;
+
+                Integer id = bookDao.insertBook(book);
+                return id;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return -1;
     }
 
     @PostMapping("/manage/upload/spotify/img")

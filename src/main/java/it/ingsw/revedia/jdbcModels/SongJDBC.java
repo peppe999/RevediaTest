@@ -70,11 +70,7 @@ public class SongJDBC implements SongDao {
 		statment.close();
 		connection.close();
 
-		if (song != null) {
-			return song;
-		} else {
-			throw new RuntimeException("No song in this album with this name");
-		}
+		return song;
 	}
 
 	private Song buildSong(ResultSet result) throws SQLException {
@@ -626,7 +622,7 @@ public class SongJDBC implements SongDao {
 	public ArrayList<Song> getLatestSongs() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
-		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album ON album.albumid = song.album Order by song.postdate, album.postdate, album.albumid DESC limit 4";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album ON album.albumid = song.album Order by song.postdate DESC, album.postdate DESC, album.albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		ResultSet result = statment.executeQuery();
 		ArrayList<Song> songs = new ArrayList<Song>();
@@ -706,7 +702,7 @@ public class SongJDBC implements SongDao {
 	@Override
 	public ArrayList<Song> getLatestSongsByGenre(String genre) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
-		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.postdate, album.postdate, album.albumid DESC limit 4";
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating from song inner join album on song.album = album.albumid where exists (select * from musical_genre_album where album = albumid and musical_genre = ?) Order by song.postdate DESC, album.postdate DESC, album.albumid DESC limit 4";
 		PreparedStatement statment = connection.prepareStatement(query);
 		statment.setString(1, genre);
 		ResultSet result = statment.executeQuery();
