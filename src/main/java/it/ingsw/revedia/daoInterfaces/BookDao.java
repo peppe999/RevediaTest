@@ -17,6 +17,7 @@ public interface BookDao {
 	public ArrayList<Book> findByArtist(String artist) throws SQLException;
 
 	public ArrayList<Book> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;
+	public Book findBook(Book book) throws SQLException;
 
 	public void updateBook(Book book) throws SQLException;
 
@@ -37,6 +38,8 @@ public interface BookDao {
 	public ArrayList<Book> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
 	public ArrayList<Book> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException;
 	public ArrayList<Book> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException;
+
+	public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException;
 
 	public List<Book> findAll() throws SQLException;
 

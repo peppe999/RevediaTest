@@ -1256,8 +1256,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   left: 21px;
 }
 
-#filter-search-label-icon {
-  font-size: 12px;
+.filter-search-label-icon {
+  font-size: 12px!important;
   color: inherit;
   margin-right: 10px;
 }
@@ -1738,4 +1738,28 @@ content-page-main-card .list-inline {
    top: 0;
    width: 100%;
  }
+
+.radio-label-x-sm {
+  height: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 22px;
+}
+
+.textarea-input {
+  padding-top: 10px;
+}
+
+.textarea-lbl {
+  color: #909090;
+  font-size: 14px;
+  pointer-events: none;
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+.date-input-field {
+  padding-top: 6px;
+}
+
 

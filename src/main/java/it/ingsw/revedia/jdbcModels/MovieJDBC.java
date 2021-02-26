@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.MovieDao;
-import it.ingsw.revedia.model.AlbumReview;
-import it.ingsw.revedia.model.Movie;
-import it.ingsw.revedia.model.MovieReview;
+import it.ingsw.revedia.model.*;
 
 public class MovieJDBC implements MovieDao {
 
@@ -44,11 +42,7 @@ public class MovieJDBC implements MovieDao {
 		statment.close();
 		connection.close();
 
-		if (movie != null) {
-			return movie;
-		} else {
-			throw new RuntimeException("Movie not found with this title");
-		}
+		return movie;
 	}
 
 	@Override
@@ -88,7 +82,28 @@ public class MovieJDBC implements MovieDao {
 		}
 	}
 
-	@Override
+    @Override
+    public Movie findMovie(Movie movie) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * " + "from movie " + "where title = ? and length = ? limit 1";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, movie.getTitle());
+		statment.setFloat(2, movie.getLength());
+		ResultSet result = statment.executeQuery();
+
+		Movie dbMovie = null;
+		if(result.next())
+			dbMovie = buildMovie(result);
+
+		result.close();
+		statment.close();
+		connection.close();
+		return dbMovie;
+    }
+
+    @Override
 	public ArrayList<Movie> getBestMovies() throws SQLException {
 
 		Connection connection = this.dataSource.getConnection();
@@ -440,6 +455,124 @@ public class MovieJDBC implements MovieDao {
 	}
 
 	@Override
+	public ArrayList<Movie> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select title, users, imageid, rating " + "from movie " +
+				"where users = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, user);
+		statment.setInt(2, offset);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return movies;
+	}
+
+	@Override
+	public ArrayList<Movie> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select title, users, imageid, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from movie movieT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(movieT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? " +
+				"GROUP BY title, users, imageid, rating ";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+		statment.setInt(keySize + 2, offset);
+
+		ResultSet result = statment.executeQuery();
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+
+		while (result.next()) {
+			movies.add(buildSimplifiedMovie(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return movies;
+	}
+
+    @Override
+    public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select count(distinct title) as num from movie movieT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(movieT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? ";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+
+		ResultSet result = statment.executeQuery();
+		Integer num = null;
+
+		result.next();
+
+		num = result.getInt("num");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return num;
+    }
+
+    @Override
 	public void addReview(MovieReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 

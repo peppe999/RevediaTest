@@ -81,6 +81,9 @@ var loadAlbumContents = function () {
         success: function (response) {
             stopLoading();
 
+            if(response == null)
+                return;
+
             var html = "";
             for(let i = 0; i < response.length; i++) {
                 html += createHTMLCard(response[i].name);
@@ -109,6 +112,9 @@ var loadSongContents = function () {
         },
         success: function (response) {
             stopLoading();
+
+            if(response == null)
+                return;
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
@@ -139,6 +145,9 @@ var loadMovieContents = function () {
         success: function (response) {
             stopLoading();
 
+            if(response == null)
+                return;
+
             var html = "";
             for(let i = 0; i < response.length; i++) {
                 html += createHTMLCard(response[i].title);
@@ -167,6 +176,9 @@ var loadBookContents = function () {
         },
         success: function (response) {
             stopLoading();
+
+            if(response == null)
+                return;
 
             var html = "";
             for(let i = 0; i < response.length; i++) {
@@ -204,7 +216,7 @@ var loadTipologyContents = function () {
     startLoading();
     $.ajax({
         url: "/manage/explore/numberOfContents",
-        method: "GET",
+        method: "POST",
         data: {
             query: manageQuery,
             type: tipology

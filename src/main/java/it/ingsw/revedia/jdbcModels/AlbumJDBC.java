@@ -145,7 +145,30 @@ public class AlbumJDBC implements AlbumDao {
 		return albums;
 	}
 
-	@Override
+    @Override
+    public Album findAlbum(Album album) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * " + "from album " + "where name = ? and releasedate = ? and label = ? and artist = ? limit 1";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, album.getName());
+		statment.setDate(2, album.getReleaseDate());
+		statment.setString(3, album.getLabel());
+		statment.setString(4, album.getArtist());
+		ResultSet result = statment.executeQuery();
+
+		Album dbAlbum = null;
+		if(result.next())
+			dbAlbum = buildAlbum(result);
+
+		result.close();
+		statment.close();
+		connection.close();
+		return dbAlbum;
+    }
+
+    @Override
 	public ArrayList<AlbumReview> getReviews(int albumId, int offset) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
@@ -326,11 +349,7 @@ public class AlbumJDBC implements AlbumDao {
 		statment.close();
 		connection.close();
 
-		if (albums.size() > 0) {
-			return albums;
-		} else {
-			throw new RuntimeException("No albums found in this genre");
-		}
+		return albums;
 	}
 
 	@Override
@@ -381,7 +400,44 @@ public class AlbumJDBC implements AlbumDao {
 		return albums;
 	}
 
-	@Override
+    @Override
+    public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select COUNT(DISTINCT albumid) AS num from album albumT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(albumT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? ";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+
+		ResultSet result = statment.executeQuery();
+		Integer num = null;
+
+		result.next();
+
+		num = result.getInt("num");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return num;
+    }
+
+    @Override
 	public ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
