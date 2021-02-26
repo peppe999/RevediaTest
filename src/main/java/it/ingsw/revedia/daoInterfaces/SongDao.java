@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.AbstractQueuedLongSynchronizer;
 
-import it.ingsw.revedia.model.AlbumReview;
-import it.ingsw.revedia.model.Movie;
-import it.ingsw.revedia.model.Song;
-import it.ingsw.revedia.model.SongReview;
+import it.ingsw.revedia.model.*;
 
 public interface SongDao 
 {
@@ -18,6 +15,7 @@ public interface SongDao
 	public void deleteSong(Song song) throws SQLException;
 	public Song findByPrimaryKey(String name, int albumKey) throws SQLException;
 	public List<Song> findAll() throws SQLException;
+	public Song findSong(Song song) throws SQLException;
 	
 	public ArrayList<SongReview> getReviews(String name, int albumId, Integer offset) throws SQLException;
 	public SongReview getUserReview(String name, int albumId, String nickname) throws SQLException;
@@ -27,6 +25,10 @@ public interface SongDao
 	public void updateReview(SongReview review) throws SQLException;
 	
 	public ArrayList<Song> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Song> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException;
+	public ArrayList<Song> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException;
+
+	public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException;
 
 	public ArrayList<Song> getRandomSongsByConditions(int limit, boolean mostRated) throws SQLException;
 	public ArrayList<Song> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;

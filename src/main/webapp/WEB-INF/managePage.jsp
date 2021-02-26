@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="col filter-col">
-                    <div class="form-group filter-search-group"><input type="text" class="form-input-field filter-search-input" id="search-my-content-box" required=""><label class="form-input-label filter-search-label"><i class="fa fa-search" id="filter-search-label-icon"></i>Cerca</label></div>
+                    <div class="form-group filter-search-group"><input type="text" class="form-input-field filter-search-input" id="search-my-content-box" required=""><label class="form-input-label filter-search-label"><i class="fa fa-search filter-search-label-icon"></i>Cerca</label></div>
                 </div>
             </div>
         </div>
@@ -170,110 +170,6 @@
                         </div>
                     </div>
                     <div id="dynamic-explore-container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="d-inline-flex align-items-center user-content-row">
-                                    <h3 class="card-title"><i class="fa fa-music card-icon"></i>Don't talk to strangers</h3>
-                                    <div class="ml-auto"><button class="btn card-edit-btn" type="button">Modifica</button><button class="btn card-delete-btn" type="button">Elimina</button></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -284,35 +180,88 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Aggiungi contenuto</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
                     <div class="modal-body">
-                        <div id="category-tab" class="modal-form-tab" style="/*display: initial;*/">
+                        <div id="category-tab" class="modal-form-tab" style="display: initial;">
                             <form>
                                 <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="music-radio" class="radio-toggle-x" name="category-radio"><label class="d-flex align-items-center radio-label-x" for="music-radio"><i class="fa fa-music fa-fw radio-icon-x"></i>Musica</label></div>
-                                <div
-                                    class="form-group d-flex align-items-center add-category-group"><input type="radio" id="film-radio" class="radio-toggle-x" name="category-radio"><label class="d-flex align-items-center radio-label-x" for="film-radio"><i class="fa fa-film fa-fw radio-icon-x"></i>Film</label></div>
-                        <div
-                            class="form-group d-flex align-items-center add-category-group"><input type="radio" id="book-radio" class="radio-toggle-x" name="category-radio"><label class="d-flex align-items-center radio-label-x" for="book-radio"><i class="fa fa-book fa-fw radio-icon-x"></i>Libro</label></div>
-                    </form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="film-radio" class="radio-toggle-x" name="category-radio"><label class="d-flex align-items-center radio-label-x" for="film-radio"><i class="fa fa-film fa-fw radio-icon-x"></i>Film</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="book-radio" class="radio-toggle-x" name="category-radio"><label class="d-flex align-items-center radio-label-x" for="book-radio"><i class="fa fa-book fa-fw radio-icon-x"></i>Libro</label></div>
+                            </form>
+                        </div>
+                        <div id="music-choice-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="song-radio" class="radio-toggle-x" name="music-choice-radio"><label class="d-flex align-items-center radio-label-x" for="song-radio"><i class="fa fa-music fa-fw radio-icon-x"></i>Brano</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="album-radio" class="radio-toggle-x" name="music-choice-radio"><label class="d-flex align-items-center radio-label-x" for="album-radio"><i class="fa fa-dot-circle-o fa-fw radio-icon-x"></i>Album</label></div>
+                            </form>
+                        </div>
+                        <div id="music-modality-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="spotify-mode-radio" class="radio-toggle-x" name="music-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="spotify-mode-radio"><i class="fa fa-spotify fa-fw radio-icon-x"></i>Spotify</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="music-manual-mode-radio" class="radio-toggle-x" name="music-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="music-manual-mode-radio"><i class="fa fa-wpforms fa-fw radio-icon-x"></i>Inserimento manuale</label></div>
+                            </form>
+                        </div>
+                        <div id="movie-modality-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="tmdb-mode-radio" class="radio-toggle-x" name="movie-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="tmdb-mode-radio"><i class="fa fa-database fa-fw radio-icon-x"></i>TMDB</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="movie-manual-mode-radio" class="radio-toggle-x" name="movie-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="movie-manual-mode-radio"><i class="fa fa-wpforms fa-fw radio-icon-x"></i>Inserimento manuale</label></div>
+                            </form>
+                        </div>
+                        <div id="book-modality-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="gbooks-mode-radio" class="radio-toggle-x" name="book-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="gbooks-mode-radio"><i class="fa fa-google fa-fw radio-icon-x"></i>Google Books</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="book-manual-mode-radio" class="radio-toggle-x" name="book-mode-choice-radio"><label class="d-flex align-items-center radio-label-x" for="book-manual-mode-radio"><i class="fa fa-wpforms fa-fw radio-icon-x"></i>Inserimento manuale</label></div>
+                            </form>
+                        </div>
+                        <div id="api-search-modality-tab" class="modal-form-tab">
+                            <div class="form-group filter-search-group"><input type="text" class="form-input-field filter-search-input" id="newcont-api-search-box" required="" style="margin-bottom: 15px;"><label class="form-input-label filter-search-label"><i class="fa fa-search filter-search-label-icon"></i>Cerca</label></div>
+                            <form>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="api-mode-result-radio-1" class="radio-toggle-x" name="api-mode-choice-radio"><label class="d-flex align-items-center radio-label-x radio-label-x-sm" for="api-mode-result-radio-1">Google Books</label></div>
+                                <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="api-mode-result-radio-2" class="radio-toggle-x" name="api-mode-choice-radio"><label class="d-flex align-items-center radio-label-x radio-label-x-sm" for="api-mode-result-radio-2">Google Books</label></div>
+                            </form>
+                        </div>
+                        <div id="genre-choice-tab" class="modal-form-tab">
+                            <form>
+
+                            </form>
+                        </div>
+                        <div id="album-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="album-name-input" required=""><label class="form-input-label">Titolo</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="album-artist-input" required=""><label class="form-input-label">Artista</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="album-label-input" required=""><label class="form-input-label">Etichetta</label></div>
+                                <div class="form-group"><label class="textarea-lbl">Data rilascio</label><input class="form-control form-input-field date-input-field" id="album-release-date-input" type="date" required=""></div>
+                                <div class="form-group custom-file"><input type="file" id="album-cover-file-input" class="custom-file-input"><label class="custom-file-label" for="album-cover-file-input">Scegli un file</label></div>
+                            </form>
+                        </div>
+                        <div id="song-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="song-name-input" required=""><label class="form-input-label">Titolo</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="number" id="song-length-input" required=""><label class="form-input-label">Durata</label></div>
+                                <div class="form-group"><label class="textarea-lbl">Descrizione</label><textarea class="form-control form-input-field textarea-input" id="song-description-input" required="">gfd</textarea></div>
+                            </form>
+                        </div>
+                        <div id="movie-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="movie-name-input" required=""><label class="form-input-label">Titolo</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="number" id="movie-length-input" required=""><label class="form-input-label">Durata</label></div>
+                                <div class="form-group"><label class="textarea-lbl">Descrizione</label><textarea class="form-control form-input-field textarea-input" id="movie-description-input" required="">gfd</textarea></div>
+                                <div class="form-group custom-file"><input type="file" id="movie-cover-file-input" class="custom-file-input"><label class="custom-file-label" for="movie-cover-file-input">Scegli un file</label></div>
+                            </form>
+                        </div>
+                        <div id="book-tab" class="modal-form-tab">
+                            <form>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="book-name-input" required=""><label class="form-input-label">Titolo</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="number" id="book-page-num-input" required=""><label class="form-input-label">Numero di pagine</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="book-publisher-input" required=""><label class="form-input-label">Casa editrice</label></div>
+                                <div class="form-group"><input class="form-control form-input-field" type="text" id="book-author-input" required=""><label class="form-input-label">Autore</label></div>
+                                <div class="form-group"><label class="textarea-lbl">Descrizione</label><textarea class="form-control form-input-field textarea-input" id="book-description-input" required="">gfd</textarea></div>
+                                <div class="form-group custom-file"><input type="file" id="book-cover-file-input" class="custom-file-input"><label class="custom-file-label" for="book-cover-file-input">Scegli un file</label></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-sm cancel-btn" type="button" id="manage-back-btn">Annulla</button><button class="btn btn-primary btn-sm" type="button" id="manage-next-btn">Avanti</button></div>
                 </div>
-                <div id="music-choice-tab" class="modal-form-tab" style="/*display: initial;*/">
-                    <form>
-                        <div class="form-group d-flex align-items-center add-category-group"><input type="radio" id="song-radio" class="radio-toggle-x" name="music-choice-radio"><label class="d-flex align-items-center radio-label-x" for="song-radio"><i class="fa fa-music fa-fw radio-icon-x"></i>Brano</label></div>
-                        <div
-                            class="form-group d-flex align-items-center add-category-group"><input type="radio" id="album-radio" class="radio-toggle-x" name="music-choice-radio"><label class="d-flex align-items-center radio-label-x" for="album-radio"><i class="fa fa-dot-circle-o fa-fw radio-icon-x"></i>Album</label></div>
-                </form>
-            </div>
-            <div id="album-tab" class="modal-form-tab" style="display: initial;">
-                <form>
-                    <div class="form-group"><input class="form-control form-input-field" type="text" required=""><label class="form-input-label">Nome</label></div>
-                    <div class="form-group"><input class="form-control form-input-field" type="date" required=""><label class="form-input-label">Data rilascio</label></div>
-                    <div class="form-group"><textarea class="form-control form-input-field" required=""></textarea><label class="form-input-label">Username</label></div>
-                    <div class="form-group custom-file"><input type="file" id="file" class="custom-file-input"><label class="custom-file-label" for="file">Scegli un file</label></div>
-                </form>
             </div>
         </div>
-        <div class="modal-footer"><button class="btn btn-sm cancel-btn" type="button" data-dismiss="modal">Annulla</button><button class="btn btn-primary btn-sm" type="button" style="/*box-shadow: inset 0px 0px 20px 20px rgba(255,255,255,0.1);*/">Avanti</button></div>
-    </div>
-    </div>
-    </div>
     </div>
     <footer>
         <div class="container-fluid">
@@ -326,8 +275,9 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script src="/js/bs-init.js"></script>
-    <script src="/js/pageInputResizer.js"></script>
     <script src="/js/loadManageUserData.js"></script>
+    <script src="/js/exploreManageContents.js"></script>
+    <script src="/js/manageContent.js"></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@ public class Album
 	public void setNumberOfSongs(short numberOfSongs) { this.numberOfSongs = numberOfSongs; }
 
 	public Date getReleaseDate() { return releaseDate; }
-	public void setReleaseDate(Date releaseDate2) { this.releaseDate = releaseDate2; }
+	public void setReleaseDate(Date releaseDate) { this.releaseDate = releaseDate; }
 
 	public String getLabel() { return label; }
 	public void setLabel(String label) { this.label = label; }

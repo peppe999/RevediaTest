@@ -4,15 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.ingsw.revedia.model.Album;
-import it.ingsw.revedia.model.BookReview;
-import it.ingsw.revedia.model.Movie;
-import it.ingsw.revedia.model.MovieReview;
+import it.ingsw.revedia.model.*;
 
 public interface MovieDao {
 	public Movie findByPrimaryKey(String title) throws SQLException;
 
 	public ArrayList<Movie> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException;
+	public Movie findMovie(Movie movie) throws SQLException;
 
 	public int insertMovie(Movie movie) throws SQLException;
 
@@ -31,6 +29,10 @@ public interface MovieDao {
 	public void updateReview(MovieReview review) throws SQLException;
 
 	public ArrayList<Movie> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
+	public ArrayList<Movie> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException;
+	public ArrayList<Movie> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException;
+
+	public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException;
 
 	public List<Movie> findAll() throws SQLException;
 

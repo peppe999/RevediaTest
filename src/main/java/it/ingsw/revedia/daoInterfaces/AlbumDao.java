@@ -13,6 +13,7 @@ public interface AlbumDao
 	public ArrayList<Album> findByTitle(String name) throws SQLException;
 	public int insertAlbum(Album album) throws SQLException;
 	public List<Album> findAll() throws SQLException;
+	public Album findAlbum(Album album) throws SQLException;
 	
 	public void updateAlbum(Album album) throws SQLException;
 	public void deleteAlbum(int id) throws SQLException;
@@ -28,6 +29,7 @@ public interface AlbumDao
 	public ArrayList<Album> searchByKeyWords(String[] keyWords, int limit, int offset) throws SQLException;
 	public ArrayList<Album> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException;
 	public ArrayList<Album> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException;
+	public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException;
 
 	ArrayList<Album> findByGenre(String genre, Integer offset, Integer modality, Integer order, boolean excludeSingles) throws SQLException;
 

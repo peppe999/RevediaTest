@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.ingsw.revedia.daoInterfaces.BookDao;
+import it.ingsw.revedia.model.Album;
 import it.ingsw.revedia.model.AlbumReview;
 import it.ingsw.revedia.model.Book;
 import it.ingsw.revedia.model.BookReview;
@@ -135,7 +136,30 @@ public class BookJDBC implements BookDao {
 		}
 	}
 
-	@Override
+    @Override
+    public Book findBook(Book book) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select * " + "from book " + "where title = ? and numberofpages = ? and publishinghouse = ? and artist = ? limit 1";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, book.getTitle());
+		statment.setInt(2, book.getNumberOfPages());
+		statment.setString(3, book.getPublishingHouse());
+		statment.setString(4, book.getArtist());
+		ResultSet result = statment.executeQuery();
+
+		Book dbBook = null;
+		if(result.next())
+			dbBook = buildBook(result);
+
+		result.close();
+		statment.close();
+		connection.close();
+		return dbBook;
+    }
+
+    @Override
 	public void updateBook(Book book) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
@@ -494,15 +518,124 @@ public class BookJDBC implements BookDao {
 
 	@Override
 	public ArrayList<Book> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException {
-		return null;
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select title, users, imageid, rating " + "from book " +
+				"where users = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, user);
+		statment.setInt(2, offset);
+		ResultSet result = statment.executeQuery();
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return books;
 	}
 
 	@Override
 	public ArrayList<Book> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException {
-		return null;
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select title, users, imageid, rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from book bookT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(bookT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? " +
+				"GROUP BY title, users, imageid, rating ";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by title " + orderString;
+		else
+			query += " order by postdate " + orderString + ", imageid " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+		statment.setInt(keySize + 2, offset);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<Book> books = new ArrayList<Book>();
+		while (result.next()) {
+			books.add(buildSimplifiedBook(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return books;
 	}
 
-	@Override
+    @Override
+    public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select count(distinct title) as num from book bookT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(bookT.title, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and users = ? ";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+
+		ResultSet result = statment.executeQuery();
+
+		Integer num = null;
+
+		result.next();
+
+		num = result.getInt("num");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return num;
+    }
+
+    @Override
 	public void addReview(BookReview review) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 

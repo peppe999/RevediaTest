@@ -11,6 +11,7 @@ import java.util.List;
 import it.ingsw.revedia.daoInterfaces.SongDao;
 import it.ingsw.revedia.database.DatabaseManager;
 import it.ingsw.revedia.model.AlbumReview;
+import it.ingsw.revedia.model.Movie;
 import it.ingsw.revedia.model.Song;
 import it.ingsw.revedia.model.SongReview;
 
@@ -320,6 +321,126 @@ public class SongJDBC implements SongDao {
 	}
 
 	@Override
+	public ArrayList<Song> searchByUser(String user, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select album.albumid, song.name as songname, album.name as albumname, song.users, song.rating "
+				+ "from song inner join album on song.album = album.albumid " +
+				"where song.users = ?";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by songname " + orderString + ", song.album " + orderString;
+		else
+			query += " order by song.postdate " + orderString + ", song.album " + orderString + ", songname " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, user);
+		statment.setInt(2, offset);
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<Song> songs = new ArrayList<>();
+		while (result.next()) {
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return songs;
+	}
+
+	@Override
+	public ArrayList<Song> searchByUserWithKeyWords(String user, String[] keyWords, Integer offset, Integer modality, Integer order) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select albumT.albumid, songT.name as songname, albumT.name as albumname, songT.users, songT.rating, COUNT(*) AS numTok, SUM(occ) AS sumOcc from song songT inner join album albumT on songT.album = albumT.albumid, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(songT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and songT.users = ? " +
+				"GROUP BY songT.name, albumT.albumid, albumT.name, songT.users, songT.rating, songT.postdate ";
+
+		String orderString = (order == 0) ? "ASC" : "DESC";
+
+		if(modality == 0)
+			query += " order by songname " + orderString + ", albumT.albumid " + orderString;
+		else
+			query += " order by songT.postdate " + orderString + ", albumT.albumid " + orderString + ", songname " + orderString;
+
+		query += " limit 20 offset ?";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+		statment.setInt(keySize + 2, offset);
+
+		ResultSet result = statment.executeQuery();
+
+		ArrayList<Song> songs = new ArrayList<Song>();
+		while (result.next()) {
+			songs.add(buildSimplifiedSong(result));
+		}
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return songs;
+	}
+
+    @Override
+    public Integer getUserCountWithKeyWords(String user, String[] keyWords) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+		int keySize = keyWords.length;
+
+		String query = "with tokens as (select unnest(array[";
+
+		for(int i = 0; i < keySize; i++) {
+			query += "?";
+			if(i < keySize - 1)
+				query += ",";
+		}
+
+		query += "]) AS tok) " +
+				"select count(distinct(name, album)) as num from song songT, tokens tokenT, LATERAL (select count(*) - 1 as occ from regexp_split_to_table(songT.name, tokenT.tok, 'i')) occT " +
+				"where occ != 0 and songT.users = ? ";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		for(int i = 1; i <= keySize; i++) {
+			statment.setString(i, keyWords[i - 1]);
+		}
+		statment.setString(keySize + 1, user);
+
+		ResultSet result = statment.executeQuery();
+
+		Integer num = null;
+
+		result.next();
+
+		num = result.getInt("num");
+
+		result.close();
+		statment.close();
+		connection.close();
+
+		return num;
+    }
+
+    @Override
 	public ArrayList<Song> findByGenre(String genre, Integer offset, Integer modality, Integer order) throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
@@ -330,9 +451,9 @@ public class SongJDBC implements SongDao {
 		String orderString = (order == 0) ? "ASC" : "DESC";
 
 		if(modality == 0)
-			query += " order by songname " + orderString;
+			query += " order by songname " + orderString + ", song.album " + orderString;
 		else
-			query += " order by song.postdate " + orderString + ", song.album " + orderString;
+			query += " order by song.postdate " + orderString + ", song.album " + orderString + ", songname " + orderString;
 
 		query += " limit 20 offset ?";
 
@@ -452,7 +573,31 @@ public class SongJDBC implements SongDao {
 		return songs;
 	}
 
-	@Override
+    @Override
+    public Song findSong(Song song) throws SQLException {
+		Connection connection = this.dataSource.getConnection();
+
+		String query = "select album.albumid, song.name as songname, album.name as albumname,"
+				+ " song.link, song.decription, song.users, song.length, song.rating, song.postdate" + " from song"
+				+ " inner join album" + " on song.album = album.albumid" + " where song.name = ? and song.album = ? and song.length = ? limit 1";
+
+		PreparedStatement statment = connection.prepareStatement(query);
+		statment.setString(1, song.getName());
+		statment.setInt(2, song.getAlbumID());
+		statment.setFloat(3, song.getLength());
+		ResultSet result = statment.executeQuery();
+
+		Song dbSong = null;
+		if(result.next())
+			dbSong = buildSong(result);
+
+		result.close();
+		statment.close();
+		connection.close();
+		return dbSong;
+    }
+
+    @Override
 	public ArrayList<Song> getBestSongs() throws SQLException {
 		Connection connection = this.dataSource.getConnection();
 
